@@ -40,6 +40,15 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Senparc.Weixin">
+      <HintPath>..\packages\Senparc.Weixin.1.6.0\lib\net35\Senparc.Weixin.dll</HintPath>
+    </Reference>
+    <Reference Include="Senparc.Weixin.MP">
+      <HintPath>..\packages\Senparc.Weixin.MP.9.5.0\lib\net35\Senparc.Weixin.MP.dll</HintPath>
+    </Reference>
+    <Reference Include="Senparc.Weixin.MP.MvcExtension">
+      <HintPath>..\packages\Senparc.Weixin.MP.MVC.3.0.0\lib\net40\Senparc.Weixin.MP.MvcExtension.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -114,6 +123,10 @@
   <ItemGroup>
     <Compile Include="Areas\Main\Controllers\HomeController.cs" />
     <Compile Include="Areas\Main\MainAreaRegistration.cs" />
+    <Compile Include="Areas\Weixin\Controllers\MpController.cs" />
+    <Compile Include="Areas\Weixin\Models\CustomMessageContext.cs" />
+    <Compile Include="Areas\Weixin\Models\CustomMessageHandler.cs" />
+    <Compile Include="Areas\Weixin\WeixinAreaRegistration.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -137,6 +150,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Main\Models\" />
     <Folder Include="Areas\Main\Views\Shared\" />
+    <Folder Include="Areas\Weixin\Views\Shared\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -152,6 +166,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Main\Views\Home\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Weixin\Views\Web.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Weixin\Views\Mp\Index.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
