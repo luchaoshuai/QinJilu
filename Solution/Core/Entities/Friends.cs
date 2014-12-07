@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace QinJilu.Core.Entities
+namespace QinJilu.Core
 {
     public class Friends
     {

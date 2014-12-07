@@ -29,6 +29,22 @@ namespace QinJilu.Core
 
         public void Begin(string openId,int dateticks)
         {
+            // befor
+
+            // ing
+            // 队列缓存 Redis
+            // 所有的数据库操作，先暂存在缓存队列中，集中存储。
+            // 减少数据库交互次数,多个字段都更新完成以后一起提交。
+            // 
+
+
+            // sql  无索引的操作，总是通过主键
+            // 写总是使用sql，成功后再到mongodb
+            // 读总是使用mongodb
+            // 定期做二者之前的比较同步。
+
+
+            //  after
 
         }
         public void End(string openId, int dateticks)

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace QinJilu.Core.Entities
+namespace QinJilu.Core
 {
     /// <summary>
     /// 朋友邀请 只能由本人发起邀请别人参与进来，不能由他人发起添加的请求。而且是单向的，非双向公开。

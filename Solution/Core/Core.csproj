@@ -45,6 +45,7 @@
     <Compile Include="Entities\Options.cs" />
     <Compile Include="Entities\RecordInfo.cs" />
     <Compile Include="Entities\RecordNote.cs" />
+    <Compile Include="Entities\RecordReply.cs" />
     <Compile Include="Entities\RecordTags.cs" />
     <Compile Include="Entities\TagInfo.cs" />
     <Compile Include="Entities\UserInfo.cs" />

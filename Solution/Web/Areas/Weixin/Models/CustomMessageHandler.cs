@@ -31,5 +31,9 @@ namespace QinJilu.Web.Areas.Weixin.Models
         {
             throw new NotImplementedException();
         }
+        public override void Execute()
+        {
+            base.Execute();
+        }
     }
 }

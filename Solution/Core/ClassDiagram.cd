@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
   <Class Name="QinJilu.Core.RecordInfo">
-    <Position X="5.75" Y="2.5" Width="1.5" />
+    <Position X="6.5" Y="2.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AEACCAAAIEAAhgACAAAgAAAQAAAAAUAAQAAIAAAEAAI=</HashCode>
       <FileName>Entities\RecordInfo.cs</FileName>
@@ -28,21 +28,21 @@
       <FileName>Entities\UserTags.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="QinJilu.Core.Entities.Blotters">
+  <Class Name="QinJilu.Core.Blotters">
     <Position X="10" Y="1" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AEACAAAAAAAAAgACAAAAAAAQAAAAAAAAAAAAAAAAAgA=</HashCode>
       <FileName>Entities\Blotters.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="QinJilu.Core.Entities.FriendInvitation">
+  <Class Name="QinJilu.Core.FriendInvitation">
     <Position X="1" Y="6.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAiAAAACAAAAAgAAAAEAAAgAAAABAAAAAAAAABAAAAA=</HashCode>
       <FileName>Entities\FriendInvitation.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="QinJilu.Core.Entities.Friends">
+  <Class Name="QinJilu.Core.Friends">
     <Position X="2.75" Y="5.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAACAAAAAAAAAAEAAAgAAAABAAAAAAAAAAAAAAA=</HashCode>
@@ -56,15 +56,22 @@
       <FileName>Entities\RecordTags.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="QinJilu.Core.Entities.RecordNote">
+  <Class Name="QinJilu.Core.RecordNote">
     <Position X="5.75" Y="7" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AEAiAAAAAAAAAgACAAAAAAAQAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Entities\RecordNote.cs</FileName>
     </TypeIdentifier>
   </Class>
+  <Class Name="QinJilu.Core.RecordReply">
+    <Position X="4.75" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAABgAAAgACgEAAAAAAAAAAAAAAAAAAAAIAAAA=</HashCode>
+      <FileName>Entities\RecordReply.cs</FileName>
+    </TypeIdentifier>
+  </Class>
   <Enum Name="QinJilu.Core.Options">
-    <Position X="9.25" Y="3.75" Width="1.5" />
+    <Position X="10" Y="3.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AEAAAAAAAhEAAAAAAAAAAAAAgAUAAICkAQAAAAAAAAA=</HashCode>
       <FileName>Entities\Options.cs</FileName>
@@ -78,7 +85,7 @@
     </TypeIdentifier>
   </Enum>
   <Enum Name="QinJilu.Core.FieldName">
-    <Position X="7.5" Y="4.5" Width="1.5" />
+    <Position X="8.25" Y="4.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAIEAAhAAAAAAgAAAAAAAAAEAAAAAAAAAEAAI=</HashCode>
       <FileName>Entities\Options.cs</FileName>
