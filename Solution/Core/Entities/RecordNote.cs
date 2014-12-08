@@ -20,5 +20,10 @@ namespace QinJilu.Core
         public UInt16 DateTicks { get; set; }
 
         public string Notes { get; set; }
+
+        /// <summary>
+        /// 是否已经删除
+        /// </summary>
+        public bool Deleted { get; set; }
     }
 }

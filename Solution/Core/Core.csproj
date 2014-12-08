@@ -39,6 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entities\BaseInfo.cs" />
     <Compile Include="Entities\Blotters.cs" />
     <Compile Include="Entities\FriendInvitation.cs" />
     <Compile Include="Entities\Friends.cs" />

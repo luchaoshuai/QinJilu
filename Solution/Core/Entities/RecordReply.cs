@@ -35,5 +35,9 @@ namespace QinJilu.Core
         /// </summary>
         public string Content { get; set; }
 
+        /// <summary>
+        /// 是否已经删除
+        /// </summary>
+        public bool Deleted { get; set; }
     }
 }

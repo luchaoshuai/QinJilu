@@ -20,6 +20,7 @@ namespace QinJilu.Core
         public DateTime EditedOn { get; set; }
         public int EditorId { get; set; }
 
+
         /// <summary>
         /// 记录所属的天 从2010-1-1后面加上该天数
         ///                65535
