@@ -121,6 +121,12 @@ namespace QinJilu.Core
 
         #endregion
 
+        /// <summary>
+        /// 收到 位置 请求后的响应
+        /// </summary>
+        public void Today()
+        {
 
+        }
     }
 }
