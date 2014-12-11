@@ -153,6 +153,7 @@
     <Content Include="Content\ratchet\test1.html" />
     <Content Include="Global.asax" />
     <Content Include="Areas\Weixin\Views\Welcome\InvitationCode.cshtml" />
+    <Content Include="Areas\Weixin\Views\Shared\_Layout0.cshtml" />
     <None Include="Scripts\_references.js" />
     <Content Include="index.html" />
     <Content Include="Web.config" />

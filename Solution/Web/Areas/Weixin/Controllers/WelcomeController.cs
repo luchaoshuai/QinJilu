@@ -31,13 +31,14 @@ namespace QinJilu.Web.Areas.Weixin.Controllers
             {
                 toview = "InvitationCode";
             }
-            return View(toview);
+            return RedirectToAction(toview, new { uid = "548704ead516bd08384dd239" });// RedirectToAction 用的是302跳转
         }
 
         //  启用邀请码时。。。
         [HttpGet]
-        public ActionResult InvitationCode(string uid = "548704ead516bd08384dd239")
+        public ActionResult InvitationCode(string uid)
         {
+            ViewBag.uid = uid;
             return View();
         }
 
@@ -47,7 +48,7 @@ namespace QinJilu.Web.Areas.Weixin.Controllers
 
         // 第一次订阅时的引导页
         [HttpGet]
-        public ActionResult Guide(string uid = "548704ead516bd08384dd239")
+        public ActionResult Guide(string uid)
         {
             return View();
         }
