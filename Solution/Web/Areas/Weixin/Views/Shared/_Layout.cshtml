@@ -1,0 +1,75 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>@ViewBag.Title</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link href="/Content/ratchet/css/ratchet.min.css" rel="stylesheet">
+
+
+    @*<link href="~/Content/ratchet/css/ratchet-theme-android.min.css" rel="stylesheet">*@
+    @*<link href="/Content/ratchet/css/ratchet-theme-ios.min.css" rel="stylesheet">*@ 
+
+
+    <script src="/Content/ratchet/js/ratchet.min.js"></script>
+    @RenderSection("header", false)
+</head>
+<body>
+    <!-- Header Bar -->
+    <header class="bar bar-nav">
+        <a class="icon icon-left-nav pull-left"></a>
+        <a class="icon icon-right-nav pull-right"></a>
+
+        <div class="segmented-control">
+            <a class="control-item active">1</a>
+            <a class="control-item">2</a>
+            <a class="control-item">3</a>
+        </div>
+    </header>
+
+
+
+
+    <!-- Footer Bar -->
+    <nav class="bar bar-tab">
+        <a href="##" class="tab-item">
+            <span class="icon icon-home"></span>
+            <span class="tab-label">首页</span>
+        </a>
+        <a href="##" class="tab-item">
+            <span class="icon icon-person"></span>
+            <span class="tab-label">我</span>
+        </a>
+        <a href="##" class="tab-item ">
+            <span class="icon icon-gear"></span>
+            <span class="tab-label">设置</span>
+        </a>
+        <a href="##" class="tab-item">
+            <span class="icon icon-more"></span>
+            <span class="tab-label">更多</span>
+        </a>
+    </nav>
+
+    <!-- Block button in standard bar fixed below top bar -->
+    <div class="bar bar-standard bar-header-secondary">
+        <button class="btn btn-block">Block level button</button>
+    </div>
+    <!-- Block button in standard bar fixed above the footer -->
+    <div class="bar bar-standard bar-footer-secondary">
+        <button class="btn btn-block">Block level button</button>
+    </div>
+    <!-- Icons in standard bar fixed to the bottom of the screen -->
+    <div class="bar bar-standard bar-footer">
+        <a class="icon icon-compose pull-left"></a>
+        <a class="icon icon-gear pull-right"></a>
+    </div>
+
+
+    <div class="content">
+        @RenderBody()
+    </div>
+</body>
+</html>
+@RenderSection("footer", false)

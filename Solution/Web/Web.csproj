@@ -40,6 +40,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="MongoDB.Bson, Version=1.9.2.235, Culture=neutral, PublicKeyToken=f686731cfb9cc103, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\mongocsharpdriver.1.9.2\lib\net35\MongoDB.Bson.dll</HintPath>
+    </Reference>
     <Reference Include="Senparc.Weixin">
       <HintPath>..\packages\Senparc.Weixin.1.6.0\lib\net35\Senparc.Weixin.dll</HintPath>
     </Reference>
@@ -124,6 +128,7 @@
     <Compile Include="Areas\Main\Controllers\HomeController.cs" />
     <Compile Include="Areas\Main\MainAreaRegistration.cs" />
     <Compile Include="Areas\Weixin\Controllers\MpController.cs" />
+    <Compile Include="Areas\Weixin\Controllers\WelcomeController.cs" />
     <Compile Include="Areas\Weixin\Models\CustomMessageContext.cs" />
     <Compile Include="Areas\Weixin\Models\CustomMessageHandler.cs" />
     <Compile Include="Areas\Weixin\Models\CustomMessageHandler_Event.cs" />
@@ -137,7 +142,19 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Content Include="Content\ratchet\css\ratchet-theme-android.css" />
+    <Content Include="Content\ratchet\css\ratchet-theme-android.min.css" />
+    <Content Include="Content\ratchet\css\ratchet-theme-ios.css" />
+    <Content Include="Content\ratchet\css\ratchet-theme-ios.min.css" />
+    <Content Include="Content\ratchet\css\ratchet.css" />
+    <Content Include="Content\ratchet\css\ratchet.min.css" />
+    <Content Include="Content\ratchet\js\ratchet.js" />
+    <Content Include="Content\ratchet\js\ratchet.min.js" />
+    <Content Include="Content\ratchet\test1.html" />
     <Content Include="Global.asax" />
+    <Content Include="Areas\Weixin\Views\Welcome\InvitationCode.cshtml" />
+    <None Include="Scripts\_references.js" />
+    <Content Include="index.html" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -151,7 +168,6 @@
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Main\Models\" />
     <Folder Include="Areas\Main\Views\Shared\" />
-    <Folder Include="Areas\Weixin\Views\Shared\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -175,6 +191,13 @@
     <Content Include="Areas\Weixin\Views\Mp\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Areas\Weixin\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\Weixin\Views\Welcome\Guide.cshtml" />
+    <Content Include="Areas\Weixin\Views\Shared\Error.cshtml" />
+    <Content Include="Content\ratchet\fonts\ratchicons.eot" />
+    <Content Include="Content\ratchet\fonts\ratchicons.svg" />
+    <Content Include="Content\ratchet\fonts\ratchicons.ttf" />
+    <Content Include="Content\ratchet\fonts\ratchicons.woff" />
     <None Include="Properties\PublishProfiles\222.pubxml" />
   </ItemGroup>
   <PropertyGroup>

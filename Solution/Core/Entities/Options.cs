@@ -5,16 +5,25 @@ using System.Text;
 
 namespace QinJilu.Core
 {
+    public class DateTimeEx
+    {
+       public static readonly DateTime NullDate = new DateTime(1900, 1, 1);
+    }
+
     public enum Gender : byte
     {
         /// <summary>
+        /// 未知
+        /// </summary>
+        Unknow = 0,
+        /// <summary>
         /// 男
         /// </summary>
-        Male = 0,
+        Male = 1,
         /// <summary>
         /// 女
         /// </summary>
-        Woman = 1
+        Woman = 2
     }
 
 

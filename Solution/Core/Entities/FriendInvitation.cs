@@ -12,15 +12,22 @@ namespace QinJilu.Core
     /// </summary>
     public class FriendInvitation
     {
+        public  MongoDB.Bson.ObjectId Id { get; set; }
+
         /// <summary>
         /// 申请人Id
         /// </summary>
-        public int UserId { get; set; }
+        public MongoDB.Bson.ObjectId UserId { get; set; }
 
         /// <summary>
         /// 被邀请人的Id
         /// </summary>
-        public int FriendId { get; set; }
+        public MongoDB.Bson.ObjectId FriendId { get; set; }
+        /// <summary>
+        /// FriendId is Goddess
+        /// </summary>
+        public bool SheIsGoddess { get; set; }
+
 
         /// <summary>
         /// 创建时间（申请时间）
@@ -37,15 +44,16 @@ namespace QinJilu.Core
         public string Notename { get; set; }
 
         /// <summary>
-        /// 通过后被授予的操作权限项
+        /// 申请前希望授予的操作权限项，实际授权以 friend 表中的为准
         /// </summary>
         public Operation Operations { get; set; }
+
+
 
         /// <summary>
         /// 是否已经同意
         /// </summary>
         public Opinion Opinions { get; set; }
-
         /// <summary>
         /// 审核时间
         /// </summary>
