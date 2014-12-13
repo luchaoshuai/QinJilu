@@ -58,10 +58,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AutomaticReply.cs" />
     <Compile Include="Entities\BaseInfo.cs" />
     <Compile Include="Entities\Blotters.cs" />
     <Compile Include="Entities\FriendInvitation.cs" />
     <Compile Include="Entities\Friends.cs" />
+    <Compile Include="Entities\InvitecodeInfo.cs" />
     <Compile Include="Entities\Options.cs" />
     <Compile Include="Entities\RecordInfo.cs" />
     <Compile Include="Entities\RecordNote.cs" />
@@ -70,6 +72,7 @@
     <Compile Include="Entities\TagInfo.cs" />
     <Compile Include="Entities\UserInfo.cs" />
     <Compile Include="Entities\UserTags.cs" />
+    <Compile Include="MsgTpl.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\FileSystem.cs" />
     <Compile Include="Repository\DbSet.cs" />

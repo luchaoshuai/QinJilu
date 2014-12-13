@@ -10,6 +10,61 @@ namespace QinJilu.Core
        public static readonly DateTime NullDate = new DateTime(1900, 1, 1);
     }
 
+
+    public enum InvitecodeStatus:byte
+    {
+        //未出生,未分配到创建者
+        Unborn,
+        // 可用，新分配。或着主人持续登录了
+        Availabled,
+        // 不可用，已分配过，但是主人未持续登录，失效了
+        Disabled,
+        // 已用，被别人拿去使用掉了。
+        Used
+    }
+
+
+
+
+
+
+
+
+    // 用户上下文的作用域
+    // 数据库中保存完整的结果，进行中（待二次确认的），在缓存中。
+    public enum CurrentScope : byte
+    {
+        /// <summary>
+        /// 空着的
+        /// </summary>
+        NULL = 0,
+
+        //检票 邀请码
+        CheckInvitecode,
+        
+        //生成获取船票
+        GenerateInvitecode,
+
+        //设置性别
+        Gender,
+
+        //最后一次
+        Lasttime,
+
+        //各周期设置： cycle=28±2; period=4±21; pms=3±21
+        Cycle,
+
+        //昵称
+        Nickname,
+
+        //绑定邮箱
+        Bindingemail
+
+
+
+
+    }
+
     public enum Gender : byte
     {
         /// <summary>

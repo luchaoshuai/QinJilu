@@ -7,6 +7,23 @@ namespace QinJilu.Core
 {
     public class UserInfo
     {
+        //// 连续三天登录，就能看到邀请码，若三天未登录了，则会消失。号码未使用，一直存在，不会再新增。有且最多一个.
+        //// 默认值为0，有交互时，判断该值是否》2，若没有小于3，则加1，否则不动。
+        //// 每天0点，系统自动扫描，当天没有登录的，且连续时间大于0的，则减1。当值为0时，将创建的码也清空。
+        //public byte Continuedays { get; set; }  // 使用日志进行统计，不存储
+
+        /// <summary>
+        /// 最后活动时间，用户主动联系的时间
+        /// （48小时后就不能主动给她发消息了）
+        /// </summary>
+        public DateTime LastActivitytime { get; set; }
+
+
+        /// <summary>
+        /// 用户当前的上下文环境
+        /// </summary>
+        public CurrentScope CurrentContext { get; set; }
+
         /// <summary>
         /// 生日-算年龄用
         /// </summary>

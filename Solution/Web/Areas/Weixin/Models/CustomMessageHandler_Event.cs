@@ -173,7 +173,7 @@ namespace QinJilu.Web.Areas.Weixin.Models
                 {
                     responseMessage.Content = string.Format(@"
 亲，欢迎您的到来！为了更好的为您服务，我们使用<a href='http://qinjilu.com/Weixin/Welcome/NeedInvitationCode?uid={0}'>【邀请制】</a>，
-请直接回复【8位数字】邀请码，或着直接扫描【邀请二维码】图片，开始 亲记录 </a>之旅吧！
+请直接回复【8位数字】邀请码，或着直接扫描【邀请二维码】图片，开始 亲记录 之旅吧！
 不知道什么是【邀请码】，<a href='http://qinjilu.com/Weixin/Welcome/NeedInvitationCode?uid={0}'>点击这里 </a>可以查看？
 ",
                         u.Id);
