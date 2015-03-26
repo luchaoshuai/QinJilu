@@ -10,6 +10,11 @@ namespace QinJilu.Web.Areas.Weixin.Controllers
     {
         //  http://localhost:40254/Weixin/Welcome/NeedInvitationCode?need=true
         //  http://localhost:40254/Weixin/Welcome/NeedInvitationCode?need=false
+        /// <summary>
+        /// 设置 邀请码 机制 是否 启用
+        /// </summary>
+        /// <param name="need"></param>
+        /// <returns></returns>
         public ActionResult NeedInvitationCode(bool need)
         {
             Core.Services.NeedInvitationCode(need);
@@ -72,7 +77,11 @@ namespace QinJilu.Web.Areas.Weixin.Controllers
             return View(tourl, new { uid = uid });
         }
 
-        // 找女神
+        /// <summary>
+        /// 邀请(找)女神
+        /// </summary>
+        /// <param name="uid"></param>
+        /// <returns></returns>
         public ActionResult InvitationGoddess(string uid)
         {
             return View();

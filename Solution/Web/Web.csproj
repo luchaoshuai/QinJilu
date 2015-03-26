@@ -52,11 +52,13 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Newtonsoft.Json.5.0.4\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="Senparc.Weixin">
-      <HintPath>..\packages\Senparc.Weixin.1.6.0\lib\net35\Senparc.Weixin.dll</HintPath>
+    <Reference Include="Senparc.Weixin, Version=3.3.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Senparc.Weixin.3.3.1\lib\net40\Senparc.Weixin.dll</HintPath>
     </Reference>
-    <Reference Include="Senparc.Weixin.MP">
-      <HintPath>..\packages\Senparc.Weixin.MP.9.5.0\lib\net35\Senparc.Weixin.MP.dll</HintPath>
+    <Reference Include="Senparc.Weixin.MP, Version=11.2.6.28151, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Senparc.Weixin.MP.11.2.6\lib\net40\Senparc.Weixin.MP.dll</HintPath>
     </Reference>
     <Reference Include="Senparc.Weixin.MP.MvcExtension">
       <HintPath>..\packages\Senparc.Weixin.MP.MVC.3.0.0\lib\net40\Senparc.Weixin.MP.MvcExtension.dll</HintPath>
