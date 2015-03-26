@@ -60,7 +60,7 @@
   <ItemGroup>
     <Compile Include="AutomaticReply.cs" />
     <Compile Include="Entities\BaseInfo.cs" />
-    <Compile Include="Entities\Blotters.cs" />
+    <Compile Include="Entities\RecordLog.cs" />
     <Compile Include="Entities\FriendInvitation.cs" />
     <Compile Include="Entities\Friends.cs" />
     <Compile Include="Entities\InvitecodeInfo.cs" />
