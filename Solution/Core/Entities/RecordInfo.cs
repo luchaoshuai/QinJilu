@@ -12,6 +12,9 @@ namespace QinJilu.Core
     public class RecordInfo
     {
         public int Id { get; set; }
+        /// <summary>
+        /// 记录所属的她Id
+        /// </summary>
         public int SheId { get; set; }
 
         public DateTime CreateOn { get; set; }
@@ -72,7 +75,7 @@ namespace QinJilu.Core
         /// </summary>
         public Int16 Temperature { get; set; }
         /// <summary>
-        /// 是否为 可靠的体温
+        /// 是否为 可靠的体温(使用设备精确测量的true, 粗略输入的为false)
         /// </summary>
         public bool Reliable { get; set; }
         /// <summary>

@@ -1,0 +1,163 @@
+﻿@model QinJilu.Core.UserInfo
+@{
+    ViewBag.Title = "快速设置";
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="product" content="qinjilu">
+    <meta name="description" content="qinjilu">
+    <meta name="author" content="lcskey@qq.com">
+    <meta name="keywords" content="qinjilu">
+
+
+    <link href="~/Content/metro-ui/css/metro-bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/metro-ui/css/metro-bootstrap-responsive.min.css" rel="stylesheet" />
+    <link href="~/Content/metro-ui/css/iconFont.min.css" rel="stylesheet" />
+
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/metro-ui/jquery.ui.widget.js"></script>
+    <script src="~/Scripts/metro-ui/metro.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+
+    <title>@ViewBag.Title</title>
+
+    <style type="text/css">
+        .metro .example:before {
+            content: "Abount ME";
+        }
+
+        .error {
+            padding-left: 20px;
+            color: red;
+        }
+    </style>
+</head>
+<body class="metro">
+
+    <div class="container">
+
+        @*<h1>
+                <a href="index"><i class="icon-arrow-left-3 fg-darker on-left-more"></i></a>
+                @nickname
+            </h1>*@
+        <div style="margin-top: 5px">
+        </div>
+
+        <div class="example">
+            <form action="WomanInit" method="post">
+                <fieldset>
+
+                    <label>年龄</label>
+                    <div class="input-control text" data-role="input-control">
+                        <input type="text" name="age" placeholder="请填写年龄" data-rule-required="true">
+                        <button class="btn-clear" tabindex="-1"></button>
+                    </div>
+
+                    <label>上次月经</label>
+                    @*<div class="calendar small" data-start-mode="month" data-role="calendar" data-locale="zhCN"></div>*@
+                    <div class="input-control text" data-role="datepicker"
+                         data-locale="zhCN"
+                         data-format="yyyy-mm-dd"
+                         data-position="bottom"
+                         @*data-date="@DateTime.Now.ToShortDateString()"*@
+                         data-effect="none">
+                        <input id="LasterCycleStart" type="text" name="LasterCycleStart" placeholder="哪天开始的" data-rule-required="true">
+                        <button type="button" class="btn-date"></button>
+                    </div>
+
+
+
+                    <label>经期天数</label>
+                    <div class="input-control text" data-role="input-control">
+                        <input type="text" name="PeriodTypically" placeholder="每次月经持续几天,一般为4天" data-rule-required="true">
+                        <button class="btn-clear" tabindex="-1"></button>
+                    </div>
+
+                    <label data-hint="二次月经第一天的间隔天数，一般为28天" data-hint-position="top">
+                        周期天数
+                        <button type="button" class=" bg-transparent fg-orange">
+                            <i class="icon-help-2 on-left"></i>
+                        </button>
+                    </label>
+                    <div class="input-control text" data-role="input-control">
+                        <input type="text" name="CycleTypically" placeholder="二次月经第一天的间隔天数" data-rule-required="true">
+                        <button class="btn-clear" tabindex="-1"></button>
+                    </div>
+
+
+                    <div class="padding10"></div>
+                    <button class="command-button">
+                        <i class=" icon-arrow-right on-right"></i>
+                        继续，下一步
+                        <small>我已经准备就绪</small>
+                    </button>
+
+
+                </fieldset>
+            </form>
+
+        </div>
+
+
+        <div class="padding20"></div>
+    </div>
+</body>
+</html>
+<script type="text/javascript">
+    $.validator.setDefaults({
+        submitHandler: function () {
+            var xx = $('#LasterCycleStart').val();
+            if (xx && xx.length > 8) {
+                return true;
+            }
+
+            alert('上次月经开始日期不能为空');
+            return false;
+        }
+    });
+
+    $(document).ready(function () {
+        $("form").validate({
+            rules: {
+                age: {
+                    required: true,
+                    range: [10, 60]
+                },
+                LasterCycleStart: {
+                    required: true,
+                    date: true
+                },
+                PeriodTypically: {
+                    required: true,
+                    range: [2, 9]
+                },
+                CycleTypically: {
+                    required: true,
+                    range: [15, 50]
+                }
+            },
+
+
+            messages: {
+                age: {
+                    required: '年龄不能为空',
+                    range: '仅能输入10 至 60 之间的年龄'
+                },
+                LasterCycleStart: {
+                    required: '上次月经开始日期不能为空'
+                },
+                PeriodTypically: {
+                    required: '经期天数不能为空',
+                    range: '仅能输入2 至 9 之间的天数'
+                },
+                CycleTypically: {
+                    required: '周期天数不能为空',
+                    range: '仅能输入15 至 50 之间的天数'
+                }
+            }
+        });
+    });
+</script>

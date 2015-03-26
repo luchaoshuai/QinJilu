@@ -8,6 +8,11 @@ namespace QinJilu.Core
     public class Services
     {
         #region config
+
+        /// <summary>
+        ///   (从缓存读取)是否启用 邀请码 机制  （仅有邀请码的才能进入）
+        /// </summary>
+        /// <returns></returns>
         public static bool NeedInvitationCode()
         {
             var o = RedisHelper.GetObject("NeedInvitationCode");
@@ -20,6 +25,10 @@ namespace QinJilu.Core
             RedisHelper.AddObject("NeedInvitationCode", res);
             return res;
         }
+        /// <summary>
+        /// 设置 是否 启用 邀请码 机制  (存在缓存)
+        /// </summary>
+        /// <param name="need"></param>
         public static void NeedInvitationCode(bool need)
         {
             RedisHelper.AddObject("NeedInvitationCode", need);
@@ -383,6 +392,48 @@ namespace QinJilu.Core
         {
 
         }
+
+
+
+
+
+        #region  个人设置
+
+
+        #region boy
+
+        /// <summary>
+        /// 配置女神的邮箱
+        /// </summary>
+        /// <param name="openId"></param>
+        /// <param name="email"></param>
+        public void PersonalSettings(string openId, string email)
+        {
+
+        }
+        /// <summary>
+        /// 与女神配对
+        /// </summary>
+        /// <param name="openId"></param>
+        /// <param name="pairCode">6位长度的配对码</param>
+        public void PersonalSettings(string openId, int pairCode)
+        {
+
+        }
+        #endregion
+
+        #region girl
+
+        public void PersonalSettings(string openId, DateTime birthDay, DateTime lasterCycleStart, int cycleTypically, int periodTypically)
+        {
+
+        }
+
+
+        #endregion
+
+
+        #endregion
 
     }
 }

@@ -11,7 +11,7 @@ namespace QinJilu.Core
         public int Id { get; set; }
 
         /// <summary>
-        /// 所属用户
+        /// 标签所属的她Id
         /// </summary>
         public int SheId { get; set; }
         /// <summary>

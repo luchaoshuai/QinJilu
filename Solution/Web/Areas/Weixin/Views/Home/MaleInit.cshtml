@@ -1,0 +1,92 @@
+﻿@model QinJilu.Core.UserInfo
+
+@{
+    ViewBag.Title = "快速设置";
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="product" content="qinjilu">
+    <meta name="description" content="qinjilu">
+    <meta name="author" content="lcskey@qq.com">
+    <meta name="keywords" content="qinjilu">
+
+
+    <link href="~/Content/metro-ui/css/metro-bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/metro-ui/css/metro-bootstrap-responsive.min.css" rel="stylesheet" />
+    <link href="~/Content/metro-ui/css/iconFont.min.css" rel="stylesheet" />
+
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/metro-ui/jquery.ui.widget.js"></script>
+    <script src="~/Scripts/metro-ui/metro.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <title>@ViewBag.Title</title>
+
+    <style type="text/css">
+        .metro .example:before {
+            content: "Abount ME";
+        }
+        .error{
+            padding-left:20px;
+            color:red;
+        }
+    </style>
+</head>
+<body class="metro">
+
+    <div class="container">
+
+        <div style="margin-top: 5px">
+        </div>
+
+        <div class="example">
+            <form action="MaleInit" method="post">
+                <fieldset>
+                    <legend>绑定女神</legend>
+
+                    <div class="input-control email" data-role="input-control">
+                        <input type="email" name="email" placeholder="请输入女神的邮箱" data-rule-required="true">
+                        <button class="btn-clear" tabindex="-1"></button>
+                    </div>
+
+                    <div class="padding10"></div>
+
+                    <button type="submit" class="command-button">
+                        <i class=" icon-arrow-right on-right"></i>
+                        继续，下一步
+                        <small>我已经准备就绪</small>
+                    </button>
+
+
+                </fieldset>
+            </form>
+
+        </div>
+
+
+    </div>
+    <div class="padding20"></div>
+</body>
+</html>
+<script type="text/javascript">
+    $.validator.setDefaults({
+        submitHandler: function () {
+            if (confirm('submit?')) {
+                return true;
+            }
+            return false;
+        }
+    });
+    $(document).ready(function () {
+        $("form").validate({
+            messages: {
+                email: {
+                    email: '请输入正确的女神邮箱!',
+                    required: '女神邮箱不能为空!'
+                }
+            }
+        });
+    });
+</script>

@@ -66,7 +66,7 @@ namespace QinJilu.Core
         public MongoDB.Bson.ObjectId SheId { get; set; }
 
         /// <summary>
-        /// 最近（后）一次来潮的时间
+        /// 最近（后）一次来月经的时间
         /// </summary>
         public DateTime LasterCycleStart { get; set; }
 
@@ -76,29 +76,29 @@ namespace QinJilu.Core
         public string Passcoed { get; set; }
 
         /// <summary>
-        /// 通常的经期时间
+        /// 平均周期天数（28）
         /// </summary>
         public int CycleTypically { get; set; }// 28
         /// <summary>
-        /// 不同的经期差距
+        /// 平均周期波动天数(±2)
         /// </summary>
         public int CycleVaries { get; set; }// ±2
 
         /// <summary>
-        /// 通常经期持续的时间
+        /// 通常经期持续的时间(4)
         /// </summary>
         public int PeriodTypically { get; set; }// 4
         /// <summary>
-        /// 不同经期持续的差距
+        /// 平均经期波动天数(±2)
         /// </summary>
         public int PeriodVaries { get; set; }// ±2
 
         /// <summary>
-        /// 通常经前综合期持续的时间
+        /// 通常经前综合期持续的时间(3)
         /// </summary>
         public int PmsTypically { get; set; }// 3
         /// <summary>
-        /// 不同经前综合期持续的差距
+        /// 平均经前踪合期波动天数(±1)
         /// </summary>
         public int PmsVaries { get; set; }// ±1
 

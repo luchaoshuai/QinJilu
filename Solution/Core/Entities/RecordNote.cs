@@ -8,9 +8,15 @@ namespace QinJilu.Core
     public class RecordNote
     {
         public int Id { get; set; }
+        /// <summary>
+        /// 记录所属的她Id
+        /// </summary>
         public int SheId { get; set; }
 
         public DateTime CreateOn { get; set; }
+        /// <summary>
+        /// 写备注的人
+        /// </summary>
         public int CreaterId { get; set; }
 
         /// <summary>

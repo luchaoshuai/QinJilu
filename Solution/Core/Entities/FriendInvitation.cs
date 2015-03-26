@@ -15,7 +15,7 @@ namespace QinJilu.Core
         public  MongoDB.Bson.ObjectId Id { get; set; }
 
         /// <summary>
-        /// 申请人Id
+        /// 申请人Id (发起人)
         /// </summary>
         public MongoDB.Bson.ObjectId UserId { get; set; }
 

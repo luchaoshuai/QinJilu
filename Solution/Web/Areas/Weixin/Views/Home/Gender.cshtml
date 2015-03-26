@@ -1,0 +1,88 @@
+﻿@{
+    ViewBag.Title = "Qinjilu_com";
+    var boy = QinJilu.Core.Gender.Male;
+    var girl = QinJilu.Core.Gender.Woman;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="product" content="qinjilu">
+    <meta name="description" content="qinjilu">
+    <meta name="author" content="lcskey@qq.com">
+    <meta name="keywords" content="qinjilu">
+
+
+    <link href="~/Content/metro-ui/css/metro-bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/metro-ui/css/metro-bootstrap-responsive.min.css" rel="stylesheet" />
+    <link href="~/Content/metro-ui/css/iconFont.min.css" rel="stylesheet" />
+
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/metro-ui/jquery.ui.widget.js"></script>
+    <script src="~/Scripts/metro-ui/metro.min.js"></script>
+
+
+    <title>@ViewBag.Title</title>
+
+    <style type="text/css">
+        .metro .example:before {
+            content: "Abount ME";
+        }
+
+        .metro .listview .list {
+            width: auto;
+        }
+
+        .tab-control {
+            min-width: 280px;
+        }
+    </style>
+</head>
+<body class="metro">
+
+    <div class="container">
+
+        @*<h1>
+                <a href="index"><i class="icon-arrow-left-3 fg-darker on-left-more"></i></a>
+                @nickname
+            </h1>*@
+        <div style="margin-top: 5px">
+        </div>
+
+        <div class="example">
+            <form action="GenderConfirm" method="get">
+                <fieldset>
+                    <legend >请选择您的性别</legend>
+                    <button type="submit" name="g" value="@girl" class="command-button primary">
+                        <i class="icon-tux on-left"></i>
+                        我是 女生
+                        <small>我为我自己代言</small>
+                    </button>
+
+                    <div style="margin-top: 15px">
+                    </div>
+
+                    <button type="submit" name="g" value="@boy" class="command-button inverse">
+                        <i class="icon-android on-right"></i>
+                        我是 男生
+                        <small>我要为“她”代言</small>
+                    </button>
+
+                    <div style="margin-top: 20px;" class="fg-red">
+                        选择以后将不能修改<br/>请谨慎选择
+                    </div>
+
+                </fieldset>
+            </form>
+
+        </div>
+
+
+    </div>
+    <div class="padding20"></div>
+</body>
+</html>
+<script type="text/javascript">
+
+</script>

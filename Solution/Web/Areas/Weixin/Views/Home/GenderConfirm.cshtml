@@ -1,0 +1,104 @@
+﻿@model QinJilu.Core.Gender
+@{
+    ViewBag.Title = "Gender Confirm";
+    string thisSelect = string.Empty;
+    string anotherName = string.Empty;
+    string nextUrl = Model + "Init";
+    switch (Model)
+    {
+        case QinJilu.Core.Gender.Male:
+            thisSelect = "男生";
+            anotherName = "女生";
+            break;
+        case QinJilu.Core.Gender.Woman:
+            thisSelect = "女生";
+            anotherName = "男生";
+            break;
+        default:
+            break;
+    }
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="product" content="qinjilu">
+    <meta name="description" content="qinjilu">
+    <meta name="author" content="lcskey@qq.com">
+    <meta name="keywords" content="qinjilu">
+
+
+    <link href="~/Content/metro-ui/css/metro-bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/metro-ui/css/metro-bootstrap-responsive.min.css" rel="stylesheet" />
+    <link href="~/Content/metro-ui/css/iconFont.min.css" rel="stylesheet" />
+
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/metro-ui/jquery.ui.widget.js"></script>
+    <script src="~/Scripts/metro-ui/metro.min.js"></script>
+
+
+    <title>@ViewBag.Title</title>
+
+    <style type="text/css">
+        .metro .example:before {
+            content: "Abount ME";
+        }
+
+        .metro .listview .list {
+            width: auto;
+        }
+
+        .tab-control {
+            min-width: 280px;
+        }
+    </style>
+</head>
+<body class="metro">
+
+    <div class="container">
+
+        @*<h1>
+                <a href="index"><i class="icon-arrow-left-3 fg-darker on-left-more"></i></a>
+                @nickname
+            </h1>*@
+        <div style="margin-top: 5px">
+        </div>
+
+        <div class="example">
+                <fieldset>
+                    <legend>您选择是的 <b class="fg-red">@thisSelect</b></legend>
+
+                    <form action="@nextUrl" method="get">
+                        <button class="command-button">
+                            <i class=" icon-arrow-right on-right"></i>
+                            继续，下一步
+                            <small>我就是 @thisSelect</small>
+                        </button>
+                    </form>
+                    <div style="margin-top: 15px">
+                    </div>
+                    <form action="Gender" method="get">
+                        <button class="command-button" >
+                            <i class="icon-arrow-left on-left"></i>
+                            返回重新选择
+                            <small>我是 @anotherName</small>
+                        </button>
+                    </form>
+
+                    <div style="margin: 20px;" class="fg-red">
+                        选择以后将不能修改<br/>请谨慎选择
+                    </div>
+
+                </fieldset>
+
+        </div>
+
+
+    </div>
+    <div class="padding20"></div>
+</body>
+</html>
+<script type="text/javascript">
+
+</script>
