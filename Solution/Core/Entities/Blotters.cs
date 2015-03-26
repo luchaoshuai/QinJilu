@@ -8,7 +8,7 @@ namespace QinJilu.Core
     /// <summary>
     /// 流水帐  每一次点击，都会在这里产生一条记录，便于日后分析使用。
     /// </summary>
-    public class Blotters
+    public class RecordLog
     {
         public int Id { get; set; }
         /// <summary>
