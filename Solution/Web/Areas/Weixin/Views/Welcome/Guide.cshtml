@@ -1,0 +1,14 @@
+﻿@{
+    ViewBag.Title = "Guide";
+    Layout = "~/Areas/Weixin/Views/Shared/_Layout.cshtml";
+
+    var m = (int)QinJilu.Core.Gender.Male;
+    var w = (int)QinJilu.Core.Gender.Woman;
+}
+
+<form>
+    昵称：<input type="text" name="nickname" />
+    <input type="button" value="@m" />
+    <input type="button" value="@w" />
+</form>
+
