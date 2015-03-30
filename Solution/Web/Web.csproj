@@ -191,6 +191,7 @@
     <Content Include="Areas\Weixin\Views\Home\GenderConfirm.cshtml" />
     <Content Include="Areas\Weixin\Views\Home\MaleInit.cshtml" />
     <Content Include="Areas\Weixin\Views\Home\WomanInit.cshtml" />
+    <None Include="Properties\PublishProfiles\89.localhost.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
