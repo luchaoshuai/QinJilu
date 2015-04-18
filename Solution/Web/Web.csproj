@@ -144,8 +144,13 @@
     <Compile Include="App_Start\MetroUICSSBundleConfig.cs" />
     <Compile Include="Areas\Main\Controllers\HomeController.cs" />
     <Compile Include="Areas\Main\MainAreaRegistration.cs" />
+    <Compile Include="Areas\Weixin\Controllers\BookController.cs" />
+    <Compile Include="Areas\Weixin\Controllers\FriendController.cs" />
     <Compile Include="Areas\Weixin\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Weixin\Controllers\MeController.cs" />
+    <Compile Include="Areas\Weixin\Controllers\MoreController.cs" />
     <Compile Include="Areas\Weixin\Controllers\MpController.cs" />
+    <Compile Include="Areas\Weixin\Controllers\TodayController.cs" />
     <Compile Include="Areas\Weixin\Controllers\WelcomeController.cs" />
     <Compile Include="Areas\Weixin\Models\CustomMessageContext.cs" />
     <Compile Include="Areas\Weixin\Models\CustomMessageHandler.cs" />
@@ -191,6 +196,12 @@
     <Content Include="Areas\Weixin\Views\Home\GenderConfirm.cshtml" />
     <Content Include="Areas\Weixin\Views\Home\MaleInit.cshtml" />
     <Content Include="Areas\Weixin\Views\Home\WomanInit.cshtml" />
+    <Content Include="Areas\Weixin\Views\Me\Index.cshtml" />
+    <Content Include="Areas\Weixin\Views\Friend\Index.cshtml" />
+    <Content Include="Areas\Weixin\Views\Book\Index.cshtml" />
+    <Content Include="Areas\Weixin\Views\Today\Index.cshtml" />
+    <Content Include="Areas\Weixin\Views\More\Index.cshtml" />
+    <None Include="Properties\PublishProfiles\89.localhost.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />

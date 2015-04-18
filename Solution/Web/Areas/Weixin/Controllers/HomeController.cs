@@ -48,12 +48,14 @@ namespace QinJilu.Web.Areas.Weixin.Controllers
         [HttpPost]
         public ActionResult WomanInit(int age, DateTime LasterCycleStart, int CycleTypically, int PeriodTypically)
         {
-
-
-
-
             return View("Index");
         }
+
+
+
+
+
+
 
     }
 }

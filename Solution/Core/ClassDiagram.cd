@@ -15,7 +15,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="QinJilu.Core.UserInfo">
-    <Position X="1" Y="1.75" Width="1.5" />
+    <Position X="0.75" Y="2" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AABDBADAACAAAgCAAQAIRAAQAAQYAAAAQAAADAAAAEA=</HashCode>
       <FileName>Entities\UserInfo.cs</FileName>
@@ -36,9 +36,9 @@
     </TypeIdentifier>
   </Class>
   <Class Name="QinJilu.Core.FriendInvitation">
-    <Position X="1" Y="7" Width="1.5" />
+    <Position X="0.75" Y="7.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAmCAAACAAAAAgAAAAEAAAgAAAABAAAAAAAAABQAAAA=</HashCode>
+      <HashCode>AAiCAAACAAAAAgAAAAEAAAgAAAABAAAAAAAAABQAAAA=</HashCode>
       <FileName>Entities\FriendInvitation.cs</FileName>
     </TypeIdentifier>
   </Class>

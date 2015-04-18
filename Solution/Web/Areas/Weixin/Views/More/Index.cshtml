@@ -1,0 +1,447 @@
+﻿@{
+    ViewBag.Title = "Qinjilu_com";
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="product" content="qinjilu">
+    <meta name="description" content="qinjilu">
+    <meta name="author" content="lcskey@qq.com">
+    <meta name="keywords" content="qinjilu">
+
+    <link href="~/Content/metro-ui/css/metro-bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/metro-ui/css/metro-bootstrap-responsive.min.css" rel="stylesheet" />
+    <link href="~/Content/metro-ui/css/iconFont.min.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/metro-ui/jquery.ui.widget.js"></script>
+    <script src="~/Scripts/metro-ui/metro.min.js"></script>
+
+    <title>@ViewBag.Title</title>
+    <style type="text/css">
+        .metro .example:before {
+            content: "new tag";
+        }
+
+        .metro .listview .list {
+            width: auto;
+        }
+
+        .tab-control {
+            min-width: 280px;
+        }
+    </style>
+</head>
+<body class="metro">
+    <div class="container">
+        <h1 class="text-center">
+            <a href="#"><i class="icon-arrow-left-3 fg-darker on-left-more"></i></a>
+            @DateTime.Now.ToString("yyyy-MM-dd")
+            <a href="#"><i class="icon-arrow-right-3 fg-darker on-right-more"></i></a>
+        </h1>
+        <div id="d_btns" class="grid fluid">
+            <div class=" row">
+                <div class="span4">
+                    <button title="period" class="shortcut danger ">
+                        <i class=" icon-cloud-7"></i>
+                        经血
+                    </button>
+                </div>
+                <div class="span4">
+                    <button title="pain" class="shortcut primary">
+                        <i class="icon-power"></i>
+                        疼痛
+                    </button>
+                </div>
+                <div class=" span4">
+                    <button title="sex" class="shortcut warning">
+                        <i class="icon-heart"></i>
+                        爱爱
+                    </button>
+                </div>
+            </div>
+            <div class=" row">
+                <div class=" span4">
+                    <button title="mood" class="shortcut default">
+                        <i class=" icon-smiley"></i>
+                        心情
+                    </button>
+                </div>
+                <div class=" span4">
+                    <button title="fluid" class="shortcut success">
+                        <i class="icon-windy"></i>
+                        白带
+                    </button>
+                </div>
+                <div class=" span4">
+                    <button title="tags" class="shortcut ">
+                        <i class="icon-bookmark-3"></i>
+                        标签
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        @*  标签  *@
+        <div id="d_tags" class="tab-control" data-role="tab-control">
+            <ul class="tabs">
+                <li class="active"><a href="#_page_1">我的自定义标签</a></li>
+                <li><a href="#_page_2">创建新标签</a></li>
+                <li class="place-right"><a href="#_page_3"><i class="icon-cog"></i></a></li>
+            </ul>
+            <div class="frames">
+                <div class="frame" id="_page_1">
+                    <div class="listview">
+                        <a href="#" class="list selected">
+                            <div class="list-content">
+                                <i class="icon-tag on-left"></i>新标签1
+                            </div>
+                        </a>
+                        <a href="#" class="list shadow">
+                            <div class="list-content">
+                                <i class="icon-tag on-left"></i>新标签1
+                            </div>
+                        </a>
+                        <a href="#" class="list">
+                            <div class="list-content">
+                                <i class="icon-tag on-left"></i>新标签1
+                            </div>
+                        </a>
+                        <a href="#" class="list selected">
+                            <div class="list-content">
+                                <i class="icon-tag on-left"></i>新标签1输入新标签或选，择下面的标签输入新标签或选择下面的标签，输入新标签或选择下面的标签
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="frame text-center" id="_page_2">
+                    <div class="input-control text" data-role="input-control">
+                        <input type="text" value="" placeholder="输入新标签的名称" />
+                    </div>
+                    <button class="command-button">
+                        <i class="icon-floppy on-right"></i>
+                        保存为新标签
+                        <small>以后可直接选择使用</small>
+                    </button>
+                </div>
+                <div class="frame" id="_page_3">
+
+                    <div class="panel">
+                        <div class="listview">
+                            <a href="#" class="list shadow">
+                                <div class="list-content">
+                                    <i class="icon-menu on-left"></i>新标签1新标签1新标签1
+                                    <i class="icon-cancel on-right-more fg-red"></i>
+                                </div>
+                            </a>
+                            <a href="#" class="list shadow">
+                                <div class="list-content">
+                                    <i class="icon-menu on-left"></i>新标签1
+                                    <i class="icon-cancel on-right  fg-red"></i>
+                                </div>
+                            </a>
+                            <a href="#" class="list shadow">
+                                <div class="list-content">
+                                    <i class="icon-menu on-left"></i>新标签1新标签1新标签1新标签1新标签1新标签1新标签1新标签1新标签1
+                                    <i class="icon-cancel on-right-more fg-red"></i>
+                                </div>
+                            </a>
+                            <div class="list shadow">
+                                <div class="list-content">
+                                    <i class="icon-menu on-left"></i>
+                                    新标签1
+                                    <i class="icon-cancel on-right-more fg-red"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @*  心情    bg-teal  *@
+        <div id="d_mood" class="grid fluid text-center">
+            <div class="row">
+                <div class=" span6">
+                    <div class="tile bg-teal">
+                        <div class="tile-content icon">
+                            <i class="icon-reddit"></i>
+                        </div>
+                        <div class="brand">
+                            <div class="label">开心</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="span6">
+                    <div class="tile bg-teal selected">
+                        <div class="tile-content icon">
+                            <i class="icon-xing"></i>
+                        </div>
+                        <div class="brand">
+                            <div class="label">敏感</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="span6">
+                    <div class="tile bg-teal selected">
+                        <div class="tile-content icon">
+                            <i class="icon-pinterest"></i>
+                        </div>
+                        <div class="brand">
+                            <div class="label">伤心</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="span6">
+                    <div class="tile bg-teal">
+                        <div class="tile-content icon">
+                            <i class="icon-yelp"></i>
+                        </div>
+                        <div class="brand">
+                            <div class="label">烦躁</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @*  经血    bg-darkRed  *@
+        <div id="d_period" class="grid fluid text-center">
+            <div class="row">
+                <div class=" span6">
+                    <div class="tile bg-darkRed">
+                        <div class="tile-content icon">
+                            <i class="icon-rainy-3"></i>
+                        </div>
+                        <div class="brand">
+                            <div class="label">轻微</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="span6">
+                    <div class="tile bg-darkRed">
+                        <div class="tile-content icon">
+                            <i class="icon-rainy-4"></i>
+                        </div>
+                        <div class="brand">
+                            <div class="label">适量</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="span6">
+                    <div class="tile bg-darkRed selected">
+                        <div class="tile-content icon">
+                            <i class="icon-weather-5"></i>
+                        </div>
+                        <div class="brand">
+                            <div class="label">大量</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="span6">
+                    <div class="tile bg-darkRed">
+                        <div class="tile-content icon">
+                            <i class="icon-windy-5"></i>
+                        </div>
+                        <div class="brand">
+                            <div class="label">意外</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @*  疼痛    bg-darkBlue  *@
+        <div id="d_pain" class="grid fluid text-center">
+            <div class="row">
+                <div class=" span6">
+                    <div class="tile bg-darkBlue">
+                        <div class="tile-content icon">
+                            <i class="icon-accessibility"></i>
+                        </div>
+                        <div class="brand">
+                            <div class="label">抽筋</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="span6">
+                    <div class="tile bg-darkBlue">
+                        <div class="tile-content icon">
+                            <i class="icon-finder"></i>
+                        </div>
+                        <div class="brand">
+                            <div class="label">头痛</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="span6">
+                    <div class="tile bg-darkBlue selected">
+                        <div class="tile-content icon">
+                            <i class="icon-firefox"></i>
+                        </div>
+                        <div class="brand">
+                            <div class="label">腹痛</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="span6">
+                    <div class="tile bg-darkBlue">
+                        <div class="tile-content icon">
+                            <i class="icon-flickr"></i>
+                        </div>
+                        <div class="brand">
+                            <div class="label">乳房痛</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @*  爱爱    bg-orange  *@
+        <div id="d_sex" class="grid fluid text-center">
+            <div class="row">
+                <div class=" span6">
+                    <div class="tile bg-orange">
+                        <div class="tile-content icon">
+                            <i class="icon-upload-2"></i>
+                        </div>
+                        <div class="brand">
+                            <div class="label">无保护</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="span6">
+                    <div class="tile bg-orange selected">
+                        <div class="tile-content icon">
+                            <i class="icon-umbrella"></i>
+                        </div>
+                        <div class="brand">
+                            <div class="label">有保护</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="span6">
+                    <div class="tile bg-orange selected">
+                        <div class="tile-content icon">
+                            <i class="icon-box"></i>
+                        </div>
+                        <div class="brand">
+                            <div class="label">未插入</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="span6">
+                    <div class="tile bg-orange">
+                        <div class="tile-content icon">
+                            <i class="icon-loop"></i>
+                        </div>
+                        <div class="brand">
+                            <div class="label">体外</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @*  白带    bg-lightOlive  *@
+        <div id="d_fluid" class="grid fluid text-center">
+            <div class="row">
+                <div class=" span6">
+                    <div class="tile bg-lightOlive">
+                        <div class="tile-content icon">
+                            <i class="icon-droplet"></i>
+                        </div>
+                        <div class="brand">
+                            <div class="label">蛋白</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="span6">
+                    <div class="tile bg-lightOlive selected">
+                        <div class="tile-content icon">
+                            <i class="icon-soundcloud"></i>
+                        </div>
+                        <div class="brand">
+                            <div class="label">粘稠</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="span6">
+                    <div class="tile bg-lightOlive selected">
+                        <div class="tile-content icon">
+                            <i class="icon-stumbleupon"></i>
+                        </div>
+                        <div class="brand">
+                            <div class="label">稀薄</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="span6">
+                    <div class="tile bg-lightOlive">
+                        <div class="tile-content icon">
+                            <i class="icon-forrst"></i>
+                        </div>
+                        <div class="brand">
+                            <div class="label">意外</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <hr />
+
+        <div class="panel  no-border">
+            <div class="panel-header bg-pink  fg-white">
+                <i class="icon-clock on-left"></i>2015-05-12
+            </div>
+            <div class="panel-content">
+                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+                end
+            </div>
+        </div>
+        <div class="panel  no-border">
+            <div class="panel-header bg-pink  fg-white">
+                <i class="icon-clock on-left"></i>2015-05-12
+            </div>
+            <div class="panel-content">
+                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+            </div>
+        </div>
+
+
+    </div>
+    <div class="padding20"></div>
+</body>
+</html>
+<script type="text/javascript">
+
+    function hide_all()
+    {
+        $("#d_tags").hide();
+        $("#d_mood").hide();
+        $("#d_period").hide();
+        $("#d_pain").hide();
+        $("#d_sex").hide();
+        $("#d_fluid").hide();
+    }
+
+    $(document).ready(function () {
+        hide_all();
+        $("#d_btns button.shortcut").click(function () {
+            var this_b = $(this).attr("title");
+            hide_all();
+            $("#d_" + this_b).show();
+
+        });
+    });
+
+
+</script>
