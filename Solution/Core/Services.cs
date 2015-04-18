@@ -3,9 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 //  Cache 缓存，Asynchronous 异步，Concurrent 并行
+
+
+
+//  RedisHelper 缓存操作使用
+//  DbSet   数据库操作使用
+
 namespace QinJilu.Core
 {
-    public class Services
+    public class Services 
     {
         #region config
 
@@ -46,10 +52,6 @@ namespace QinJilu.Core
             return GetUser(openId);
         }
 
-        private UserInfo GetUser(string openId)
-        {
-            return Repository.DbSet.GetUser(openId);
-        }
         /// <summary>
         /// 取消订阅
         /// </summary>
@@ -58,6 +60,11 @@ namespace QinJilu.Core
             Repository.DbSet.UserUnregister(openId);
         }
         #endregion
+
+        private UserInfo GetUser(string openId)
+        {
+            return Repository.DbSet.GetUser(openId);
+        }
 
         /// <summary>
         /// 输入昵称，选择性别
@@ -70,7 +77,17 @@ namespace QinJilu.Core
             Repository.DbSet.SetBaseInfo(openId, nickname, gender);
         }
 
-        // 若为女生，则录入 经期基本信息
+        /// <summary>
+        /// 若为女生，则录入 经期基本信息
+        /// </summary>
+        /// <param name="openId"></param>
+        /// <param name="lasterCycleStart"></param>
+        /// <param name="cycleTypically"></param>
+        /// <param name="cycleVaries"></param>
+        /// <param name="periodTypically"></param>
+        /// <param name="periodVaries"></param>
+        /// <param name="pmsTypically"></param>
+        /// <param name="pmsVaries"></param>
         public void IamWoman(string openId, DateTime lasterCycleStart,
             int cycleTypically, int cycleVaries,
             int periodTypically, int periodVaries,
@@ -82,7 +99,11 @@ namespace QinJilu.Core
                 pmsTypically, pmsVaries);
         }
 
-
+        /// <summary>
+        /// 是否存在指定邮箱
+        /// </summary>
+        /// <param name="email"></param>
+        /// <returns></returns>
         public bool AnyEmail(string email)
         {
             return Repository.DbSet.AnyEmail(email);
@@ -90,7 +111,11 @@ namespace QinJilu.Core
 
 
 
-        // 通过邮箱查找那个她，只能返回女生
+        /// <summary>
+        /// 通过邮箱查找那个她，只能返回女生
+        /// </summary>
+        /// <param name="email"></param>
+        /// <returns></returns>
         public string FindShe(string email)
         {
             string sheId = Repository.DbSet.FindShe(email);
@@ -100,26 +125,49 @@ namespace QinJilu.Core
 
         #region 女神
 
-        // 若为男生，则录入她的邮箱，请求设置为闺蜜并默认启用编辑。
-        // 邀请 女神  ，我来帮你记录
-        public void InvitationGoddess(string openId, string sheId, string notename, string invitationNote)
-        {
-            FriendInvitation fi = new FriendInvitation
-            {
-                UserId = GetUserId(openId),
-                FriendId = MongoDB.Bson.ObjectId.Parse(sheId),
-                Operations = Operation.Editable,
-                Notename = notename,
-                InvitationNote = invitationNote,
-                CreateOn = DateTime.Now,
+        // 
+        ///// <summary>
+        ///// 邀请 女神  ，我来帮你记录
+        ///// </summary>
+        ///// <param name="openId">发起人（他）</param>
+        ///// <param name="sheId">接受人（她）ObjectId</param>
+        ///// <param name="notename">备注名</param>
+        ///// <param name="invitationNote">请求说明</param>
+        ///// <remarks>若为男生，则录入她的邮箱，请求设置为闺蜜并默认启用编辑。</remarks>
+        //public void InvitationGoddess(string openId, string sheId, string notename, string invitationNote)
+        //{
+        //    var cid = GetUserId(openId);
+        //    var fid = MongoDB.Bson.ObjectId.Parse(sheId);
+        //    var old = Repository.DbSet.FindInvitation(cid, fid);
+        //    if (old == null)
+        //    {
+        //        FriendInvitation fi = new FriendInvitation
+        //        {
+        //            UserId = cid,
+        //            FriendId = MongoDB.Bson.ObjectId.Parse(sheId),
+        //            Operations = Operation.Editable,
+        //            Notename = notename,
+        //            InvitationNote = invitationNote,
+        //            CreateOn = DateTime.Now,
 
-                OpinionOn = DateTimeEx.NullDate,
-                Opinions = Opinion.Untreated,
+        //            OpinionOn = DateTimeEx.NullDate,
+        //            Opinions = Opinion.Untreated,
 
-                SheIsGoddess = true
-            };
-            Repository.DbSet.GetCollection<FriendInvitation>().Insert(fi);
-        }
+        //            SheIsGoddess = true
+        //        };
+        //        Repository.DbSet.GetCollection<FriendInvitation>().Insert(fi);
+        //    }
+        //    else
+        //    {
+        //        old.Notename = notename;
+        //        old.InvitationNote = invitationNote;
+        //        old.CreateOn = DateTime.Now;
+        //        old.OpinionOn = DateTimeEx.NullDate;
+        //        old.Opinions = Opinion.Untreated;
+        //        old.SheIsGoddess = true;
+        //        Repository.DbSet.GetCollection<FriendInvitation>().Update(fi);
+        //    }
+        //}
         /// <summary>
         /// 女神 审核 男生的邀请,并设置相应的备注，权限
         /// </summary>
@@ -211,10 +259,17 @@ namespace QinJilu.Core
 
             Repository.DbSet.GetCollection<FriendInvitation>().Insert(fi);
         }
-        // 对方朋友 审核 是否可以添加为朋友
+        /// <summary>
+        /// 对方朋友 审核 是否可以添加为朋友
+        /// </summary>
+        /// <param name="openId">当前用户的微信id</param>
+        /// <param name="invId">邀请记录的Id</param>
+        /// <param name="opi">审核意见</param>
+        /// <param name="oper">授予的他人的权限</param>
+        /// <param name="notename">备注明</param>
         public void FriendOpinion(string openId,
             string invId, Opinion opi,
-            Operation oper, string notename, string msg)
+            Operation oper, string notename)
         {
             var fi = Repository.DbSet.GetCollection<FriendInvitation>().FindOneById(MongoDB.Bson.ObjectId.Parse(invId));
             if (fi == null)
@@ -260,6 +315,11 @@ namespace QinJilu.Core
 
         #endregion
 
+       /// <summary>
+        /// 通过微信id，取回数据库中的  userId  （ObjectId）
+       /// </summary>
+       /// <param name="openId"></param>
+       /// <returns></returns>
         public MongoDB.Bson.ObjectId GetUserId(string openId)
         {
             var o = RedisHelper.GetObject("GetUserId" + openId);
@@ -271,13 +331,8 @@ namespace QinJilu.Core
             var t = Repository.DbSet.GetUserId(openId);
             RedisHelper.AddObject("GetUserId" + openId, t);
             return t;
-
         }
 
-
-        public void ApplyFriend(string openId, string sheId)
-        {
-        }
 
 
 
@@ -399,11 +454,8 @@ namespace QinJilu.Core
 
         #region  个人设置
 
-
-        #region boy
-
         /// <summary>
-        /// 配置女神的邮箱
+        /// 配置邮箱
         /// </summary>
         /// <param name="openId"></param>
         /// <param name="email"></param>
@@ -411,6 +463,9 @@ namespace QinJilu.Core
         {
 
         }
+
+        #region boy
+
         /// <summary>
         /// 与女神配对
         /// </summary>
@@ -420,6 +475,7 @@ namespace QinJilu.Core
         {
 
         }
+
         #endregion
 
         #region girl

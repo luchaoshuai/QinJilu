@@ -24,9 +24,13 @@ namespace QinJilu.Core
         /// </summary>
         public MongoDB.Bson.ObjectId FriendId { get; set; }
         /// <summary>
-        /// FriendId is Goddess
+        /// FriendId is Goddess(sheId)，女神邀请也放这里了。需要特殊处理的，女神审核通过以后，修改男人表中的sheid.而朋友审核通过以后，是会在friends中插入数据的。
         /// </summary>
         public bool SheIsGoddess { get; set; }
+        /// <summary>
+        /// 重发次数
+        /// </summary>
+        public int SendCount { get; set; }
 
 
         /// <summary>

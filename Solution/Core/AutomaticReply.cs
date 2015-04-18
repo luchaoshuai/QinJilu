@@ -539,14 +539,14 @@ namespace QinJilu.Core
 
 
 
-        int current = 0;
+        //int current = 0;
 
         public void regiester(string openId)
         {
             // 取得用户之前是否已经注册过。。
             // 订阅量是否大于1
 
-            current = 1;
+            //current = 1;
         }
 
         public void code(string openId, string code)

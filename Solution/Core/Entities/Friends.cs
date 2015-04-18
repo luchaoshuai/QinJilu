@@ -24,7 +24,7 @@ namespace QinJilu.Core
         /// </summary>
         public string Notename { get; set; }
         /// <summary>
-        /// 操作权限项
+        /// 授予朋友的操作权限项
         /// </summary>
         public Operation Operations { get; set; }
 

@@ -42,7 +42,7 @@ namespace QinJilu.Core.Repository
         {
             var uId = GetCollection<UserInfo>().AsQueryable()
                 .Where(x => x.WeixinOpenID == openId)
-                .Select(x=>x.Id)
+                .Select(x => x.Id)
                 .FirstOrDefault();
             return uId;
         }
@@ -211,6 +211,61 @@ namespace QinJilu.Core.Repository
         #region friend
 
         /// <summary>
+        /// 发送朋友请求,自动判断是否已经发送过
+        /// </summary>
+        /// <param name="applyerId"></param>
+        /// <param name="friendId"></param>
+        /// <returns></returns>
+        internal static void SendInvitation(FriendInvitation info)
+        {
+            var collection = GetCollection<FriendInvitation>();
+
+            MongoDB.Bson.ObjectId invId = MongoDB.Bson.ObjectId.Empty;
+            // 判断前面是否存在请求,若不存在，则总是创建一条。
+            while (!AnyInvitation(info.UserId, info.FriendId, ref invId))
+            {
+                collection.Insert(info);
+            }
+
+            var c = Query<FriendInvitation>
+                .EQ<MongoDB.Bson.ObjectId>(x => x.Id, invId);
+
+            var u = Update<FriendInvitation>
+
+                .Set<DateTime>(t => t.CreateOn, DateTime.Now)
+
+                .Set<string>(t => t.Notename, info.Notename)
+                .Set<string>(t => t.InvitationNote, info.InvitationNote)
+
+                .Set<Operation>(t => t.Operations, info.Operations)
+
+                .Set<DateTime>(t => t.OpinionOn, DateTimeEx.NullDate)
+                .Set<Opinion>(t => t.Opinions, Opinion.Untreated)
+                    .Inc(x => x.SendCount, 1);
+
+            collection.Update(c, u);
+        }
+
+        /// <summary>
+        /// 是否存在历史请求朋友的记录
+        /// </summary>
+        /// <param name="applyerId">申请(发起)人Id</param>
+        /// <param name="friendId">接受（被邀请）人Id</param>
+        /// <returns>若存在，则返回之前的邀请记录Id</returns>
+        internal static bool AnyInvitation(MongoDB.Bson.ObjectId applyerId, MongoDB.Bson.ObjectId friendId,ref MongoDB.Bson.ObjectId invId)
+        {
+            var collection = GetCollection<FriendInvitation>();
+
+            var res = collection.AsQueryable().Any(x=>x.FriendId==friendId && x.UserId==applyerId);
+            if (res)
+            {
+                invId = collection.AsQueryable().Where(x => x.FriendId == friendId && x.UserId == applyerId).Select(x => x.Id).First();
+            }
+            return res;
+        }
+
+
+        /// <summary>
         /// 更新 朋友邀请 的审核状态
         /// </summary>
         /// <param name="fi"></param>
@@ -228,6 +283,19 @@ namespace QinJilu.Core.Repository
             collection.Update(q, u);
         }
 
+
+        /// <summary>
+        ///  是否存在朋友记录
+        /// </summary>
+        /// <param name="sheId">主人号(仅能为she)</param>
+        /// <param name="friendId">朋友号</param>
+        /// <returns></returns>
+        internal static bool AnyFriend(MongoDB.Bson.ObjectId sheId, MongoDB.Bson.ObjectId friendId)
+        {
+            var collection = GetCollection<Friends>();
+            var res = collection.AsQueryable().Any(x => x.FriendId == friendId && x.UserId == sheId);
+            return res;
+        }
 
         #endregion
 

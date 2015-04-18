@@ -17,7 +17,7 @@
   <Class Name="QinJilu.Core.UserInfo">
     <Position X="1" Y="1.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAACAAAABKACQgAAAQAIwCQQAAQIAAAAQAAAAEAAAEA=</HashCode>
+      <HashCode>AABDBADAACAAAgCAAQAIRAAQAAQYAAAAQAAADAAAAEA=</HashCode>
       <FileName>Entities\UserInfo.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -28,17 +28,17 @@
       <FileName>Entities\UserTags.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="QinJilu.Core.Blotters">
+  <Class Name="QinJilu.Core.RecordLog">
     <Position X="10" Y="1" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AEACAAAAAAAAAgACAAAAAAAQAAAAAAAAAAAAAAAAAgA=</HashCode>
-      <FileName>Entities\Blotters.cs</FileName>
+      <FileName>Entities\RecordLog.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="QinJilu.Core.FriendInvitation">
-    <Position X="1" Y="6.75" Width="1.5" />
+    <Position X="1" Y="7" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAiAAAACAAAAAgAAAAEAAAgAAAABAAAAAAAAABAAAAA=</HashCode>
+      <HashCode>AAmCAAACAAAAAgAAAAEAAAgAAAABAAAAAAAAABQAAAA=</HashCode>
       <FileName>Entities\FriendInvitation.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -59,14 +59,14 @@
   <Class Name="QinJilu.Core.RecordNote">
     <Position X="5.75" Y="7" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AEAiAAAAAAAAAgACAAAAAAAQAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AEAiAAAAAAAAAgACAAAAEAAQAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Entities\RecordNote.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="QinJilu.Core.RecordReply">
     <Position X="4.75" Y="2.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAACAAAABgAAAgACgEAAAAAAAAAAAAAAAAAAAAIAAAA=</HashCode>
+      <HashCode>AAACAAAABgAAAgACgEAAEAAAAAAAAAAAAAAAAAIAAAA=</HashCode>
       <FileName>Entities\RecordReply.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -80,7 +80,7 @@
   <Enum Name="QinJilu.Core.Gender">
     <Position X="0.75" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAIAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAgAAAAAIAAAA=</HashCode>
       <FileName>Entities\Options.cs</FileName>
     </TypeIdentifier>
   </Enum>
