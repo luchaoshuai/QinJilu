@@ -25,6 +25,12 @@ namespace QinJilu.Core
         public CurrentScope CurrentContext { get; set; }
 
         /// <summary>
+        /// 是否已经检测邀请码
+        /// </summary>
+        public bool CheckInvitecode { get; set; }
+
+
+        /// <summary>
         /// 生日-算年龄用
         /// </summary>
         public DateTime BirthDay { get; set; }

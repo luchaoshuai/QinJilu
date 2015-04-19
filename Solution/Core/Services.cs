@@ -11,7 +11,7 @@ using System.Text;
 
 namespace QinJilu.Core
 {
-    public class Services 
+    public class Services
     {
         #region config
 
@@ -43,9 +43,12 @@ namespace QinJilu.Core
 
 
         #region subscribe
+
         /// <summary>
         /// 订阅
         /// </summary>
+        /// <param name="openId"></param>
+        /// <returns>返回的用户实体里面，可以体现是第几次关注</returns>
         public UserInfo Subscribe(string openId)
         {
             Repository.DbSet.UserRegister(openId);
@@ -118,65 +121,64 @@ namespace QinJilu.Core
         /// <returns></returns>
         public string FindShe(string email)
         {
-            string sheId = Repository.DbSet.FindShe(email);
-            return sheId;
+            var sheId = Repository.DbSet.FindShe(email);
+            return sheId.ToString();
         }
 
 
         #region 女神
 
-        // 
-        ///// <summary>
-        ///// 邀请 女神  ，我来帮你记录
-        ///// </summary>
-        ///// <param name="openId">发起人（他）</param>
-        ///// <param name="sheId">接受人（她）ObjectId</param>
-        ///// <param name="notename">备注名</param>
-        ///// <param name="invitationNote">请求说明</param>
-        ///// <remarks>若为男生，则录入她的邮箱，请求设置为闺蜜并默认启用编辑。</remarks>
-        //public void InvitationGoddess(string openId, string sheId, string notename, string invitationNote)
-        //{
-        //    var cid = GetUserId(openId);
-        //    var fid = MongoDB.Bson.ObjectId.Parse(sheId);
-        //    var old = Repository.DbSet.FindInvitation(cid, fid);
-        //    if (old == null)
-        //    {
-        //        FriendInvitation fi = new FriendInvitation
-        //        {
-        //            UserId = cid,
-        //            FriendId = MongoDB.Bson.ObjectId.Parse(sheId),
-        //            Operations = Operation.Editable,
-        //            Notename = notename,
-        //            InvitationNote = invitationNote,
-        //            CreateOn = DateTime.Now,
+        /// <summary>
+        /// 是否存在请求记录
+        /// </summary>
+        /// <param name="openId"></param>
+        /// <param name="sheId"></param>
+        /// <returns></returns>
+        public bool AnyInvitationGoddess(string openId, string sheId)
+        {
+            var cid = GetUserId(openId);
+            var res = Repository.DbSet.AnyFriend(cid, MongoDB.Bson.ObjectId.Parse(sheId));
+            return res;
+        }
 
-        //            OpinionOn = DateTimeEx.NullDate,
-        //            Opinions = Opinion.Untreated,
 
-        //            SheIsGoddess = true
-        //        };
-        //        Repository.DbSet.GetCollection<FriendInvitation>().Insert(fi);
-        //    }
-        //    else
-        //    {
-        //        old.Notename = notename;
-        //        old.InvitationNote = invitationNote;
-        //        old.CreateOn = DateTime.Now;
-        //        old.OpinionOn = DateTimeEx.NullDate;
-        //        old.Opinions = Opinion.Untreated;
-        //        old.SheIsGoddess = true;
-        //        Repository.DbSet.GetCollection<FriendInvitation>().Update(fi);
-        //    }
-        //}
+        /// <summary>
+        /// 邀请 女神  ，我来帮你记录
+        /// </summary>
+        /// <param name="openId">发起人（他）</param>
+        /// <param name="sheId">接受人（她）ObjectId</param>
+        /// <param name="invitationNote">请求说明</param>
+        /// <remarks>若为男生，则录入她的邮箱，请求设置为闺蜜并默认启用编辑。</remarks>
+        public void InvitationGoddess(string openId, string sheId,string invitationNote)
+        {
+            var cid = GetUserId(openId);
+
+            FriendInvitation fi = new FriendInvitation
+            {
+                UserId = cid,
+                FriendId = MongoDB.Bson.ObjectId.Parse(sheId),
+                Operations = Operation.Editable,
+                Notename = string.Empty,
+                InvitationNote = invitationNote,
+                CreateOn = DateTime.Now,
+
+                OpinionOn = DateTimeEx.NullDate,
+                Opinions = Opinion.Untreated,
+
+                SheIsGoddess = true
+            };
+            Repository.DbSet.SendInvitation(fi);
+        }
+
         /// <summary>
         /// 女神 审核 男生的邀请,并设置相应的备注，权限
         /// </summary>
-        /// <param name="openId"></param>
-        /// <param name="invId"></param>
-        /// <param name="opi"></param>
-        /// <param name="oper"></param>
-        /// <param name="notename"></param>
-        /// <param name="msg"></param>
+        /// <param name="openId">当前用户（女神）的微信id</param>
+        /// <param name="invId">邀请记录的Id</param>
+        /// <param name="opi">审核意见</param>
+        /// <param name="oper">审核通过时授予的权限项</param>
+        /// <param name="notename">给申请人的备注名</param>
+        /// <param name="msg">驳回说明</param>
         public void GoddessOpinion(string openId,
             string invId, Opinion opi,
             Operation oper, string notename, string msg)
@@ -206,27 +208,25 @@ namespace QinJilu.Core
                 // add one friend ??  
                 var fs = new List<Friends>(2);
                 //申请人增加一个朋友  >>> 申请人 在朋友列表中可以看到，并对其进行权限设置 
-                fs.Add(new Friends
-                {
-                    UserId = fi.UserId,
-                    FriendId = fi.FriendId,
-                    Notename = fi.Notename,// 申请时给女神取的备注名
-                    Operations = Operation.ReadOnly //默认只给读的权限。
-                });// 男号这边没有日志，不会发表文章，总是使用的她号，所以这个朋友列表无意义？
+                //fs.Add(new Friends
+                //{
+                //    UserId = fi.UserId,
+                //    FriendId = fi.FriendId,
+                //    Notename = fi.Notename,// 申请时给女神取的备注名
+                //    Operations = Operation.ReadOnly //默认只给读的权限。
+                //});// 男号这边没有日志，不会发表文章，总是使用的她号，所以这个朋友列表无意义？
 
                 // 给女神那边也增加一个朋友
                 fs.Add(new Friends
                  {
                      UserId = fi.FriendId,
                      FriendId = fi.UserId,
-                     Notename = notename,// 审核时，女神给男生取的备注名
+                     Notename = "*"+notename,// 审核时，女神给男生取的备注名
                      Operations = oper// 以女神最后给的权限为准
                  });
 
                 Repository.DbSet.GetCollection<Friends>().InsertBatch(fs);
             }
-
-
         }
         #endregion
 
@@ -236,7 +236,7 @@ namespace QinJilu.Core
         /// <summary>
         /// 邀请 朋友
         /// </summary>
-        /// <param name="openId"></param>
+        /// <param name="openId">发起人微信id</param>
         /// <param name="FriendId"></param>
         /// <param name="notename"></param>
         /// <param name="invitationNote"></param>
@@ -256,8 +256,7 @@ namespace QinJilu.Core
 
                 SheIsGoddess = false
             };
-
-            Repository.DbSet.GetCollection<FriendInvitation>().Insert(fi);
+            Repository.DbSet.SendInvitation(fi);
         }
         /// <summary>
         /// 对方朋友 审核 是否可以添加为朋友
@@ -287,7 +286,6 @@ namespace QinJilu.Core
 
             if (opi == Opinion.Agreed)
             {
-                // add one friend ??  
                 var fs = new List<Friends>(2);
                 //申请人增加一个朋友  >>> 申请人 在朋友列表中可以看到，并对其进行权限设置 
                 fs.Add(new Friends
@@ -309,17 +307,15 @@ namespace QinJilu.Core
 
                 Repository.DbSet.GetCollection<Friends>().InsertBatch(fs);
             }
-
-
         }
 
         #endregion
 
-       /// <summary>
+        /// <summary>
         /// 通过微信id，取回数据库中的  userId  （ObjectId）
-       /// </summary>
-       /// <param name="openId"></param>
-       /// <returns></returns>
+        /// </summary>
+        /// <param name="openId"></param>
+        /// <returns></returns>
         public MongoDB.Bson.ObjectId GetUserId(string openId)
         {
             var o = RedisHelper.GetObject("GetUserId" + openId);

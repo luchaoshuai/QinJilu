@@ -9,7 +9,9 @@ namespace QinJilu.Core.Entities
     {
         public MongoDB.Bson.ObjectId Id { get; set; }
 
-        // 邀请码..船票。。。 暂定为 8 位数字，后期可以扩展为任意字符。使用二维码扫描输入。
+        /// <summary>
+        /// 邀请码..船票。。。 暂定为 8 位数字，后期可以扩展为任意字符。使用二维码扫描输入。
+        /// </summary>
         public string Invitecode { get; set; }
 
         /// <summary>
@@ -29,7 +31,7 @@ namespace QinJilu.Core.Entities
         public DateTime CreateOn { get; set; }
 
         /// <summary>
-        /// 使用时间（别人用他登船的时间）
+        /// 使用时间（别人用它登船校验的时间）
         /// </summary>
         public DateTime UsedOn { get; set; }
 

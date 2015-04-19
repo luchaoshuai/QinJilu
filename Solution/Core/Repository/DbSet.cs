@@ -67,6 +67,8 @@ namespace QinJilu.Core.Repository
 
                 var u = Update<UserInfo>
                     .Set<bool>(t => t.Unsubscribe, false)
+                    .Set<CurrentScope>(t => t.CurrentContext, CurrentScope.NULL)
+                    .Set<DateTime>(t => t.LastActivitytime, DateTime.Now)
                     .Inc(x => x.SubscribeCount, 1);
 
                 collection.Update(q, u);
@@ -78,6 +80,9 @@ namespace QinJilu.Core.Repository
                     // 女的才有
                     FirstYaer = 0,
 
+                    CurrentContext = CurrentScope.NULL,
+                    LastActivitytime = DateTime.Now,
+
                     LasterCycleStart = DateTimeEx.NullDate,
                     CycleTypically = 0,
                     CycleVaries = 0,
@@ -86,6 +91,7 @@ namespace QinJilu.Core.Repository
                     PmsTypically = 0,
                     PmsVaries = 0,
 
+                    CheckInvitecode = false,
                     Id = MongoDB.Bson.ObjectId.GenerateNewId(),
                     SheId = MongoDB.Bson.ObjectId.Empty,
 
@@ -179,7 +185,7 @@ namespace QinJilu.Core.Repository
             collection.Update(q, u);
         }
 
-        internal static string FindShe(string email)
+        internal static MongoDB.Bson.ObjectId FindShe(string email)
         {
             var collection = GetCollection<UserInfo>();
 
@@ -188,9 +194,9 @@ namespace QinJilu.Core.Repository
             var u = collection.FindOne(q);
             if (u != null && u.Gender == Gender.Woman)
             {
-                return u.Id.ToString();
+                return u.Id;
             }
-            return string.Empty;
+            return MongoDB.Bson.ObjectId.Empty;
         }
 
         /// <summary>
@@ -247,16 +253,29 @@ namespace QinJilu.Core.Repository
         }
 
         /// <summary>
+        ///  是否存在朋友记录
+        /// </summary>
+        /// <param name="sheId">主人号(仅能为she)</param>
+        /// <param name="friendId">朋友号</param>
+        /// <returns></returns>
+        internal static bool AnyFriend(MongoDB.Bson.ObjectId sheId, MongoDB.Bson.ObjectId friendId)
+        {
+            var collection = GetCollection<Friends>();
+            var res = collection.AsQueryable().Any(x => x.FriendId == friendId && x.UserId == sheId);
+            return res;
+        }
+
+        /// <summary>
         /// 是否存在历史请求朋友的记录
         /// </summary>
         /// <param name="applyerId">申请(发起)人Id</param>
         /// <param name="friendId">接受（被邀请）人Id</param>
         /// <returns>若存在，则返回之前的邀请记录Id</returns>
-        internal static bool AnyInvitation(MongoDB.Bson.ObjectId applyerId, MongoDB.Bson.ObjectId friendId,ref MongoDB.Bson.ObjectId invId)
+        internal static bool AnyInvitation(MongoDB.Bson.ObjectId applyerId, MongoDB.Bson.ObjectId friendId, ref MongoDB.Bson.ObjectId invId)
         {
             var collection = GetCollection<FriendInvitation>();
 
-            var res = collection.AsQueryable().Any(x=>x.FriendId==friendId && x.UserId==applyerId);
+            var res = collection.AsQueryable().Any(x => x.FriendId == friendId && x.UserId == applyerId);
             if (res)
             {
                 invId = collection.AsQueryable().Where(x => x.FriendId == friendId && x.UserId == applyerId).Select(x => x.Id).First();
@@ -283,19 +302,6 @@ namespace QinJilu.Core.Repository
             collection.Update(q, u);
         }
 
-
-        /// <summary>
-        ///  是否存在朋友记录
-        /// </summary>
-        /// <param name="sheId">主人号(仅能为she)</param>
-        /// <param name="friendId">朋友号</param>
-        /// <returns></returns>
-        internal static bool AnyFriend(MongoDB.Bson.ObjectId sheId, MongoDB.Bson.ObjectId friendId)
-        {
-            var collection = GetCollection<Friends>();
-            var res = collection.AsQueryable().Any(x => x.FriendId == friendId && x.UserId == sheId);
-            return res;
-        }
 
         #endregion
 
