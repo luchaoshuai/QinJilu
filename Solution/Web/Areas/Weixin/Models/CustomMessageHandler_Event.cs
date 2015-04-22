@@ -12,13 +12,56 @@ namespace QinJilu.Web.Areas.Weixin.Models
 {
     public partial class CustomMessageHandler
     {
-        //private string GetSDKInfo()
-        //{
-        //    //获取Senparc.Weixin.MP.dll版本信息
-        //    var fileVersionInfo = FileVersionInfo.GetVersionInfo(HttpContext.Current.Server.MapPath("~/bin/Senparc.Weixin.MP.dll"));
-        //    var version = string.Format("{0}.{1}", fileVersionInfo.FileMajorPart, fileVersionInfo.FileMinorPart);
-        //    return string.Format(@"欢迎关注【微信公众平台】，SDK 当前运行版本：v{0}。", version);
-        //}
+
+
+        /// <summary>
+        /// 订阅（关注）事件
+        /// </summary>
+        /// <returns></returns>
+        public override IResponseMessageBase OnEvent_SubscribeRequest(RequestMessageEvent_Subscribe requestMessage)
+        {
+            var responseMessage = ResponseMessageBase.CreateFromRequestMessage<ResponseMessageText>(requestMessage);
+
+            var u = new Core.Services().Subscribe(requestMessage.FromUserName);
+            if (u.SubscribeCount > 1)
+            {
+                var ds = (DateTime.Now - u.UnsubscribeOn).TotalDays.ToString("F0");
+                responseMessage.Content = "<a href='http://qinjilu.com/weixin/home/index'>欢迎回来，在您离开的 " + ds + " 天里，我们做了很多的升级，更多的精彩，邀您探索！点我开始吧！</a>";
+            }
+            else
+            {
+                responseMessage.Content = "<a href='http://qinjilu.com/weixin/home/index'>欢迎关注，更多精彩，邀您探索！点我开始吧！</a>";
+            }
+
+            return responseMessage;
+        }
+
+        /// <summary>
+        /// 退订
+        /// 实际上用户无法收到非订阅账号的消息，所以这里可以随便写。
+        /// unsubscribe事件的意义在于及时删除网站应用中已经记录的OpenID绑定，消除冗余数据。并且关注用户流失的情况。
+        /// </summary>
+        /// <returns></returns>
+        public override IResponseMessageBase OnEvent_UnsubscribeRequest(RequestMessageEvent_Unsubscribe requestMessage)
+        {
+            new Core.Services().UnSubscribe(requestMessage.FromUserName);
+            var responseMessage = base.CreateResponseMessage<ResponseMessageText>();
+            responseMessage.Content = "OnEvent_UnsubscribeRequest";
+            return responseMessage;
+        }
+
+
+        public override IResponseMessageBase OnEvent_LocationRequest(RequestMessageEvent_Location requestMessage)
+        {
+            //这里是微信客户端（通过微信服务器）自动发送过来的位置信息
+            var responseMessage = CreateResponseMessage<ResponseMessageText>();
+            responseMessage.Content = "OnEvent_LocationRequest";
+            return responseMessage;//这里也可以返回null（需要注意写日志时候null的问题）
+        }
+
+
+
+
         ///// <summary>
         ///// 处理事件请求（这个方法一般不用重写，这里仅作为示例出现。除非需要在判断具体Event类型以外对Event信息进行统一操作
         ///// </summary>
@@ -29,6 +72,7 @@ namespace QinJilu.Web.Areas.Weixin.Models
         //    var eventResponseMessage = base.OnEventRequest(requestMessage);//对于Event下属分类的重写方法，见：CustomerMessageHandler_Events.cs
         //    return eventResponseMessage;
         //}
+
         //public override IResponseMessageBase OnTextOrEventRequest(RequestMessageText requestMessage)
         //{
         //    // 预处理文字或事件类型请求。
@@ -120,88 +164,6 @@ namespace QinJilu.Web.Areas.Weixin.Models
         //    return reponseMessage;
         //}
 
-
-        public override IResponseMessageBase OnEvent_LocationRequest(RequestMessageEvent_Location requestMessage)
-        {
-            //这里是微信客户端（通过微信服务器）自动发送过来的位置信息
-            var responseMessage = CreateResponseMessage<ResponseMessageText>();
-            responseMessage.Content = "OnEvent_LocationRequest";
-            return responseMessage;//这里也可以返回null（需要注意写日志时候null的问题）
-        }
-
-
-
-        /// <summary>
-        /// 订阅（关注）事件
-        /// </summary>
-        /// <returns></returns>
-        public override IResponseMessageBase OnEvent_SubscribeRequest(RequestMessageEvent_Subscribe requestMessage)
-        {
-            var responseMessage = ResponseMessageBase.CreateFromRequestMessage<ResponseMessageText>(requestMessage);
-
-            var u = new Core.Services().Subscribe(requestMessage.FromUserName);
-            if (u.SubscribeCount > 1 && u.UnsubscribeOn.Year > 2010)
-            {
-                #region 二次订阅
-
-                var hs = (DateTime.Now - u.UnsubscribeOn).TotalDays.ToString("F0");
-
-                //  u.SheId==0 &&
-                if (u.LasterCycleStart.Year < 2010)
-                {
-                    responseMessage.Content = string.Format(@"
-亲爱的{0}，欢迎您再次回来！在您离开 小lu 的这{1}个小时里，我们发生了天翻地覆的变化。
-赶紧<a href='http://qinjilu.com/Weixin/Welcome/Guide?uid={2}'>进入快速导航，开始 亲记录 </a>之旅吧",
-                       u.Nickname,
-                       hs,
-                       u.Id);
-                }
-                else
-                {
-                    responseMessage.Content = string.Format(@"
-亲爱的{0}，欢迎再次回来！在您离开 小lu 的这{1}个小时里，我们发生了天翻地覆的变化。
-您原来的数据，我们都给亲存着呢！赶紧<a href='http://qinjilu.com/Weixin/Welcome/Index?uid={2}'>进入 亲记录 </a>之旅吧 ",
-                        u.Nickname,// 有一部分没有设置昵称的，只显示 "亲" 即可。
-                         hs,
-                        u.Id);
-                }
-                #endregion
-            }
-            else
-            {
-                if (Core.Services.NeedInvitationCode())
-                {
-                    responseMessage.Content = string.Format(@"
-亲，欢迎您的到来！为了更好的为您服务，我们使用<a href='http://qinjilu.com/Weixin/Welcome/NeedInvitationCode?uid={0}'>【邀请制】</a>，
-请直接回复【8位数字】邀请码，或着直接扫描【邀请二维码】图片，开始 亲记录 之旅吧！
-不知道什么是【邀请码】，<a href='http://qinjilu.com/Weixin/Welcome/NeedInvitationCode?uid={0}'>点击这里 </a>可以查看？
-",
-                        u.Id);
-                }
-                else
-                {
-                    responseMessage.Content = string.Format(@"
-亲，欢迎您的到来！
-赶紧<a href='http://qinjilu.com/Weixin/Welcome/Guide?uid={0}'>进入快速导航，开始 亲记录 </a>之旅吧！",
-                        u.Id);
-                }
-            }
-            return responseMessage;
-        }
-
-        /// <summary>
-        /// 退订
-        /// 实际上用户无法收到非订阅账号的消息，所以这里可以随便写。
-        /// unsubscribe事件的意义在于及时删除网站应用中已经记录的OpenID绑定，消除冗余数据。并且关注用户流失的情况。
-        /// </summary>
-        /// <returns></returns>
-        public override IResponseMessageBase OnEvent_UnsubscribeRequest(RequestMessageEvent_Unsubscribe requestMessage)
-        {
-            new Core.Services().UnSubscribe(requestMessage.FromUserName);
-            var responseMessage = base.CreateResponseMessage<ResponseMessageText>();
-            responseMessage.Content = "OnEvent_UnsubscribeRequest";
-            return responseMessage;
-        }
 
         #region 无效（已注释掉的）事件
 

@@ -11,6 +11,8 @@ using Senparc.Weixin.MP.MessageHandlers;
 using Senparc.Weixin.MP.Helpers;
 
 
+//  与 CustomMessageHandler_Event 是  partial class
+
 namespace QinJilu.Web.Areas.Weixin.Models
 {
     /// <summary>
@@ -47,8 +49,6 @@ namespace QinJilu.Web.Areas.Weixin.Models
         /// <returns></returns>
         public override IResponseMessageBase OnTextRequest(RequestMessageText requestMessage)
         {
-            //TODO:这里的逻辑可以交给Service处理具体信息，参考OnLocationRequest方法或/Service/LocationSercice.cs
-
             var responseMessage = base.CreateResponseMessage<ResponseMessageText>();
 
             if (requestMessage.Content == "baidu")

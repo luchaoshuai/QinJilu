@@ -24,12 +24,17 @@ namespace QinJilu.Web.Areas.Weixin.Controllers
         //    return View();
         //}
 
-        public readonly string Token = "LwZtbfquws773G";//与微信公众账号后台的Token设置保持一致，区分大小写。
-        public readonly string EncodingAESKey = "Wqn5KLoGVEEihb0iOgnrjgkj5Oo0umdBmcxMGYZML2K";//根据自己后台的设置保持一致
-        public readonly string AppId = "wxfce0bbfbeae7a945";//根据自己后台的设置保持一致
+
+        public readonly string Token = "LwZtbfquws773G";
+        public readonly string EncodingAESKey = "Wqn5KLoGVEEihb0iOgnrjgkj5Oo0umdBmcxMGYZML2K";
+        //      上面二个所有号都设置成一样即可。
+
+        //      下面二个是微信平台自动生成的。
+        public readonly string AppSecret = System.Configuration.ConfigurationManager.AppSettings["AppSecret"];
+        public readonly string AppId = System.Configuration.ConfigurationManager.AppSettings["AppId"];
 
         /// <summary>
-        /// 微信后台验证地址（使用Get），微信后台的“接口配置信息”的Url填写如：http://qinjilu.com:5438/weixin/mp
+        /// 微信后台验证地址（使用Get），微信后台的“接口配置信息”的Url填写如：http://qinjilu.com/weixin/mp
         /// </summary>
         [HttpGet]
         [ActionName("Index")]
@@ -70,6 +75,7 @@ namespace QinJilu.Web.Areas.Weixin.Controllers
                 messageHandler.RequestDocument.Save(Server.MapPath("~/App_Data/" + DateTime.Now.Ticks + "_Request_" + messageHandler.RequestMessage.FromUserName + ".txt"));
                 //if (messageHandler.UsingEcryptMessage)
                 //{
+                //    //未解密前的原始响应信息
                 //    messageHandler.EcryptRequestDocument.Save(Server.MapPath("~/App_Data/" + DateTime.Now.Ticks + "_Request_Ecrypt_" + messageHandler.RequestMessage.FromUserName + ".txt"));
                 //}
 
@@ -108,7 +114,7 @@ namespace QinJilu.Web.Areas.Weixin.Controllers
                     tw.Flush();
                     tw.Close();
                 }
-                return Content("");
+                return new EmptyResult();
             }
         }
 
