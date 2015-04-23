@@ -77,6 +77,10 @@ namespace QinJilu.Web.Areas.Weixin.Controllers
         {
             var s = new Core.Services();
             var u = s.Subscribe("oljOKs0tHgi8JsvSrZKEqRjluHCk");
+
+
+
+
             return Json(u, JsonRequestBehavior.AllowGet);
         }
 

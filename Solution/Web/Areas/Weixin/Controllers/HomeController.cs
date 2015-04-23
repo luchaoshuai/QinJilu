@@ -8,17 +8,16 @@ namespace QinJilu.Web.Areas.Weixin.Controllers
 {
     public class HomeController : Models.WeixinController
     {
-        //正而八经用起来后的界面，都在这个控制器里面。
+        //  除邀请码外的初始化设置，完整性检查，都在这个控制器中。
         // GET: /Weixin/Home/
 
 
         public ActionResult Index()
         {
-
-
-
             return View();
         }
+
+
 
         public ActionResult Gender()
         {
@@ -27,8 +26,13 @@ namespace QinJilu.Web.Areas.Weixin.Controllers
 
         public ActionResult GenderConfirm(Core.Gender g)
         {
+            new Core.Services().SetGender(OpenId, g);
             return View(g);
         }
+
+
+
+
 
         // boy
         [HttpGet]
@@ -42,37 +46,23 @@ namespace QinJilu.Web.Areas.Weixin.Controllers
             return View();
         }
 
+
+
+
+
         // girl
         [HttpGet]
         public ActionResult WomanInit()
         {
             return View();
         }
+
         [HttpPost]
-        public ActionResult WomanInit(int age, DateTime LasterCycleStart, int CycleTypically, int PeriodTypically)
+        public ActionResult WomanInit(int age, DateTime lasterCycleStart, int cycleTypically, int periodTypically)
         {
+            new Core.Services().WomanInit(OpenId, age, lasterCycleStart, cycleTypically, periodTypically);
             return View("Index");
         }
-
-
-
-        /// <summary>
-        /// 邀请(找)女神
-        /// </summary>
-        /// <param name="uid"></param>
-        /// <returns></returns>
-        public ActionResult InvitationGoddess(string uid)
-        {
-            return View();
-        }
-
-
-
-
-
-
-
-
 
     }
 }

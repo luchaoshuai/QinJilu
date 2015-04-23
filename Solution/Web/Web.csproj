@@ -158,6 +158,7 @@
     <Compile Include="Areas\Weixin\Models\CustomMessageContext.cs" />
     <Compile Include="Areas\Weixin\Models\CustomMessageHandler.cs" />
     <Compile Include="Areas\Weixin\Models\CustomMessageHandler_Event.cs" />
+    <Compile Include="Areas\Weixin\Models\QinjiluController.cs" />
     <Compile Include="Areas\Weixin\Models\WeixinController.cs" />
     <Compile Include="Areas\Weixin\WeixinAreaRegistration.cs" />
     <Compile Include="Global.asax.cs">

@@ -49,33 +49,33 @@ namespace QinJilu.Core
         public bool CheckInvitecode(string code, ref string msg)
         {
             var inv = Repository.DbSet.GetInvitecodeInfo(code);
-            if (inv == null )
+            if (inv == null)
             {
                 msg = "未知邀请码";
                 return false;
             }
-                if (inv.State == InvitecodeStatus.Availabled)
-                {
-                    return true;
-                }
+            if (inv.State == InvitecodeStatus.Availabled)
+            {
+                return true;
+            }
 
-                switch (inv.State)
-                {
-                    case InvitecodeStatus.Unborn:
-                        msg = "邀请码无效";
-                        break;
-                    case InvitecodeStatus.Availabled:
-                        break;
-                    case InvitecodeStatus.Disabled:
-                        msg = "邀请码已失效";
-                        break;
-                    case InvitecodeStatus.Used:
-                        msg = "邀请码已使用";
-                        break;
-                    default:
-                        break;
-                }
-                
+            switch (inv.State)
+            {
+                case InvitecodeStatus.Unborn:
+                    msg = "邀请码无效";
+                    break;
+                case InvitecodeStatus.Availabled:
+                    break;
+                case InvitecodeStatus.Disabled:
+                    msg = "邀请码已失效";
+                    break;
+                case InvitecodeStatus.Used:
+                    msg = "邀请码已使用";
+                    break;
+                default:
+                    break;
+            }
+
 
             return false;
         }
@@ -121,42 +121,32 @@ namespace QinJilu.Core
         }
         #endregion
 
-        private UserInfo GetUser(string openId)
+        public UserInfo GetUser(string openId)
         {
             return Repository.DbSet.GetUser(openId);
         }
 
-        ///// <summary>
-        ///// 输入昵称，选择性别
-        ///// </summary>
-        ///// <param name="openId"></param>
-        ///// <param name="nickname"></param>
-        ///// <param name="gender"></param>
-        //public void SetBaseInfo(string openId, string nickname, Gender gender)
-        //{
-        //    Repository.DbSet.SetBaseInfo(openId, nickname, gender);
-        //}
-
         /// <summary>
-        /// 若为女生，则录入 经期基本信息
+        /// 输入 性别
         /// </summary>
         /// <param name="openId"></param>
-        /// <param name="lasterCycleStart"></param>
-        /// <param name="cycleTypically"></param>
-        /// <param name="cycleVaries"></param>
-        /// <param name="periodTypically"></param>
-        /// <param name="periodVaries"></param>
-        /// <param name="pmsTypically"></param>
-        /// <param name="pmsVaries"></param>
-        public void IamWoman(string openId, DateTime lasterCycleStart,
-            int cycleTypically, int cycleVaries,
-            int periodTypically, int periodVaries,
-            int pmsTypically, int pmsVaries)
+        /// <param name="gender"></param>
+        public void SetGender(string openId, Gender gender)
         {
-            Repository.DbSet.IamWoman(openId, lasterCycleStart,
-                cycleTypically, cycleVaries,
-                periodTypically, periodVaries,
-                pmsTypically, pmsVaries);
+            Repository.DbSet.SetGender(openId,  gender);
+        }
+
+        /// <summary>
+        /// 初始化 经期数据
+        /// </summary>
+        public void WomanInit(string openId, int age, DateTime lasterCycleStart, int cycleTypically, int periodTypically)
+        {
+            Repository.DbSet.WomanInit(openId,
+                DateTime.Now.AddYears(-1*age), 
+                lasterCycleStart,
+                cycleTypically, 2,
+                periodTypically, 2,
+                3, 1);
         }
 
         /// <summary>
@@ -201,6 +191,7 @@ namespace QinJilu.Core
 
         /// <summary>
         /// 邀请 女神  ，我来帮你记录
+        ///     若前面已经申请过了，则会更新前面的记录。不会新增。
         /// </summary>
         /// <param name="openId">发起人（他）</param>
         /// <param name="sheId">接受人（她）ObjectId</param>

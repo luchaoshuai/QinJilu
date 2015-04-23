@@ -25,8 +25,9 @@ namespace QinJilu.Web.Areas.Weixin.Models
             var u = new Core.Services().Subscribe(requestMessage.FromUserName);
             if (u.SubscribeCount > 1)
             {
-                var ds = (DateTime.Now - u.UnsubscribeOn).TotalDays.ToString("F0");
-                responseMessage.Content = "<a href='http://qinjilu.com/weixin/home/index'>欢迎回来，在您离开的 " + ds + " 天里，我们做了很多的升级，更多的精彩，邀您探索！点我开始吧！</a>";
+                var ds = (DateTime.Now - u.UnsubscribeOn).TotalDays;
+                ds = ds > 1 ? ds : 1;
+                responseMessage.Content = "<a href='http://qinjilu.com/weixin/home/index'>欢迎回来，在您离开的 " + ds.ToString("F0") + " 天里，我们做了很多的升级，更多的精彩，邀您探索！点我开始吧！</a>";
             }
             else
             {

@@ -36,7 +36,6 @@ namespace QinJilu.Web.Areas.Weixin.Models
                 ToLogin();
                 return;
             }
-
         }
 
 
@@ -62,6 +61,7 @@ namespace QinJilu.Web.Areas.Weixin.Models
             System.Web.HttpContext.Current.Response.Clear();
             System.Web.HttpContext.Current.Response.Redirect(wx_sso_url, true);
         }
+
 
     }
 }

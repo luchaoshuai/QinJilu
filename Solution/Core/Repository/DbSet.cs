@@ -162,8 +162,12 @@ namespace QinJilu.Core.Repository
 
 
 
-        // 更新 姓别，昵称
-        internal static void SetBaseInfo(string openId, string nickname, Gender gender)
+        /// <summary>
+        /// 更新 姓别
+        /// </summary>
+        /// <param name="openId"></param>
+        /// <param name="gender"></param>
+        internal static void SetGender(string openId, Gender gender)
         {
             var collection = GetCollection<UserInfo>();
 
@@ -171,14 +175,15 @@ namespace QinJilu.Core.Repository
                 .EQ<string>(x => x.WeixinOpenID, openId);
 
             var u = Update<UserInfo>
-                .Set<string>(t => t.Nickname, nickname)
                 .Set<Gender>(t => t.Gender, gender);
 
             collection.Update(q, u);
         }
 
         // 更新 各周期时间
-        internal static void IamWoman(string openId, DateTime lasterCycleStart,
+        internal static void WomanInit(string openId, 
+            DateTime birthDay,
+            DateTime lasterCycleStart,
             int cycleTypically, int cycleVaries,
             int periodTypically, int periodVaries,
             int pmsTypically, int pmsVaries)
@@ -189,6 +194,7 @@ namespace QinJilu.Core.Repository
                 .EQ<string>(x => x.WeixinOpenID, openId);
 
             var u = Update<UserInfo>
+                .Set<DateTime>(t => t.BirthDay, birthDay)
                 .Set<DateTime>(t => t.LasterCycleStart, lasterCycleStart)
 
                 .Set<int>(t => t.CycleTypically, cycleTypically)
