@@ -6,17 +6,15 @@ using System.Web.Mvc;
 
 namespace QinJilu.Web.Areas.Weixin.Controllers
 {
-    public class HomeController : Models.WeixinController
+    public class InitController : Models.WeixinController
     {
         //  除邀请码外的初始化设置，完整性检查，都在这个控制器中。
-        // GET: /Weixin/Home/
+        // GET: /Init/Home/
 
-
-        public ActionResult Index()
+        public ActionResult Guide()
         {
             return View();
         }
-
 
 
         public ActionResult Gender()
@@ -61,7 +59,7 @@ namespace QinJilu.Web.Areas.Weixin.Controllers
         public ActionResult WomanInit(int age, DateTime lasterCycleStart, int cycleTypically, int periodTypically)
         {
             new Core.Services().WomanInit(OpenId, age, lasterCycleStart, cycleTypically, periodTypically);
-            return View("Index");
+            return Redirect("/Weixin/Today/Index");
         }
 
     }

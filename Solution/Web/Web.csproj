@@ -148,7 +148,7 @@
     <Compile Include="Areas\Main\MainAreaRegistration.cs" />
     <Compile Include="Areas\Weixin\Controllers\BookController.cs" />
     <Compile Include="Areas\Weixin\Controllers\FriendController.cs" />
-    <Compile Include="Areas\Weixin\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Weixin\Controllers\InitController.cs" />
     <Compile Include="Areas\Weixin\Controllers\MeController.cs" />
     <Compile Include="Areas\Weixin\Controllers\MoreController.cs" />
     <Compile Include="Areas\Weixin\Controllers\MpController.cs" />
@@ -185,7 +185,7 @@
     <Content Include="Content\ratchet\js\ratchet.min.js" />
     <Content Include="Content\ratchet\test1.html" />
     <Content Include="Global.asax" />
-    <Content Include="Areas\Weixin\Views\Welcome\InvitationCode.cshtml" />
+    <Content Include="Areas\Weixin\Views\Welcome\Index.cshtml" />
     <Content Include="Areas\Weixin\Views\Shared\_Layout0.cshtml" />
     <Content Include="Content\metro-ui\fonts\metroSysIcons.woff" />
     <Content Include="Content\metro-ui\fonts\metroSysIcons.ttf" />
@@ -196,11 +196,11 @@
     <Content Include="Content\metro-ui\fonts\iconFont.json" />
     <Content Include="Content\metro-ui\fonts\iconFont.eot" />
     <Content Include="Content\metro-ui\fonts\iconFont.dev.svg" />
-    <Content Include="Areas\Weixin\Views\Home\Index.cshtml" />
-    <Content Include="Areas\Weixin\Views\Home\Gender.cshtml" />
-    <Content Include="Areas\Weixin\Views\Home\GenderConfirm.cshtml" />
-    <Content Include="Areas\Weixin\Views\Home\MaleInit.cshtml" />
-    <Content Include="Areas\Weixin\Views\Home\WomanInit.cshtml" />
+    <Content Include="Areas\Weixin\Views\Init\Guide.cshtml" />
+    <Content Include="Areas\Weixin\Views\Init\Gender.cshtml" />
+    <Content Include="Areas\Weixin\Views\Init\GenderConfirm.cshtml" />
+    <Content Include="Areas\Weixin\Views\Init\MaleInit.cshtml" />
+    <Content Include="Areas\Weixin\Views\Init\WomanInit.cshtml" />
     <Content Include="Areas\Weixin\Views\Me\Index.cshtml" />
     <Content Include="Areas\Weixin\Views\Friend\Index.cshtml" />
     <Content Include="Areas\Weixin\Views\Book\Index.cshtml" />

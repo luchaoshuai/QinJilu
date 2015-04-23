@@ -46,7 +46,7 @@ namespace QinJilu.Web.Areas.Weixin.Models
             //  未定义性别
             if (userInfo.Gender== Core.Gender.Unknow)
             {
-                ToFix("/Weixin/Home/Gender");
+                ToFix("/Weixin/Init/Gender");
                 return false;
             }
 
@@ -57,7 +57,7 @@ namespace QinJilu.Web.Areas.Weixin.Models
                 // 未绑定女神
                 if (userInfo.SheId== MongoDB.Bson.ObjectId.Empty)
                 {
-                    ToFix("/Weixin/Home/MaleInit");
+                    ToFix("/Weixin/Init/MaleInit");
                     return false;
                     // 是否已经发送了申请？ 目前未处理。总是再次更新。。。
                 }
@@ -69,7 +69,7 @@ namespace QinJilu.Web.Areas.Weixin.Models
                 // 未初始化经期数据
                 if (userInfo.CycleTypically==0)
                 {
-                    ToFix("/Weixin/Home/WomanInit");
+                    ToFix("/Weixin/Init/WomanInit");
                     return false;
                 }
             }

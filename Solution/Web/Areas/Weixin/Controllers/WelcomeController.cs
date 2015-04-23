@@ -17,23 +17,9 @@ namespace QinJilu.Web.Areas.Weixin.Controllers
         //
         // GET: /Weixin/Welcome/
 
-        //  http://localhost:40254/Weixin/Welcome/NeedInvitationCode?need=true
-        //  http://localhost:40254/Weixin/Welcome/NeedInvitationCode?need=false
-        /// <summary>
-        /// 设置 邀请码 机制 是否 启用
-        /// </summary>
-        /// <param name="need"></param>
-        /// <returns></returns>
-        public ActionResult NeedInvitationCode(bool need)
+        public ActionResult Index()
         {
-            Core.Services.NeedInvitationCode(need);
-            return Content(" set  to  " + need);
-        }
-
-        [ActionName("Index")]
-        public ActionResult InvitationCode()
-        {
-            return View("InvitationCode");
+            return View();
         }
 
         public ActionResult CheckInvitationcode(string code)
@@ -57,6 +43,19 @@ namespace QinJilu.Web.Areas.Weixin.Controllers
             return View();
         }
 
+
+        //  http://localhost:40254/Weixin/Welcome/NeedInvitationCode?need=true
+        //  http://localhost:40254/Weixin/Welcome/NeedInvitationCode?need=false
+        /// <summary>
+        /// 设置 邀请码 机制 是否 启用
+        /// </summary>
+        /// <param name="need"></param>
+        /// <returns></returns>
+        public ActionResult NeedInvitationCode(bool need)
+        {
+            Core.Services.NeedInvitationCode(need);
+            return Content(" set  to  " + need);
+        }
 
 
 
