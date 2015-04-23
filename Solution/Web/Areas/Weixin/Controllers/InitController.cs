@@ -39,9 +39,17 @@ namespace QinJilu.Web.Areas.Weixin.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult MaleInit(string email)
+        public ActionResult MaleInit(string email,string note)
         {
-            return View();
+           bool res = new Core.Services().InvitationGoddess(OpenId,email,note);
+           if (res)
+           {
+               return Content("已经发送请求给女神，请等待女神响应。");
+           }
+           else
+           {
+               return Content("女神邮箱有误，请重试。");
+           }
         }
 
 

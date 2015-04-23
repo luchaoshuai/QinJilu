@@ -161,34 +161,43 @@ namespace QinJilu.Core
 
 
 
+
+        #region 女神
+
+
+        ///// <summary>
+        ///// 是否存在请求记录
+        ///// </summary>
+        ///// <param name="openId"></param>
+        ///// <param name="sheId"></param>
+        ///// <returns></returns>
+        //public bool AnyInvitationGoddess(string openId, string sheId)
+        //{
+        //    var cid = GetUserId(openId);
+        //    var res = Repository.DbSet.AnyFriend(cid, MongoDB.Bson.ObjectId.Parse(sheId));
+        //    return res;
+        //}
+
         /// <summary>
         /// 通过邮箱查找那个她，只能返回女生
         /// </summary>
         /// <param name="email"></param>
         /// <returns></returns>
-        public string FindShe(string email)
+        public MongoDB.Bson.ObjectId FindShe(string email)
         {
             var sheId = Repository.DbSet.FindShe(email);
-            return sheId.ToString();
+            return sheId;
         }
-
-
-        #region 女神
-
-        /// <summary>
-        /// 是否存在请求记录
-        /// </summary>
-        /// <param name="openId"></param>
-        /// <param name="sheId"></param>
-        /// <returns></returns>
-        public bool AnyInvitationGoddess(string openId, string sheId)
+        public bool InvitationGoddess(string openId, string sheEmail, string invitationNote)
         {
-            var cid = GetUserId(openId);
-            var res = Repository.DbSet.AnyFriend(cid, MongoDB.Bson.ObjectId.Parse(sheId));
-            return res;
+            MongoDB.Bson.ObjectId sheId = FindShe(sheEmail);
+            if (sheId==MongoDB.Bson.ObjectId.Empty )
+            {
+                return false;
+            }
+            InvitationGoddess(openId, sheId, invitationNote);
+            return true;
         }
-
-
         /// <summary>
         /// 邀请 女神  ，我来帮你记录
         ///     若前面已经申请过了，则会更新前面的记录。不会新增。
@@ -197,14 +206,14 @@ namespace QinJilu.Core
         /// <param name="sheId">接受人（她）ObjectId</param>
         /// <param name="invitationNote">请求说明</param>
         /// <remarks>若为男生，则录入她的邮箱，请求设置为闺蜜并默认启用编辑。</remarks>
-        public void InvitationGoddess(string openId, string sheId, string invitationNote)
+        public void InvitationGoddess(string openId, MongoDB.Bson.ObjectId sheId, string invitationNote)
         {
             var cid = GetUserId(openId);
 
             FriendInvitation fi = new FriendInvitation
             {
                 UserId = cid,
-                FriendId = MongoDB.Bson.ObjectId.Parse(sheId),
+                FriendId =sheId,
                 Operations = Operation.Editable,
                 Notename = string.Empty,
                 InvitationNote = invitationNote,

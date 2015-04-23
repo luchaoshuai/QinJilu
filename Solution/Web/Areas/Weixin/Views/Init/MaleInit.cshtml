@@ -28,9 +28,10 @@
         .metro .example:before {
             content: "Abount ME";
         }
-        .error{
-            padding-left:20px;
-            color:red;
+
+        .error {
+            padding-left: 20px;
+            color: red;
         }
     </style>
 </head>
@@ -42,13 +43,18 @@
         </div>
 
         <div class="example">
-            <form action="MaleInit" method="post">
-                <fieldset>
-                    <legend>绑定女神</legend>
+            <fieldset>
+                <legend>绑定女神</legend>
 
+                <form action="MaleInit" method="post">
                     <div class="input-control email" data-role="input-control">
                         <input type="email" name="email" placeholder="请输入女神的邮箱" data-rule-required="true">
                         <button class="btn-clear" tabindex="-1"></button>
+                    </div>
+
+                    <div class="padding10"></div>
+                    <div class="input-control textarea" data-role="input-control">
+                        <textarea name="note" placeholder="请输入请求说明"></textarea>
                     </div>
 
                     <div class="padding10"></div>
@@ -58,10 +64,10 @@
                         继续，下一步
                         <small>我已经准备就绪</small>
                     </button>
+                </form>
 
 
-                </fieldset>
-            </form>
+            </fieldset>
 
         </div>
 
