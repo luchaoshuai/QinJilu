@@ -49,26 +49,34 @@ namespace QinJilu.Core
         public bool CheckInvitecode(string code, ref string msg)
         {
             var inv = Repository.DbSet.GetInvitecodeInfo(code);
-            if (inv != null && inv.State == InvitecodeStatus.Availabled)
+            if (inv == null )
             {
-                return true;
+                msg = "未知邀请码";
+                return false;
             }
-            switch (inv.State)
-            {
-                case InvitecodeStatus.Unborn:
-                    msg = "邀请码无效";
-                    break;
-                case InvitecodeStatus.Availabled:
-                    break;
-                case InvitecodeStatus.Disabled:
-                    msg = "邀请码已失效";
-                    break;
-                case InvitecodeStatus.Used:
-                    msg = "邀请码已使用";
-                    break;
-                default:
-                    break;
-            }
+                if (inv.State == InvitecodeStatus.Availabled)
+                {
+                    return true;
+                }
+
+                switch (inv.State)
+                {
+                    case InvitecodeStatus.Unborn:
+                        msg = "邀请码无效";
+                        break;
+                    case InvitecodeStatus.Availabled:
+                        break;
+                    case InvitecodeStatus.Disabled:
+                        msg = "邀请码已失效";
+                        break;
+                    case InvitecodeStatus.Used:
+                        msg = "邀请码已使用";
+                        break;
+                    default:
+                        break;
+                }
+                
+
             return false;
         }
 

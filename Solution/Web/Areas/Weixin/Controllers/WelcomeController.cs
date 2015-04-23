@@ -30,26 +30,32 @@ namespace QinJilu.Web.Areas.Weixin.Controllers
             return Content(" set  to  " + need);
         }
 
+        [ActionName("Index")]
         public ActionResult InvitationCode()
         {
-            return View();
+            return View("InvitationCode");
         }
 
         public ActionResult CheckInvitationcode(string code)
         {
             string msg = string.Empty;
             var res = new Core.Services().CheckInvitecode(code, ref msg);
-            return Json(new { res, msg });
+            return Json(new { res=res, msg=msg });
         }
 
         public ActionResult UseInvitecode(string code)
         {
             string msg = string.Empty;
             var res = new Core.Services().UseInvitecode(OpenId, code, ref msg);
-            return Json(new { res, msg });
+            return Json(new { res = res, msg = msg });
         }
 
 
+
+        public ActionResult Guide()
+        {
+            return View();
+        }
 
 
 

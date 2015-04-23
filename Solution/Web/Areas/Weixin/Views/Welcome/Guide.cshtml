@@ -1,14 +1,104 @@
 ﻿@{
-    ViewBag.Title = "Guide";
-    Layout = "~/Areas/Weixin/Views/Shared/_Layout.cshtml";
-
-    var m = (int)QinJilu.Core.Gender.Male;
-    var w = (int)QinJilu.Core.Gender.Woman;
+    ViewBag.Title = "邀请码是什么？";
 }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="product" content="qinjilu">
+    <meta name="description" content="qinjilu">
+    <meta name="author" content="lcskey@qq.com">
+    <meta name="keywords" content="qinjilu">
 
-<form>
-    昵称：<input type="text" name="nickname" />
-    <input type="button" value="@m" />
-    <input type="button" value="@w" />
-</form>
 
+    <link href="~/Content/metro-ui/css/metro-bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/metro-ui/css/metro-bootstrap-responsive.min.css" rel="stylesheet" />
+    <link href="~/Content/metro-ui/css/iconFont.min.css" rel="stylesheet" />
+
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/metro-ui/jquery.ui.widget.js"></script>
+    <script src="~/Scripts/metro-ui/metro.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <title>@ViewBag.Title</title>
+
+    <style type="text/css">
+        .metro .example:before {
+            content: "Abount ME";
+        }
+
+        .error {
+            padding-left: 20px;
+            color: red;
+        }
+    </style>
+</head>
+<body class="metro">
+
+    <div class="container">
+
+        <div style="margin-top: 5px">
+        </div>
+
+        <div class="example">
+
+            <div class="panel">
+                <div class="panel-header">
+                    什么是邀请码？
+                </div>
+                <div class="panel-content">
+                    有的论坛、邮箱、博客、以及特殊的ID（例如以前谷歌搜索的邮箱gmail[已经于2007年2月开放注册]，
+                    论坛里的龙族、嬴政、、3E帝国、剑盟、深度、丁香鱼，还有我们普通人不太关注的百度指数等等），
+                    在注册时需要一种特殊的通行证——即邀请码（全称：邀请注册码），
+                    邀请码相当于你用一个软件要输入注册码一样，它和现实生活中的请柬是一个作用，
+                    只有收到邀请码，才能注册帐号。当论坛开启邀请注册后，邀请码成为注册论坛的必要条件，
+                    要想注册一个ID，就必须获得一个有效的邀请码，这时普通注册功能一般暂停。
+                </div>
+            </div>
+
+
+            <div class="panel">
+                <div class="panel-header">
+                    为何需要邀请码？
+                </div>
+                <div class="panel-content">
+                    1.有些网站的论坛是高手交流的地方，为避免一些对论坛提高整体水平没有帮助的人注册，提高注册会员的质量，在注册时设置邀请码。
+                    2.有些论坛会员人数已经足够多，所以对注册进行了限制；也有的论坛为了防止恶意注册帐号乱发广告，或者防止恶意灌水，同时希望会员可以珍惜自己的帐号，故采用邀请注册。
+                    3.有些论坛的服务器承载能力有限，为减少服务器负担，以防支持不住，不得以而为之。
+                    4.个人认为，实行一段时间的邀请注册和开放注册结合，也是论坛一种欲擒故纵，吸引人气的的策略之一。
+                </div>
+            </div>
+            <div class="panel">
+                <div class="panel-header">
+                    如何获得邀请码？
+                </div>
+                <div class="panel-content">
+                    1.已经注册的会员通过在论坛活动（如发帖，回帖等），获得论坛币后，当你的权限和论坛币达到购买条件时，在需要的时候就可以支付一定的论坛币，购买邀请码，然后再将邀请码通过QQ、邮件等方式发送给想要注册论坛的人，你也可以到其它论坛上出售或者交换成其他论坛的论坛币，当然卖成RMB也可。
+                    2.没有邀请码的可以找论坛中认识的人赠送。一般的邀请码是需要购买的，一些可以用其他论坛的邀请码交换，或者用其他论坛的论坛币购买，也可以在一些交易网站（如淘宝网）上用RMB购买，不同论坛的邀请码价格不同。
+                    3.有的论坛可能会定期免费发放邀请码；也有的论坛会在某些特定的时间（如节日[一般集中在五一、十一、春节等大型节日期间]，建站周年日等）开放普通注册，这时注册无须邀请码。
+                </div>
+            </div>
+            <div class="panel">
+                <div class="panel-header">
+                    注册特点
+                </div>
+                <div class="panel-content">
+                    1.每个邀请码仅限使用一次，它的有效期一般几天至几十天不等，失效后不能再用于注册，必须重新申请。（引线是7天时效）
+                    2.凡是一年级以上会员有购买邀请码的权限，24小时购买限制数量为1，30引线币/个。
+                    3.获得邀请码的人并不知道是谁（也就是说不知道是哪个ID）购买的邀请，购买者不用担心论坛ID会泄露。
+                    4.邀请码一般由10位以上的数字和字母随机组成，无法破解。
+                    5.当别人用你的邀请码注册后，系统可能会给你加些论坛分（+10引线币），但当你邀请的人在论坛违规时，你也可能负连带责任。
+                    注：邀请注册时一般有两种不同的制度：（1）谁注册谁负责制度：即谁注册谁负责，邀请购买者不承担连带责任。（2）邀请连带制度：这是针对邀请人对于被邀请人进行的一种引导、监督等，并在一定时间内由于被邀请人的严重违规行为而承担连带责任的机制。
+                </div>
+            </div>
+
+
+            <div class="padding20">
+                <a class="button large icon-lamp-2 padding20" href="/Weixin/Welcome/Index">返回</a>
+            </div>
+        </div>
+
+
+    </div>
+</body>
+</html>
