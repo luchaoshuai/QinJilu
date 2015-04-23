@@ -23,15 +23,18 @@ namespace QinJilu.Web.Areas.Weixin.Models
             var responseMessage = ResponseMessageBase.CreateFromRequestMessage<ResponseMessageText>(requestMessage);
 
             var u = new Core.Services().Subscribe(requestMessage.FromUserName);
+
+            string url = string.Format("http://qinjilu.com/weixin/Passport/Transit?openId={0}&state={1}", requestMessage.FromUserName, "/weixin/more/index");
+
             if (u.SubscribeCount > 1)
             {
                 var ds = (DateTime.Now - u.UnsubscribeOn).TotalDays;
                 ds = ds > 1 ? ds : 1;
-                responseMessage.Content = "<a href='http://qinjilu.com/weixin/home/index'>欢迎回来，在您离开的 " + ds.ToString("F0") + " 天里，我们做了很多的升级，更多的精彩，邀您探索！点我开始吧！</a>";
+                responseMessage.Content = "<a href='" + url + "'>欢迎回来，在您离开的 " + ds.ToString("F0") + " 天里，我们做了很多的升级，更多的精彩，邀您探索！点我开始吧！</a>";
             }
             else
             {
-                responseMessage.Content = "<a href='http://qinjilu.com/weixin/home/index'>欢迎关注，更多精彩，邀您探索！点我开始吧！</a>";
+                responseMessage.Content = "<a href='" + url + "'>欢迎关注，更多精彩，邀您探索！点我开始吧！</a>";
             }
 
             return responseMessage;

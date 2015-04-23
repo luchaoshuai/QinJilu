@@ -155,6 +155,7 @@ namespace QinJilu.Core.Repository
                 .EQ<string>(x => x.WeixinOpenID, openId);
 
             var u = Update<UserInfo>
+                .Set<DateTime>(t => t.UnsubscribeOn, DateTime.Now)
                 .Set<bool>(t => t.Unsubscribe, true);
 
             collection.Update(q, u);
