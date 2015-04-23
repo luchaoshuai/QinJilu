@@ -13,13 +13,21 @@ namespace QinJilu.Core
 
     public enum InvitecodeStatus:byte
     {
-        //未出生,未分配到创建者
+        /// <summary>
+        /// 未出生,未分配到创建者
+        /// </summary>
         Unborn,
-        // 可用，新分配。或着主人持续登录了
+        /// <summary>
+        /// 可用，新分配。或着主人持续登录了
+        /// </summary>
         Availabled,
-        // 不可用，已分配过，但是主人未持续登录，失效了
+        /// <summary>
+        /// 不可用，已分配过，但是主人未持续登录，失效了
+        /// </summary>
         Disabled,
-        // 已用，被别人拿去使用掉了。
+        /// <summary>
+        /// 已用，被别人拿去使用掉了。
+        /// </summary>
         Used
     }
 

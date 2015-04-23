@@ -6,14 +6,17 @@ using System.Web.Mvc;
 
 namespace QinJilu.Web.Areas.Weixin.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : Models.WeixinController
     {
-        //
+        //正而八经用起来后的界面，都在这个控制器里面。
         // GET: /Weixin/Home/
 
 
         public ActionResult Index()
         {
+
+
+
             return View();
         }
 
@@ -50,6 +53,20 @@ namespace QinJilu.Web.Areas.Weixin.Controllers
         {
             return View("Index");
         }
+
+
+
+        /// <summary>
+        /// 邀请(找)女神
+        /// </summary>
+        /// <param name="uid"></param>
+        /// <returns></returns>
+        public ActionResult InvitationGoddess(string uid)
+        {
+            return View();
+        }
+
+
 
 
 

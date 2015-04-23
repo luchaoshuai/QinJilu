@@ -41,6 +41,55 @@ namespace QinJilu.Core
         }
         #endregion
 
+        /// <summary>
+        /// 验证邀请码 是否有效
+        /// </summary>
+        /// <param name="code"></param>
+        /// <returns></returns>
+        public bool CheckInvitecode(string code, ref string msg)
+        {
+            var inv = Repository.DbSet.GetInvitecodeInfo(code);
+            if (inv != null && inv.State == InvitecodeStatus.Availabled)
+            {
+                return true;
+            }
+            switch (inv.State)
+            {
+                case InvitecodeStatus.Unborn:
+                    msg = "邀请码无效";
+                    break;
+                case InvitecodeStatus.Availabled:
+                    break;
+                case InvitecodeStatus.Disabled:
+                    msg = "邀请码已失效";
+                    break;
+                case InvitecodeStatus.Used:
+                    msg = "邀请码已使用";
+                    break;
+                default:
+                    break;
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// 使用 邀请码
+        /// </summary>
+        /// <param name="code"></param>
+        /// <returns></returns>
+        public bool UseInvitecode(string openId, string code, ref string msg)
+        {
+            if (CheckInvitecode(code, ref msg))
+            {
+                var objId = GetUserId(openId);
+                bool res = Repository.DbSet.UseInvitecode(objId, code);
+                return res;
+            }
+            return false;
+        }
+
+
+
 
         #region subscribe
 
@@ -69,16 +118,16 @@ namespace QinJilu.Core
             return Repository.DbSet.GetUser(openId);
         }
 
-        /// <summary>
-        /// 输入昵称，选择性别
-        /// </summary>
-        /// <param name="openId"></param>
-        /// <param name="nickname"></param>
-        /// <param name="gender"></param>
-        public void SetBaseInfo(string openId, string nickname, Gender gender)
-        {
-            Repository.DbSet.SetBaseInfo(openId, nickname, gender);
-        }
+        ///// <summary>
+        ///// 输入昵称，选择性别
+        ///// </summary>
+        ///// <param name="openId"></param>
+        ///// <param name="nickname"></param>
+        ///// <param name="gender"></param>
+        //public void SetBaseInfo(string openId, string nickname, Gender gender)
+        //{
+        //    Repository.DbSet.SetBaseInfo(openId, nickname, gender);
+        //}
 
         /// <summary>
         /// 若为女生，则录入 经期基本信息
@@ -149,7 +198,7 @@ namespace QinJilu.Core
         /// <param name="sheId">接受人（她）ObjectId</param>
         /// <param name="invitationNote">请求说明</param>
         /// <remarks>若为男生，则录入她的邮箱，请求设置为闺蜜并默认启用编辑。</remarks>
-        public void InvitationGoddess(string openId, string sheId,string invitationNote)
+        public void InvitationGoddess(string openId, string sheId, string invitationNote)
         {
             var cid = GetUserId(openId);
 
@@ -221,7 +270,7 @@ namespace QinJilu.Core
                  {
                      UserId = fi.FriendId,
                      FriendId = fi.UserId,
-                     Notename = "*"+notename,// 审核时，女神给男生取的备注名
+                     Notename = "*" + notename,// 审核时，女神给男生取的备注名
                      Operations = oper// 以女神最后给的权限为准
                  });
 

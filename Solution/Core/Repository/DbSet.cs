@@ -29,6 +29,37 @@ namespace QinJilu.Core.Repository
             return dict[collectionName] as MongoCollection<T>;
         }
 
+
+        #region Invitecode
+
+        /// <summary>
+        /// 取回邀请码
+        /// </summary>
+        /// <param name="code"></param>
+        /// <returns></returns>
+        internal static InvitecodeInfo GetInvitecodeInfo(string code)
+        {
+            var collection = GetCollection<InvitecodeInfo>();
+            var c = collection.AsQueryable().Where(x => x.Invitecode == code).FirstOrDefault();
+            return c;
+        }
+
+        internal static bool UseInvitecode(MongoDB.Bson.ObjectId userOpenId, string invitecode)
+        {
+            var q = Query<InvitecodeInfo>
+                .EQ<string>(x => x.Invitecode, invitecode);
+
+            var u = Update<InvitecodeInfo>
+                .Set<InvitecodeStatus>(t => t.State, InvitecodeStatus.Used)
+                .Set<MongoDB.Bson.ObjectId>(t => t.UsedUserId, userOpenId)
+                .Set<DateTime>(t => t.UsedOn, DateTime.Now);
+
+            return true;
+        }
+
+
+        #endregion
+
         #region UserInfo
 
         public static UserInfo GetUser(string openId)
@@ -304,6 +335,8 @@ namespace QinJilu.Core.Repository
 
 
         #endregion
+
+
 
     }
 }

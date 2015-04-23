@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace QinJilu.Web.Areas.Weixin.Controllers
 {
-    public class MeController : Controller
+    public class MeController : Models.WeixinController
     {
         //
         // GET: /Weixin/Me/
