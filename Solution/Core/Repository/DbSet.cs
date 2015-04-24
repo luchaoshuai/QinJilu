@@ -62,14 +62,14 @@ namespace QinJilu.Core.Repository
 
         #region UserInfo
 
-        public static UserInfo GetUser(string openId)
+        internal static UserInfo GetUser(string openId)
         {
             var collection = GetCollection<UserInfo>();
             var u = collection.AsQueryable().Where(x => x.WeixinOpenID == openId).FirstOrDefault();
             return u;
         }
 
-        public static MongoDB.Bson.ObjectId GetUserId(string openId)
+        internal static MongoDB.Bson.ObjectId GetUserId(string openId)
         {
             var uId = GetCollection<UserInfo>().AsQueryable()
                 .Where(x => x.WeixinOpenID == openId)
@@ -182,7 +182,7 @@ namespace QinJilu.Core.Repository
         }
 
         // 更新 各周期时间
-        internal static void WomanInit(string openId, 
+        internal static void WomanInit(string openId,
             DateTime birthDay,
             DateTime lasterCycleStart,
             int cycleTypically, int cycleVaries,
@@ -316,7 +316,7 @@ namespace QinJilu.Core.Repository
             var res = collection.AsQueryable().Any(x => x.FriendId == friendId && x.UserId == applyerId);
             if (res)
             {
-                invId = collection.AsQueryable().Where(x => x.FriendId == friendId && x.UserId == applyerId).Select(x => x.Id).First();
+                invId = collection.AsQueryable().Where(x => x.FriendId == friendId && x.UserId == applyerId).Select(x => x.Id).Single();
             }
             return res;
         }
@@ -344,6 +344,110 @@ namespace QinJilu.Core.Repository
         #endregion
 
 
+        #region record
+
+
+        /// <summary>
+        /// 取得指定sheId 某天的所有记录，不存在则创建一条空的。
+        /// </summary>
+        /// <param name="sheId"></param>
+        /// <param name="dateticks"></param>
+        /// <returns></returns>
+        internal static RecordInfo Get(MongoDB.Bson.ObjectId editorId, MongoDB.Bson.ObjectId sheId, ushort dateticks)
+        {
+            var collection = GetCollection<RecordInfo>();
+            var info = collection.AsQueryable().Where(x => x.SheId == sheId && x.DateTicks == dateticks).SingleOrDefault();
+            if (info==null)
+            {
+                info = new RecordInfo()
+                {
+                    DateTicks = dateticks,
+                    SheId = sheId,
+                    BeginMark = false,
+                    CreateOn = DateTime.Now,
+                    CreaterId = editorId,
+                    EditedOn = DateTime.Now,
+                    EditorId = editorId,
+                    EndMark = false,
+                    Fluid = Options.NULL,
+                    Mood = Options.NULL,
+                    Pain = Options.NULL,
+                    Period = Options.NULL,
+                    Pill = Options.NULL,
+                    Reliable = false,
+                    Sex = Options.NULL,
+                    Tags = string.Empty,
+                    Temperature = 0,
+                    Id = MongoDB.Bson.ObjectId.GenerateNewId()
+                };
+                collection.Insert(info);
+            }
+            return info;
+        }
+
+        internal static void Set(MongoDB.Bson.ObjectId editorId, MongoDB.Bson.ObjectId recordId,FieldName fName, Options opt)
+        {
+            var collection = Repository.DbSet.GetCollection<RecordInfo>();
+
+
+            var q = MongoDB.Driver.Builders.Query<RecordInfo>
+                .EQ<MongoDB.Bson.ObjectId>(x => x.Id, recordId);
+
+            var u = MongoDB.Driver.Builders.Update<RecordInfo>
+                .Set<DateTime>(t => t.EditedOn, DateTime.Now)
+                .Set<MongoDB.Bson.ObjectId>(t => t.EditorId, editorId);
+
+            switch (fName)
+            {
+                case FieldName.Period:
+                    u = u.Set<Options>(t => t.Period, opt);
+                    break;
+                case FieldName.Pain:
+                    u = u.Set<Options>(t => t.Pain, opt);
+                    break;
+                case FieldName.Sex:
+                    u = u.Set<Options>(t => t.Sex, opt);
+                    break;
+                case FieldName.Mood:
+                    u = u.Set<Options>(t => t.Mood, opt);
+                    break;
+                case FieldName.Fluid:
+                    u = u.Set<Options>(t => t.Fluid, opt);
+                    break;
+                case FieldName.Pill:
+                    u = u.Set<Options>(t => t.Pill, opt);
+                    break;
+                case FieldName.Temperature:
+                    break;
+                case FieldName.Tags:
+                    break;
+                default:
+                    break;
+            }
+            collection.Update(q, u);
+        }
+
+
+
+        internal static void Set(MongoDB.Bson.ObjectId editorId, MongoDB.Bson.ObjectId recordId,short temperature, bool reliable)
+        {
+            var collection = Repository.DbSet.GetCollection<RecordInfo>();
+
+
+            var q = MongoDB.Driver.Builders.Query<RecordInfo>
+                .EQ<MongoDB.Bson.ObjectId>(x => x.Id, recordId);
+
+            var u = MongoDB.Driver.Builders.Update<RecordInfo>
+                .Set<DateTime>(t => t.EditedOn, DateTime.Now)
+                .Set<MongoDB.Bson.ObjectId>(t => t.EditorId, editorId)
+                .Set<short>(t => t.Temperature, temperature)
+                .Set<bool>(t => t.Reliable, reliable);
+
+            collection.Update(q, u);
+
+        }
+
+        #endregion
 
     }
 }

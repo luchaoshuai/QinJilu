@@ -133,7 +133,7 @@ namespace QinJilu.Core
         /// <param name="gender"></param>
         public void SetGender(string openId, Gender gender)
         {
-            Repository.DbSet.SetGender(openId,  gender);
+            Repository.DbSet.SetGender(openId, gender);
         }
 
         /// <summary>
@@ -142,7 +142,7 @@ namespace QinJilu.Core
         public void WomanInit(string openId, int age, DateTime lasterCycleStart, int cycleTypically, int periodTypically)
         {
             Repository.DbSet.WomanInit(openId,
-                DateTime.Now.AddYears(-1*age), 
+                DateTime.Now.AddYears(-1 * age),
                 lasterCycleStart,
                 cycleTypically, 2,
                 periodTypically, 2,
@@ -191,7 +191,7 @@ namespace QinJilu.Core
         public bool InvitationGoddess(string openId, string sheEmail, string invitationNote)
         {
             MongoDB.Bson.ObjectId sheId = FindShe(sheEmail);
-            if (sheId==MongoDB.Bson.ObjectId.Empty )
+            if (sheId == MongoDB.Bson.ObjectId.Empty)
             {
                 return false;
             }
@@ -213,7 +213,7 @@ namespace QinJilu.Core
             FriendInvitation fi = new FriendInvitation
             {
                 UserId = cid,
-                FriendId =sheId,
+                FriendId = sheId,
                 Operations = Operation.Editable,
                 Notename = string.Empty,
                 InvitationNote = invitationNote,
@@ -259,6 +259,7 @@ namespace QinJilu.Core
                 if (fi.SheIsGoddess)
                 {
                     Repository.DbSet.SetShe(fi.UserId, fi.FriendId);
+                    // 清除“GetSheId”的缓存,目前后期不能更改该值，所以没有清理操作。
                 }
 
 
@@ -385,19 +386,70 @@ namespace QinJilu.Core
             RedisHelper.AddObject("GetUserId" + openId, t);
             return t;
         }
+        /// <summary>
+        /// 通过微信id，取回数据库中的  sheId  （ObjectId）
+        /// </summary>
+        /// <param name="openId"></param>
+        /// <returns></returns>
+        public MongoDB.Bson.ObjectId GetSheId(string openId)
+        {
+            var o = RedisHelper.GetObject("GetSheId" + openId);
+            if (o != null)
+            {
+                return (MongoDB.Bson.ObjectId)o;
+            }
+            MongoDB.Bson.ObjectId t = GetUserSheId(openId);
+            RedisHelper.AddObject("GetSheId" + openId, t);
+            return t;
+        }
+        /// <summary>
+        /// 取得openId对应的sheId.自动判断男女，若不存在则报错。
+        /// </summary>
+        /// <param name="openId"></param>
+        /// <returns></returns>
+        private static MongoDB.Bson.ObjectId GetUserSheId(string openId)
+        {
+            MongoDB.Bson.ObjectId t = MongoDB.Bson.ObjectId.Empty;
 
-
-
-
-
-
-
-
-
-
-
+            var u = Repository.DbSet.GetUser(openId);
+            switch (u.Gender)
+            {
+                case Gender.Male:
+                    t = u.SheId;
+                    break;
+                case Gender.Woman:
+                    t = u.Id;
+                    break;
+                case Gender.Unknow:
+                    break;
+                default:
+                    break;
+            }
+            if (t == MongoDB.Bson.ObjectId.Empty)
+            {
+                throw new Exception("未取SheId");
+            }
+            return t;
+        }
 
         #region record
+
+        /// <summary>
+        /// 记录所属的天 从2010-1-1后面加上该天数
+        /// </summary>
+        /// <param name="dt"></param>
+        /// <returns></returns>
+        private static UInt16 ParseDate(DateTime dt)
+        {
+            if (dt < DateTimeEx.BeginDate)
+            {
+                throw new Exception("录入的时间不能小于2010年");
+            }
+
+            var res = Convert.ToUInt16((dt.Date - DateTimeEx.BeginDate.Date).TotalDays);
+            return res;
+        }
+
 
         public void Begin(string openId, int dateticks)
         {
@@ -424,39 +476,119 @@ namespace QinJilu.Core
 
         }
 
-        public void Set(string openId, FieldName fName, Options opt, int dateticks)
+        /// <summary>
+        /// 取得指定sheId 某天的所有记录
+        /// </summary>
+        /// <param name="openId"></param>
+        /// <param name="sheId">若为替别人记录时，需要使用该值，为nul时表为自己记录</param>
+        /// <param name="dateticks"></param>
+        /// <returns></returns>
+        public RecordInfo Get(string openId, string sheId, UInt16 dateticks)
         {
-            switch (fName)
+            if (dateticks == 0)
             {
-                case FieldName.Period:
-                    break;
-                case FieldName.Pain:
-                    break;
-                case FieldName.Sex:
-                    break;
-                case FieldName.Mood:
-                    break;
-                case FieldName.Fluid:
-                    break;
-                case FieldName.Pill:
-                    break;
-                case FieldName.Temperature:
-                    break;
-                case FieldName.Tags:
-                    break;
-                default:
-                    break;
+                dateticks = ParseDate(DateTime.Now);
             }
+            MongoDB.Bson.ObjectId editorId = GetUserId(openId);
+            var she_id = MongoDB.Bson.ObjectId.Empty;
+            if (string.IsNullOrEmpty(sheId))
+            {
+                she_id = GetSheId(openId);// 若当前登录是男的？则要取女神的Id
+            }
+            else
+            {
+                she_id = MongoDB.Bson.ObjectId.Parse(sheId);
+            }
+            var info = Repository.DbSet.Get(editorId,she_id, dateticks);
+            return info;
+        }
+        
+        public void Set(string openId, string recordId, FieldName fName, List<Core.Options> opts)
+        {
+            Set(openId, MongoDB.Bson.ObjectId.Parse(recordId),fName,opts);
+        }
+        public void Set(string openId, MongoDB.Bson.ObjectId recordId, FieldName fName, List<Core.Options> opts)
+        {
+            MongoDB.Bson.ObjectId editorId = GetUserId(openId);
+            Options opt = ParseOptions(opts);
+            Repository.DbSet.Set(editorId, recordId, fName, opt);
         }
 
+        private static Core.Options ParseOptions(List<Core.Options> opts)
+        {
+            if (opts == null)
+            {
+                return Core.Options.NULL;
+            }
+
+            Core.Options opt = Core.Options.NULL;
+            switch (opts.Count)
+            {
+                case 1:
+                    opt = opts.First();
+                    break;
+                case 2:
+                    if (opts.Any(x => x == Core.Options.a) && opts.Any(x => x == Core.Options.b))
+                    {
+                        opt = Core.Options.a_b;
+                    }
+                    else if (opts.Any(x => x == Core.Options.a) && opts.Any(x => x == Core.Options.c))
+                    {
+                        opt = Core.Options.a_c;
+                    }
+                    else if (opts.Any(x => x == Core.Options.a) && opts.Any(x => x == Core.Options.d))
+                    {
+                        opt = Core.Options.a_d;
+                    }
+                    else if (opts.Any(x => x == Core.Options.b) && opts.Any(x => x == Core.Options.c))
+                    {
+                        opt = Core.Options.b_c;
+                    }
+                    else if (opts.Any(x => x == Core.Options.b) && opts.Any(x => x == Core.Options.d))
+                    {
+                        opt = Core.Options.b_d;
+                    }
+                    else if (opts.Any(x => x == Core.Options.c) && opts.Any(x => x == Core.Options.d))
+                    {
+                        opt = Core.Options.c_d;
+                    }
+                    break;
+                case 3:
+                    if (opts.Any(x => x == Core.Options.a) && opts.Any(x => x == Core.Options.b) && opts.Any(x => x == Core.Options.c))
+                    {
+                        opt = Core.Options.a_b_c;
+                    }
+                    else if (opts.Any(x => x == Core.Options.a) && opts.Any(x => x == Core.Options.b) && opts.Any(x => x == Core.Options.d))
+                    {
+                        opt = Core.Options.a_b_d;
+                    }
+                    else if (opts.Any(x => x == Core.Options.a) && opts.Any(x => x == Core.Options.c) && opts.Any(x => x == Core.Options.d))
+                    {
+                        opt = Core.Options.a_c_d;
+                    }
+                    break;
+                case 4:
+                    opt = Core.Options.a_b_c_d;
+                    break;
+                default:
+                    throw new Exception("参数值有误");
+            }
+            return opt;
+        }
         /// <summary>
         /// 设置温度
         /// </summary>
         /// <param name="openId"></param>
         /// <param name="tagId"></param>
-        public void Temperature(string openId, Int16 temperature, bool unreliable, int dateticks)
+        public void Temperature(string openId,string recordId, Int16 temperature, bool reliable)
         {
-
+            Temperature(openId, MongoDB.Bson.ObjectId.Parse(recordId),temperature,reliable);
+        }
+        public void Temperature(string openId, MongoDB.Bson.ObjectId recordId, Int16 temperature, bool reliable)
+        {
+            MongoDB.Bson.ObjectId editorId = GetUserId(openId);
+            var she_Id = editorId;
+            Repository.DbSet.Set(editorId, recordId, temperature, reliable);
         }
 
         #region tag

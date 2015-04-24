@@ -7,7 +7,8 @@ namespace QinJilu.Core
 {
     public class DateTimeEx
     {
-       public static readonly DateTime NullDate = new DateTime(1900, 1, 1);
+        public static readonly DateTime NullDate = new DateTime(1900, 1, 1);
+        public static readonly DateTime BeginDate = new DateTime(2010, 1, 1);
     }
 
 
@@ -152,25 +153,25 @@ namespace QinJilu.Core
         d = 4,
 
         a_b = 12,// 
-        a_b_c = 123,
-        a_b_d = 124,
+        a_b_c = 123,//33333
+        a_b_d = 124,//33333
 
         a_b_c_d = 1234,
 
 
         a_c = 13,// 
-        a_c_d = 134,
+        a_c_d = 134,//33333
 
         a_d = 14,// 
 
-        //  
-        b_c = 23,
-        b_c_d = 234,
+        
+        b_c = 23,//  
+        b_c_d = 234,//33333
 
-        b_d = 24,
+        b_d = 24,//  
 
-        //  
-        c_d = 34
+        
+        c_d = 34//
     }
 
 }

@@ -11,10 +11,24 @@ namespace QinJilu.Web.Areas.Weixin.Controllers
         //
         // GET: /Weixin/More/
 
-        public ActionResult Index()
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="dateticks">记录所属的天 从2010-1-1后面加上该天数</param>
+        /// <returns></returns>
+        public ActionResult Index(UInt16 dateticks = 0)
         {
-            return View();
+           var res =  new Core.Services().Get(OpenId,null, dateticks);
+           return View(res);
         }
+
+
+        public ActionResult Post(string recordId, Core.FieldName fieldName, List<Core.Options> opts)
+        {
+            new Core.Services().Set(OpenId, recordId, fieldName, opts);
+            return Json("");
+        }
+
 
     }
 }

@@ -1,5 +1,7 @@
-﻿@{
+﻿@model QinJilu.Core.RecordInfo
+@{
     ViewBag.Title = "Qinjilu_com";
+
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -35,10 +37,10 @@
 </head>
 <body class="metro">
     <div class="container">
-        <h1 class="text-center">
+        <h1 class="text-center">@Model.Id
             <a href="#"><i class="icon-arrow-left-3 fg-darker on-left-more"></i></a>
-            @DateTime.Now.ToString("yyyy-MM-dd")
-            <a href="#"><i class="icon-arrow-right-3 fg-darker on-right-more"></i></a>
+            @DateTime.Now.ToString("yyyy-MM-dd") 
+            <a href="#"><i class="icon-arrow-right-3 fg-darker on-right-more"></i></a>@Model.DateTicks
         </h1>
         <div id="d_btns" class="grid fluid">
             <div class=" row">
@@ -159,242 +161,246 @@
                 </div>
             </div>
         </div>
-        @*  心情    bg-teal  *@
-        <div id="d_mood" class="grid fluid text-center">
-            <div class="row">
-                <div class=" span6">
-                    <div class="tile bg-teal">
-                        <div class="tile-content icon">
-                            <i class="icon-reddit"></i>
-                        </div>
-                        <div class="brand">
-                            <div class="label">开心</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="span6">
-                    <div class="tile bg-teal selected">
-                        <div class="tile-content icon">
-                            <i class="icon-xing"></i>
-                        </div>
-                        <div class="brand">
-                            <div class="label">敏感</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="span6">
-                    <div class="tile bg-teal selected">
-                        <div class="tile-content icon">
-                            <i class="icon-pinterest"></i>
-                        </div>
-                        <div class="brand">
-                            <div class="label">伤心</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="span6">
-                    <div class="tile bg-teal">
-                        <div class="tile-content icon">
-                            <i class="icon-yelp"></i>
-                        </div>
-                        <div class="brand">
-                            <div class="label">烦躁</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        @*  经血    bg-darkRed  *@
-        <div id="d_period" class="grid fluid text-center">
-            <div class="row">
-                <div class=" span6">
-                    <div class="tile bg-darkRed">
-                        <div class="tile-content icon">
-                            <i class="icon-rainy-3"></i>
-                        </div>
-                        <div class="brand">
-                            <div class="label">轻微</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="span6">
-                    <div class="tile bg-darkRed">
-                        <div class="tile-content icon">
-                            <i class="icon-rainy-4"></i>
-                        </div>
-                        <div class="brand">
-                            <div class="label">适量</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="span6">
-                    <div class="tile bg-darkRed selected">
-                        <div class="tile-content icon">
-                            <i class="icon-weather-5"></i>
-                        </div>
-                        <div class="brand">
-                            <div class="label">大量</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="span6">
-                    <div class="tile bg-darkRed">
-                        <div class="tile-content icon">
-                            <i class="icon-windy-5"></i>
-                        </div>
-                        <div class="brand">
-                            <div class="label">意外</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        @*  疼痛    bg-darkBlue  *@
-        <div id="d_pain" class="grid fluid text-center">
-            <div class="row">
-                <div class=" span6">
-                    <div class="tile bg-darkBlue">
-                        <div class="tile-content icon">
-                            <i class="icon-accessibility"></i>
-                        </div>
-                        <div class="brand">
-                            <div class="label">抽筋</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="span6">
-                    <div class="tile bg-darkBlue">
-                        <div class="tile-content icon">
-                            <i class="icon-finder"></i>
-                        </div>
-                        <div class="brand">
-                            <div class="label">头痛</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="span6">
-                    <div class="tile bg-darkBlue selected">
-                        <div class="tile-content icon">
-                            <i class="icon-firefox"></i>
-                        </div>
-                        <div class="brand">
-                            <div class="label">腹痛</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="span6">
-                    <div class="tile bg-darkBlue">
-                        <div class="tile-content icon">
-                            <i class="icon-flickr"></i>
-                        </div>
-                        <div class="brand">
-                            <div class="label">乳房痛</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        @*  爱爱    bg-orange  *@
-        <div id="d_sex" class="grid fluid text-center">
-            <div class="row">
-                <div class=" span6">
-                    <div class="tile bg-orange">
-                        <div class="tile-content icon">
-                            <i class="icon-upload-2"></i>
-                        </div>
-                        <div class="brand">
-                            <div class="label">无保护</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="span6">
-                    <div class="tile bg-orange selected">
-                        <div class="tile-content icon">
-                            <i class="icon-umbrella"></i>
-                        </div>
-                        <div class="brand">
-                            <div class="label">有保护</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="span6">
-                    <div class="tile bg-orange selected">
-                        <div class="tile-content icon">
-                            <i class="icon-box"></i>
-                        </div>
-                        <div class="brand">
-                            <div class="label">未插入</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="span6">
-                    <div class="tile bg-orange">
-                        <div class="tile-content icon">
-                            <i class="icon-loop"></i>
-                        </div>
-                        <div class="brand">
-                            <div class="label">体外</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        @*  白带    bg-lightOlive  *@
-        <div id="d_fluid" class="grid fluid text-center">
-            <div class="row">
-                <div class=" span6">
-                    <div class="tile bg-lightOlive">
-                        <div class="tile-content icon">
-                            <i class="icon-droplet"></i>
-                        </div>
-                        <div class="brand">
-                            <div class="label">蛋白</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="span6">
-                    <div class="tile bg-lightOlive selected">
-                        <div class="tile-content icon">
-                            <i class="icon-soundcloud"></i>
-                        </div>
-                        <div class="brand">
-                            <div class="label">粘稠</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="span6">
-                    <div class="tile bg-lightOlive selected">
-                        <div class="tile-content icon">
-                            <i class="icon-stumbleupon"></i>
-                        </div>
-                        <div class="brand">
-                            <div class="label">稀薄</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="span6">
-                    <div class="tile bg-lightOlive">
-                        <div class="tile-content icon">
-                            <i class="icon-forrst"></i>
-                        </div>
-                        <div class="brand">
-                            <div class="label">意外</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
 
+        <div id="d_details">
+
+            @*  心情    bg-teal  *@
+            <div id="d_mood" class="grid fluid text-center" data-val="@QinJilu.Core.FieldName.Mood">
+                <div class="row">
+                    <div class=" span6">
+                        <div class="tile bg-teal" data-val="@QinJilu.Core.Options.a">
+                            <div class="tile-content icon">
+                                <i class="icon-reddit"></i>
+                            </div>
+                            <div class="brand">
+                                <div class="label">开心</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="span6">
+                        <div class="tile bg-teal selected" data-val="@QinJilu.Core.Options.b">
+                            <div class="tile-content icon">
+                                <i class="icon-xing"></i>
+                            </div>
+                            <div class="brand">
+                                <div class="label">敏感</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="span6">
+                        <div class="tile bg-teal selected" data-val="@QinJilu.Core.Options.c">
+                            <div class="tile-content icon">
+                                <i class="icon-pinterest"></i>
+                            </div>
+                            <div class="brand">
+                                <div class="label">伤心</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="span6">
+                        <div class="tile bg-teal" data-val="@QinJilu.Core.Options.d">
+                            <div class="tile-content icon">
+                                <i class="icon-yelp"></i>
+                            </div>
+                            <div class="brand">
+                                <div class="label">烦躁</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @*  经血    bg-darkRed  *@
+            <div id="d_period" class="grid fluid text-center" data-single="single" data-val="@QinJilu.Core.FieldName.Period">
+                <div class="row">
+                    <div class=" span6">
+                        <div class="tile bg-darkRed" data-val="@QinJilu.Core.Options.a">
+                            <div class="tile-content icon">
+                                <i class="icon-rainy-3"></i>
+                            </div>
+                            <div class="brand">
+                                <div class="label">轻微</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="span6">
+                        <div class="tile bg-darkRed" data-val="@QinJilu.Core.Options.b">
+                            <div class="tile-content icon">
+                                <i class="icon-rainy-4"></i>
+                            </div>
+                            <div class="brand">
+                                <div class="label">适量</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="span6">
+                        <div class="tile bg-darkRed selected" data-val="@QinJilu.Core.Options.c">
+                            <div class="tile-content icon">
+                                <i class="icon-weather-5"></i>
+                            </div>
+                            <div class="brand">
+                                <div class="label">大量</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="span6">
+                        <div class="tile bg-darkRed" data-val="@QinJilu.Core.Options.d">
+                            <div class="tile-content icon">
+                                <i class="icon-windy-5"></i>
+                            </div>
+                            <div class="brand">
+                                <div class="label">意外</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @*  疼痛    bg-darkBlue  *@
+            <div id="d_pain" class="grid fluid text-center" data-val="@QinJilu.Core.FieldName.Pain">
+                <div class="row">
+                    <div class=" span6">
+                        <div class="tile bg-darkBlue" data-val="@QinJilu.Core.Options.a">
+                            <div class="tile-content icon">
+                                <i class="icon-accessibility"></i>
+                            </div>
+                            <div class="brand">
+                                <div class="label">抽筋</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="span6">
+                        <div class="tile bg-darkBlue" data-val="@QinJilu.Core.Options.b">
+                            <div class="tile-content icon">
+                                <i class="icon-finder"></i>
+                            </div>
+                            <div class="brand">
+                                <div class="label">头痛</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="span6">
+                        <div class="tile bg-darkBlue selected" data-val="@QinJilu.Core.Options.c">
+                            <div class="tile-content icon">
+                                <i class="icon-firefox"></i>
+                            </div>
+                            <div class="brand">
+                                <div class="label">腹痛</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="span6">
+                        <div class="tile bg-darkBlue" data-val="@QinJilu.Core.Options.d">
+                            <div class="tile-content icon">
+                                <i class="icon-flickr"></i>
+                            </div>
+                            <div class="brand">
+                                <div class="label">乳房痛</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @*  爱爱    bg-orange  *@
+            <div id="d_sex" class="grid fluid text-center" data-val="@QinJilu.Core.FieldName.Sex">
+                <div class="row">
+                    <div class=" span6">
+                        <div class="tile bg-orange" data-val="@QinJilu.Core.Options.a">
+                            <div class="tile-content icon">
+                                <i class="icon-upload-2"></i>
+                            </div>
+                            <div class="brand">
+                                <div class="label">无保护</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="span6">
+                        <div class="tile bg-orange selected" data-val="@QinJilu.Core.Options.b">
+                            <div class="tile-content icon">
+                                <i class="icon-umbrella"></i>
+                            </div>
+                            <div class="brand">
+                                <div class="label">有保护</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="span6">
+                        <div class="tile bg-orange selected" data-val="@QinJilu.Core.Options.c">
+                            <div class="tile-content icon">
+                                <i class="icon-box"></i>
+                            </div>
+                            <div class="brand">
+                                <div class="label">未插入</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="span6">
+                        <div class="tile bg-orange" data-val="@QinJilu.Core.Options.d">
+                            <div class="tile-content icon">
+                                <i class="icon-loop"></i>
+                            </div>
+                            <div class="brand">
+                                <div class="label">体外</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @*  白带    bg-lightOlive  *@
+            <div id="d_fluid" class="grid fluid text-center" data-single="single" data-val="@QinJilu.Core.FieldName.Fluid">
+                <div class="row">
+                    <div class=" span6">
+                        <div class="tile bg-lightOlive" data-val="@QinJilu.Core.Options.a">
+                            <div class="tile-content icon">
+                                <i class="icon-droplet"></i>
+                            </div>
+                            <div class="brand">
+                                <div class="label">蛋白</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="span6">
+                        <div class="tile bg-lightOlive" data-val="@QinJilu.Core.Options.b">
+                            <div class="tile-content icon">
+                                <i class="icon-soundcloud"></i>
+                            </div>
+                            <div class="brand">
+                                <div class="label">粘稠</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="span6">
+                        <div class="tile bg-lightOlive" data-val="@QinJilu.Core.Options.c">
+                            <div class="tile-content icon">
+                                <i class="icon-stumbleupon"></i>
+                            </div>
+                            <div class="brand">
+                                <div class="label">稀薄</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="span6">
+                        <div class="tile bg-lightOlive" data-val="@QinJilu.Core.Options.d">
+                            <div class="tile-content icon">
+                                <i class="icon-forrst"></i>
+                            </div>
+                            <div class="brand">
+                                <div class="label">意外</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+        </div>
 
         <hr />
 
@@ -423,8 +429,7 @@
 </html>
 <script type="text/javascript">
 
-    function hide_all()
-    {
+    function hide_all() {
         $("#d_tags").hide();
         $("#d_mood").hide();
         $("#d_period").hide();
@@ -435,12 +440,43 @@
 
     $(document).ready(function () {
         hide_all();
+
+
         $("#d_btns button.shortcut").click(function () {
-            var this_b = $(this).attr("title");
             hide_all();
-            $("#d_" + this_b).show();
+            $("#d_" + $(this).attr("title")).show();
+        });
+
+        $("#d_details div.tile").click(function () {
+
+            var parentc = $(this).parent().parent().parent();
+
+
+            if (!$(this).hasClass("selected")) {// 如果当前对像原来没有选中
+                if (parentc.attr('data-single') == 'single') {// 如果是只能单选的
+                    parentc.find('div.selected').removeClass('selected');// 清除原来选中的
+                }
+            }
+
+            $(this).toggleClass("selected");// 切换当前点击对像的是否选中
+
+
+            // 取得当前的值，， ajax
+
+            var vals = new Array();
+
+            parentc.find('div.selected').each(function (index) {
+                vals.push($(this).attr('data-val'));
+            });
+
+            console.warn(parentc.attr('data-val') + ' : ' + vals);
+
+            //  deferred
 
         });
+
+
+
     });
 
 

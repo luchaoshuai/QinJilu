@@ -11,17 +11,17 @@ namespace QinJilu.Core
     /// </summary>
     public class RecordInfo
     {
-        public int Id { get; set; }
+        public MongoDB.Bson.ObjectId Id { get; set; }
         /// <summary>
         /// 记录所属的她Id
         /// </summary>
-        public int SheId { get; set; }
+        public MongoDB.Bson.ObjectId SheId { get; set; }
 
         public DateTime CreateOn { get; set; }
-        public int CreaterId { get; set; }
+        public MongoDB.Bson.ObjectId CreaterId { get; set; }
 
         public DateTime EditedOn { get; set; }
-        public int EditorId { get; set; }
+        public MongoDB.Bson.ObjectId EditorId { get; set; }
 
 
         /// <summary>
@@ -82,6 +82,11 @@ namespace QinJilu.Core
         /// 记录中的标签值，每个标签用“#”分割
         /// </summary>
         public string Tags { get; set; }
+
+        /// <summary>
+        /// 行记录修改版本号，0为新创建，无数据的记录，可以删除,后面每操作一次，该值都会+1
+        /// </summary>
+        public int Version { get; set; }
     }
 
 
