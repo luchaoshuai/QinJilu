@@ -451,29 +451,38 @@ namespace QinJilu.Core
         }
 
 
-        public void Begin(string openId, int dateticks)
+        public void Begin(string openId, DateTime dt)
         {
-            // befor
+            var dateticks = ParseDate(dt);
+            MongoDB.Bson.ObjectId sheId = GetSheId(openId);// 若当前登录是男的？则要取女神的Id
 
-            // ing
-            // 队列缓存 Redis
-            // 所有的数据库操作，先暂存在缓存队列中，集中存储。
-            // 减少数据库交互次数,多个字段都更新完成以后一起提交。
-            // 
+            var editorId = GetUserId(openId);
+            var info = Repository.DbSet.Get(editorId, sheId, dateticks);
 
-
-            // sql  无索引的操作，总是通过主键
-            // 写总是使用sql，成功后再到mongodb
-            // 读总是使用mongodb
-            // 定期做二者之前的比较同步。
-
-
-            //  after
-
+            Repository.DbSet.BeginMark(editorId, info.Id);
         }
-        public void End(string openId, int dateticks)
-        {
 
+        // befor
+        // ing
+        // 队列缓存 Redis
+        // 所有的数据库操作，先暂存在缓存队列中，集中存储。
+        // 减少数据库交互次数,多个字段都更新完成以后一起提交。
+        // 
+        // sql  无索引的操作，总是通过主键
+        // 写总是使用sql，成功后再到mongodb
+        // 读总是使用mongodb
+        // 定期做二者之前的比较同步。
+        //  after
+
+        public void End(string openId, DateTime dt)
+        {
+            var dateticks = ParseDate(dt);
+            MongoDB.Bson.ObjectId sheId = GetSheId(openId);// 若当前登录是男的？则要取女神的Id
+
+            var editorId = GetUserId(openId);
+            var info = Repository.DbSet.Get(editorId, sheId, dateticks);
+
+            Repository.DbSet.EndMark(editorId, info.Id);
         }
 
         /// <summary>
@@ -503,78 +512,78 @@ namespace QinJilu.Core
             return info;
         }
         
-        public void Set(string openId, string recordId, FieldName fName, List<Core.Options> opts)
+        public void Set(string openId, string recordId, FieldName fName, Core.Options opts)
         {
             Set(openId, MongoDB.Bson.ObjectId.Parse(recordId),fName,opts);
         }
-        public void Set(string openId, MongoDB.Bson.ObjectId recordId, FieldName fName, List<Core.Options> opts)
+        public void Set(string openId, MongoDB.Bson.ObjectId recordId, FieldName fName,Core.Options opt)
         {
             MongoDB.Bson.ObjectId editorId = GetUserId(openId);
-            Options opt = ParseOptions(opts);
             Repository.DbSet.Set(editorId, recordId, fName, opt);
         }
 
-        private static Core.Options ParseOptions(List<Core.Options> opts)
-        {
-            if (opts == null)
-            {
-                return Core.Options.NULL;
-            }
+        //private static Core.Options ParseOptions(List<Core.Options> opts)
+        //{
+        //    if (opts == null)
+        //    {
+        //        return Core.Options.nul;
+        //    }
 
-            Core.Options opt = Core.Options.NULL;
-            switch (opts.Count)
-            {
-                case 1:
-                    opt = opts.First();
-                    break;
-                case 2:
-                    if (opts.Any(x => x == Core.Options.a) && opts.Any(x => x == Core.Options.b))
-                    {
-                        opt = Core.Options.a_b;
-                    }
-                    else if (opts.Any(x => x == Core.Options.a) && opts.Any(x => x == Core.Options.c))
-                    {
-                        opt = Core.Options.a_c;
-                    }
-                    else if (opts.Any(x => x == Core.Options.a) && opts.Any(x => x == Core.Options.d))
-                    {
-                        opt = Core.Options.a_d;
-                    }
-                    else if (opts.Any(x => x == Core.Options.b) && opts.Any(x => x == Core.Options.c))
-                    {
-                        opt = Core.Options.b_c;
-                    }
-                    else if (opts.Any(x => x == Core.Options.b) && opts.Any(x => x == Core.Options.d))
-                    {
-                        opt = Core.Options.b_d;
-                    }
-                    else if (opts.Any(x => x == Core.Options.c) && opts.Any(x => x == Core.Options.d))
-                    {
-                        opt = Core.Options.c_d;
-                    }
-                    break;
-                case 3:
-                    if (opts.Any(x => x == Core.Options.a) && opts.Any(x => x == Core.Options.b) && opts.Any(x => x == Core.Options.c))
-                    {
-                        opt = Core.Options.a_b_c;
-                    }
-                    else if (opts.Any(x => x == Core.Options.a) && opts.Any(x => x == Core.Options.b) && opts.Any(x => x == Core.Options.d))
-                    {
-                        opt = Core.Options.a_b_d;
-                    }
-                    else if (opts.Any(x => x == Core.Options.a) && opts.Any(x => x == Core.Options.c) && opts.Any(x => x == Core.Options.d))
-                    {
-                        opt = Core.Options.a_c_d;
-                    }
-                    break;
-                case 4:
-                    opt = Core.Options.a_b_c_d;
-                    break;
-                default:
-                    throw new Exception("参数值有误");
-            }
-            return opt;
-        }
+        //    Core.Options opt = Core.Options.nul;
+        //    switch (opts.Count)
+        //    {
+        //        case 1:
+        //            opt = opts.First();
+        //            break;
+        //        case 2:
+        //            if (opts.Any(x => x == Core.Options.a) && opts.Any(x => x == Core.Options.b))
+        //            {
+        //                opt = Core.Options.a_b;
+        //            }
+        //            else if (opts.Any(x => x == Core.Options.a) && opts.Any(x => x == Core.Options.c))
+        //            {
+        //                opt = Core.Options.a_c;
+        //            }
+        //            else if (opts.Any(x => x == Core.Options.a) && opts.Any(x => x == Core.Options.d))
+        //            {
+        //                opt = Core.Options.a_d;
+        //            }
+        //            else if (opts.Any(x => x == Core.Options.b) && opts.Any(x => x == Core.Options.c))
+        //            {
+        //                opt = Core.Options.b_c;
+        //            }
+        //            else if (opts.Any(x => x == Core.Options.b) && opts.Any(x => x == Core.Options.d))
+        //            {
+        //                opt = Core.Options.b_d;
+        //            }
+        //            else if (opts.Any(x => x == Core.Options.c) && opts.Any(x => x == Core.Options.d))
+        //            {
+        //                opt = Core.Options.c_d;
+        //            }
+        //            break;
+        //        case 3:
+        //            if (opts.Any(x => x == Core.Options.a) && opts.Any(x => x == Core.Options.b) && opts.Any(x => x == Core.Options.c))
+        //            {
+        //                opt = Core.Options.a_b_c;
+        //            }
+        //            else if (opts.Any(x => x == Core.Options.a) && opts.Any(x => x == Core.Options.b) && opts.Any(x => x == Core.Options.d))
+        //            {
+        //                opt = Core.Options.a_b_d;
+        //            }
+        //            else if (opts.Any(x => x == Core.Options.a) && opts.Any(x => x == Core.Options.c) && opts.Any(x => x == Core.Options.d))
+        //            {
+        //                opt = Core.Options.a_c_d;
+        //            }
+        //            break;
+        //        case 4:
+        //            opt = Core.Options.a_b_c_d;
+        //            break;
+        //        default:
+        //            throw new Exception("参数值有误");
+        //    }
+        //    return opt;
+        //}
+
         /// <summary>
         /// 设置温度
         /// </summary>
@@ -636,17 +645,6 @@ namespace QinJilu.Core
         #endregion
 
         #endregion
-
-        /// <summary>
-        /// 收到 位置 请求后的响应
-        /// </summary>
-        public void Today()
-        {
-
-        }
-
-
-
 
 
         #region  个人设置

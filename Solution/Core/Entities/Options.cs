@@ -143,35 +143,35 @@ namespace QinJilu.Core
         Cancel = 20
     }
 
-    public enum Options : short
+    [Flags]
+    public enum Options
     {
-        NULL = 0,
+        nul = 0,
 
         a = 1,
         b = 2,
-        c = 3,
-        d = 4,
+        c = 4,
+        d = 8,
 
-        a_b = 12,// 
-        a_b_c = 123,//33333
-        a_b_d = 124,//33333
+        a_b = a|b,// 
+        a_b_c = a|b|c,//33333
+        a_b_d = a|b|d,//33333
 
-        a_b_c_d = 1234,
+        a_b_c_d = a|b|c|d,
 
 
-        a_c = 13,// 
-        a_c_d = 134,//33333
+        a_c = a|c,// 
+        a_c_d = a|c|d,//33333
 
-        a_d = 14,// 
-
-        
-        b_c = 23,//  
-        b_c_d = 234,//33333
-
-        b_d = 24,//  
+        a_d = a|d,// 
 
         
-        c_d = 34//
+        b_c = b|c,//  
+        b_c_d = b|c|d,//33333
+
+        b_d = b|d,//  
+
+        c_d = c|d//
     }
 
 }

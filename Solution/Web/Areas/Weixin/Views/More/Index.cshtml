@@ -37,28 +37,29 @@
 </head>
 <body class="metro">
     <div class="container">
-        <h1 class="text-center">@Model.Id
+        <h1 class="text-center">
+            @Model.Id
             <a href="#"><i class="icon-arrow-left-3 fg-darker on-left-more"></i></a>
-            @DateTime.Now.ToString("yyyy-MM-dd") 
+            @DateTime.Now.ToString("yyyy-MM-dd")
             <a href="#"><i class="icon-arrow-right-3 fg-darker on-right-more"></i></a>@Model.DateTicks
         </h1>
         <div id="d_btns" class="grid fluid">
             <div class=" row">
                 <div class="span4">
                     <button title="period" class="shortcut danger ">
-                        <i class=" icon-cloud-7"></i>
+                        <i class=" icon-cloud-7" title="@Model.Period"></i>
                         经血
                     </button>
                 </div>
                 <div class="span4">
                     <button title="pain" class="shortcut primary">
-                        <i class="icon-power"></i>
+                        <i class="icon-power" title="@Model.Pain"></i>
                         疼痛
                     </button>
                 </div>
                 <div class=" span4">
                     <button title="sex" class="shortcut warning">
-                        <i class="icon-heart"></i>
+                        <i class="icon-heart" title="@Model.Sex"></i>
                         爱爱
                     </button>
                 </div>
@@ -66,13 +67,13 @@
             <div class=" row">
                 <div class=" span4">
                     <button title="mood" class="shortcut default">
-                        <i class=" icon-smiley"></i>
+                        <i class=" icon-smiley" title="@Model.Mood"></i>
                         心情
                     </button>
                 </div>
                 <div class=" span4">
                     <button title="fluid" class="shortcut success">
-                        <i class="icon-windy"></i>
+                        <i class="icon-windy" title="@Model.Fluid"></i>
                         白带
                     </button>
                 </div>
@@ -168,7 +169,7 @@
             <div id="d_mood" class="grid fluid text-center" data-val="@QinJilu.Core.FieldName.Mood">
                 <div class="row">
                     <div class=" span6">
-                        <div class="tile bg-teal" data-val="@QinJilu.Core.Options.a">
+                        <div class="tile bg-teal" data-val="@QinJilu.Core.Options.a" data-selected="@Model.Mood.HasFlag(QinJilu.Core.Options.a)">
                             <div class="tile-content icon">
                                 <i class="icon-reddit"></i>
                             </div>
@@ -178,7 +179,7 @@
                         </div>
                     </div>
                     <div class="span6">
-                        <div class="tile bg-teal selected" data-val="@QinJilu.Core.Options.b">
+                        <div class="tile bg-teal" data-val="@QinJilu.Core.Options.b" data-selected="@Model.Mood.HasFlag(QinJilu.Core.Options.b)">
                             <div class="tile-content icon">
                                 <i class="icon-xing"></i>
                             </div>
@@ -190,7 +191,7 @@
                 </div>
                 <div class="row">
                     <div class="span6">
-                        <div class="tile bg-teal selected" data-val="@QinJilu.Core.Options.c">
+                        <div class="tile bg-teal" data-val="@QinJilu.Core.Options.c" data-selected="@Model.Mood.HasFlag(QinJilu.Core.Options.c)">
                             <div class="tile-content icon">
                                 <i class="icon-pinterest"></i>
                             </div>
@@ -200,7 +201,7 @@
                         </div>
                     </div>
                     <div class="span6">
-                        <div class="tile bg-teal" data-val="@QinJilu.Core.Options.d">
+                        <div class="tile bg-teal" data-val="@QinJilu.Core.Options.d" data-selected="@Model.Mood.HasFlag(QinJilu.Core.Options.d)">
                             <div class="tile-content icon">
                                 <i class="icon-yelp"></i>
                             </div>
@@ -215,7 +216,7 @@
             <div id="d_period" class="grid fluid text-center" data-single="single" data-val="@QinJilu.Core.FieldName.Period">
                 <div class="row">
                     <div class=" span6">
-                        <div class="tile bg-darkRed" data-val="@QinJilu.Core.Options.a">
+                        <div class="tile bg-darkRed" data-val="@QinJilu.Core.Options.a" data-selected="@Model.Period.HasFlag(QinJilu.Core.Options.a)">
                             <div class="tile-content icon">
                                 <i class="icon-rainy-3"></i>
                             </div>
@@ -225,7 +226,7 @@
                         </div>
                     </div>
                     <div class="span6">
-                        <div class="tile bg-darkRed" data-val="@QinJilu.Core.Options.b">
+                        <div class="tile bg-darkRed" data-val="@QinJilu.Core.Options.b" data-selected="@Model.Period.HasFlag(QinJilu.Core.Options.b)">
                             <div class="tile-content icon">
                                 <i class="icon-rainy-4"></i>
                             </div>
@@ -237,7 +238,7 @@
                 </div>
                 <div class="row">
                     <div class="span6">
-                        <div class="tile bg-darkRed selected" data-val="@QinJilu.Core.Options.c">
+                        <div class="tile bg-darkRed" data-val="@QinJilu.Core.Options.c" data-selected="@Model.Period.HasFlag(QinJilu.Core.Options.c)">
                             <div class="tile-content icon">
                                 <i class="icon-weather-5"></i>
                             </div>
@@ -247,7 +248,7 @@
                         </div>
                     </div>
                     <div class="span6">
-                        <div class="tile bg-darkRed" data-val="@QinJilu.Core.Options.d">
+                        <div class="tile bg-darkRed" data-val="@QinJilu.Core.Options.d" data-selected="@Model.Period.HasFlag(QinJilu.Core.Options.d)">
                             <div class="tile-content icon">
                                 <i class="icon-windy-5"></i>
                             </div>
@@ -262,7 +263,7 @@
             <div id="d_pain" class="grid fluid text-center" data-val="@QinJilu.Core.FieldName.Pain">
                 <div class="row">
                     <div class=" span6">
-                        <div class="tile bg-darkBlue" data-val="@QinJilu.Core.Options.a">
+                        <div class="tile bg-darkBlue" data-val="@QinJilu.Core.Options.a" data-selected="@Model.Pain.HasFlag(QinJilu.Core.Options.a)">
                             <div class="tile-content icon">
                                 <i class="icon-accessibility"></i>
                             </div>
@@ -272,7 +273,7 @@
                         </div>
                     </div>
                     <div class="span6">
-                        <div class="tile bg-darkBlue" data-val="@QinJilu.Core.Options.b">
+                        <div class="tile bg-darkBlue" data-val="@QinJilu.Core.Options.b" data-selected="@Model.Pain.HasFlag(QinJilu.Core.Options.b)">
                             <div class="tile-content icon">
                                 <i class="icon-finder"></i>
                             </div>
@@ -284,7 +285,7 @@
                 </div>
                 <div class="row">
                     <div class="span6">
-                        <div class="tile bg-darkBlue selected" data-val="@QinJilu.Core.Options.c">
+                        <div class="tile bg-darkBlue" data-val="@QinJilu.Core.Options.c" data-selected="@Model.Pain.HasFlag(QinJilu.Core.Options.c)">
                             <div class="tile-content icon">
                                 <i class="icon-firefox"></i>
                             </div>
@@ -294,7 +295,7 @@
                         </div>
                     </div>
                     <div class="span6">
-                        <div class="tile bg-darkBlue" data-val="@QinJilu.Core.Options.d">
+                        <div class="tile bg-darkBlue" data-val="@QinJilu.Core.Options.d" data-selected="@Model.Pain.HasFlag(QinJilu.Core.Options.d)">
                             <div class="tile-content icon">
                                 <i class="icon-flickr"></i>
                             </div>
@@ -309,7 +310,7 @@
             <div id="d_sex" class="grid fluid text-center" data-val="@QinJilu.Core.FieldName.Sex">
                 <div class="row">
                     <div class=" span6">
-                        <div class="tile bg-orange" data-val="@QinJilu.Core.Options.a">
+                        <div class="tile bg-orange" data-val="@QinJilu.Core.Options.a" data-selected="@Model.Sex.HasFlag(QinJilu.Core.Options.a)">
                             <div class="tile-content icon">
                                 <i class="icon-upload-2"></i>
                             </div>
@@ -319,7 +320,7 @@
                         </div>
                     </div>
                     <div class="span6">
-                        <div class="tile bg-orange selected" data-val="@QinJilu.Core.Options.b">
+                        <div class="tile bg-orange" data-val="@QinJilu.Core.Options.b" data-selected="@Model.Sex.HasFlag(QinJilu.Core.Options.b)">
                             <div class="tile-content icon">
                                 <i class="icon-umbrella"></i>
                             </div>
@@ -331,7 +332,7 @@
                 </div>
                 <div class="row">
                     <div class="span6">
-                        <div class="tile bg-orange selected" data-val="@QinJilu.Core.Options.c">
+                        <div class="tile bg-orange" data-val="@QinJilu.Core.Options.c" data-selected="@Model.Sex.HasFlag(QinJilu.Core.Options.c)">
                             <div class="tile-content icon">
                                 <i class="icon-box"></i>
                             </div>
@@ -341,7 +342,7 @@
                         </div>
                     </div>
                     <div class="span6">
-                        <div class="tile bg-orange" data-val="@QinJilu.Core.Options.d">
+                        <div class="tile bg-orange" data-val="@QinJilu.Core.Options.d" data-selected="@Model.Sex.HasFlag(QinJilu.Core.Options.d)">
                             <div class="tile-content icon">
                                 <i class="icon-loop"></i>
                             </div>
@@ -356,7 +357,7 @@
             <div id="d_fluid" class="grid fluid text-center" data-single="single" data-val="@QinJilu.Core.FieldName.Fluid">
                 <div class="row">
                     <div class=" span6">
-                        <div class="tile bg-lightOlive" data-val="@QinJilu.Core.Options.a">
+                        <div class="tile bg-lightOlive" data-val="@QinJilu.Core.Options.a" data-selected="@Model.Fluid.HasFlag(QinJilu.Core.Options.a)">
                             <div class="tile-content icon">
                                 <i class="icon-droplet"></i>
                             </div>
@@ -366,7 +367,7 @@
                         </div>
                     </div>
                     <div class="span6">
-                        <div class="tile bg-lightOlive" data-val="@QinJilu.Core.Options.b">
+                        <div class="tile bg-lightOlive" data-val="@QinJilu.Core.Options.b" data-selected="@Model.Fluid.HasFlag(QinJilu.Core.Options.b)">
                             <div class="tile-content icon">
                                 <i class="icon-soundcloud"></i>
                             </div>
@@ -378,7 +379,7 @@
                 </div>
                 <div class="row">
                     <div class="span6">
-                        <div class="tile bg-lightOlive" data-val="@QinJilu.Core.Options.c">
+                        <div class="tile bg-lightOlive" data-val="@QinJilu.Core.Options.c" data-selected="@Model.Fluid.HasFlag(QinJilu.Core.Options.c)">
                             <div class="tile-content icon">
                                 <i class="icon-stumbleupon"></i>
                             </div>
@@ -388,7 +389,7 @@
                         </div>
                     </div>
                     <div class="span6">
-                        <div class="tile bg-lightOlive" data-val="@QinJilu.Core.Options.d">
+                        <div class="tile bg-lightOlive" data-val="@QinJilu.Core.Options.d" data-selected="@Model.Fluid.HasFlag(QinJilu.Core.Options.d)">
                             <div class="tile-content icon">
                                 <i class="icon-forrst"></i>
                             </div>
@@ -399,7 +400,7 @@
                     </div>
                 </div>
             </div>
-        
+
         </div>
 
         <hr />
@@ -409,8 +410,7 @@
                 <i class="icon-clock on-left"></i>2015-05-12
             </div>
             <div class="panel-content">
-                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
-                end
+                @Newtonsoft.Json.JsonConvert.SerializeObject(Model)
             </div>
         </div>
         <div class="panel  no-border">
@@ -421,8 +421,6 @@
                 Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
             </div>
         </div>
-
-
     </div>
     <div class="padding20"></div>
 </body>
@@ -447,6 +445,8 @@
             $("#d_" + $(this).attr("title")).show();
         });
 
+        $('#d_details div.tile[data-selected="True"]').addClass('selected');
+
         $("#d_details div.tile").click(function () {
 
             var parentc = $(this).parent().parent().parent();
@@ -461,7 +461,6 @@
             $(this).toggleClass("selected");// 切换当前点击对像的是否选中
 
 
-            // 取得当前的值，， ajax
 
             var vals = new Array();
 
@@ -472,6 +471,26 @@
             console.warn(parentc.attr('data-val') + ' : ' + vals);
 
             //  deferred
+            //  得到当前选择的值，， ajax
+
+            $.ajax({
+                url: ' /Weixin/More/Post',
+                type: 'POST',
+                data: {
+                    recordId: '@Model.Id',
+                    fieldName: parentc.attr('data-val'),
+                    opt: vals.join('_')
+                },
+                dataType: 'html'
+            }).done(function (msg) {
+
+            }).fail(function (jqXHR, textStatus) {
+                alert('failed: ' + textStatus);
+            });
+
+
+
+
 
         });
 

@@ -369,13 +369,13 @@ namespace QinJilu.Core.Repository
                     EditedOn = DateTime.Now,
                     EditorId = editorId,
                     EndMark = false,
-                    Fluid = Options.NULL,
-                    Mood = Options.NULL,
-                    Pain = Options.NULL,
-                    Period = Options.NULL,
-                    Pill = Options.NULL,
+                    Fluid = Options.nul,
+                    Mood = Options.nul,
+                    Pain = Options.nul,
+                    Period = Options.nul,
+                    Pill = Options.nul,
                     Reliable = false,
-                    Sex = Options.NULL,
+                    Sex = Options.nul,
                     Tags = string.Empty,
                     Temperature = 0,
                     Id = MongoDB.Bson.ObjectId.GenerateNewId()
@@ -384,6 +384,42 @@ namespace QinJilu.Core.Repository
             }
             return info;
         }
+
+
+        internal static void BeginMark(MongoDB.Bson.ObjectId editorId, MongoDB.Bson.ObjectId recordId)
+        {
+            var collection = Repository.DbSet.GetCollection<RecordInfo>();
+
+
+            var q = MongoDB.Driver.Builders.Query<RecordInfo>
+                .EQ<MongoDB.Bson.ObjectId>(x => x.Id, recordId);
+
+            var u = MongoDB.Driver.Builders.Update<RecordInfo>
+                .Set<DateTime>(t => t.EditedOn, DateTime.Now)
+                .Set<MongoDB.Bson.ObjectId>(t => t.EditorId, editorId)
+                .Set<bool>(t => t.BeginMark,true)
+                .Inc(x => x.Version, 1);
+
+            collection.Update(q, u);
+        }
+        internal static void EndMark(MongoDB.Bson.ObjectId editorId, MongoDB.Bson.ObjectId recordId)
+        {
+            var collection = Repository.DbSet.GetCollection<RecordInfo>();
+
+
+            var q = MongoDB.Driver.Builders.Query<RecordInfo>
+                .EQ<MongoDB.Bson.ObjectId>(x => x.Id, recordId);
+
+            var u = MongoDB.Driver.Builders.Update<RecordInfo>
+                .Set<DateTime>(t => t.EditedOn, DateTime.Now)
+                .Set<MongoDB.Bson.ObjectId>(t => t.EditorId, editorId)
+                .Set<bool>(t => t.EndMark, true)
+                .Inc(x => x.Version, 1);
+
+            collection.Update(q, u);
+        }
+
+
 
         internal static void Set(MongoDB.Bson.ObjectId editorId, MongoDB.Bson.ObjectId recordId, FieldName fName, Options opt)
         {
@@ -599,6 +635,7 @@ namespace QinJilu.Core.Repository
 
 
         //-----------------------------------   end ----------------------------------------
+
 
 
 

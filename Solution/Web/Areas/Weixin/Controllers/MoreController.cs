@@ -23,10 +23,10 @@ namespace QinJilu.Web.Areas.Weixin.Controllers
         }
 
 
-        public ActionResult Post(string recordId, Core.FieldName fieldName, List<Core.Options> opts)
+        public ActionResult Post(string recordId, Core.FieldName fieldName, Core.Options opt= Core.Options.nul)
         {
-            new Core.Services().Set(OpenId, recordId, fieldName, opts);
-            return Json("");
+            new Core.Services().Set(OpenId, recordId, fieldName, opt);
+            return Content("ok");
         }
 
 

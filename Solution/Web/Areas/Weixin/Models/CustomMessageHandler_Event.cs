@@ -66,6 +66,46 @@ namespace QinJilu.Web.Areas.Weixin.Models
 
 
 
+        public override IResponseMessageBase OnEvent_ClickRequest(RequestMessageEvent_Click requestMessage)
+        {
+            var reponseMessage = CreateResponseMessage<ResponseMessageText>();
+            //菜单点击，需要跟创建菜单时的Key匹配
+            switch (requestMessage.EventKey)
+            {
+                case "yesterday.come":
+                    {
+                        reponseMessage.Content = "好的，昨天来的，小鹿已经记下来了。";
+                        new Core.Services().Begin(requestMessage.FromUserName, DateTime.Now.AddDays(-1) );
+                    }
+                    break;
+                case "yesterday.go":
+                    {
+                        reponseMessage.Content = "好的，昨天走的，小鹿已经记下来了。";
+                        new Core.Services().End(requestMessage.FromUserName, DateTime.Now.AddDays(-1));
+                    }
+                    break;
+                case "today.come":
+                    {
+                        reponseMessage.Content = "好的，今天刚来，小鹿已经记下来了。";
+                        new Core.Services().Begin(WeixinOpenId, DateTime.Now);
+                    }
+                    break;
+                case "today.go":
+                    {
+                        reponseMessage.Content = "好的，今天刚走，小鹿已经记下来了。";
+                        new Core.Services().End(WeixinOpenId, DateTime.Now);
+                    }
+                    break;
+                default:
+                    {
+                        reponseMessage.Content = "unknow EventKey：" + requestMessage.EventKey;
+                    }
+                    break;
+            }
+            return reponseMessage;
+        }
+
+
         ///// <summary>
         ///// 处理事件请求（这个方法一般不用重写，这里仅作为示例出现。除非需要在判断具体Event类型以外对Event信息进行统一操作
         ///// </summary>
@@ -88,86 +128,6 @@ namespace QinJilu.Web.Areas.Weixin.Models
 
         //    return null;//返回null，则继续执行OnTextRequest或OnEventRequest
         //}
-        //public override IResponseMessageBase OnEvent_ClickRequest(RequestMessageEvent_Click requestMessage)
-        //{
-        //    IResponseMessageBase reponseMessage = null;
-        //    //菜单点击，需要跟创建菜单时的Key匹配
-        //    switch (requestMessage.EventKey)
-        //    {
-        //        case "OneClick":
-        //            {
-        //                //这个过程实际已经在OnTextOrEventRequest中完成，这里不会执行到。
-        //                var strongResponseMessage = CreateResponseMessage<ResponseMessageText>();
-        //                reponseMessage = strongResponseMessage;
-        //                strongResponseMessage.Content = "您点击了底部按钮。\r\n为了测试微信软件换行bug的应对措施，这里做了一个——\r\n换行";
-        //            }
-        //            break;
-        //        case "SubClickRoot_Text":
-        //            {
-        //                var strongResponseMessage = CreateResponseMessage<ResponseMessageText>();
-        //                reponseMessage = strongResponseMessage;
-        //                strongResponseMessage.Content = "您点击了子菜单按钮。";
-        //            }
-        //            break;
-        //        case "SubClickRoot_News":
-        //            {
-        //                var strongResponseMessage = CreateResponseMessage<ResponseMessageNews>();
-        //                reponseMessage = strongResponseMessage;
-        //                strongResponseMessage.Articles.Add(new Article()
-        //                {
-        //                    Title = "您点击了子菜单图文按钮",
-        //                    Description = "您点击了子菜单图文按钮，这是一条图文信息。",
-        //                    PicUrl = "http://weixin.senparc.com/Images/qrcode.jpg",
-        //                    Url = "http://weixin.senparc.com"
-        //                });
-        //            }
-        //            break;
-        //        case "SubClickRoot_Music":
-        //            {
-        //                var strongResponseMessage = CreateResponseMessage<ResponseMessageMusic>();
-        //                reponseMessage = strongResponseMessage;
-        //                strongResponseMessage.Music.MusicUrl = "http://weixin.senparc.com/Content/music1.mp3";
-        //            }
-        //            break;
-        //        case "SubClickRoot_Image":
-        //            {
-        //                var strongResponseMessage = CreateResponseMessage<ResponseMessageImage>();
-        //                reponseMessage = strongResponseMessage;
-        //                strongResponseMessage.Image.MediaId = "Mj0WUTZeeG9yuBKhGP7iR5n1xUJO9IpTjGNC4buMuswfEOmk6QSIRb_i98do5nwo";
-        //            }
-        //            break;
-        //        case "OAuth"://OAuth授权测试
-        //            {
-        //                var strongResponseMessage = CreateResponseMessage<ResponseMessageNews>();
-        //                strongResponseMessage.Articles.Add(new Article()
-        //                {
-        //                    Title = "OAuth2.0测试",
-        //                    Description = "点击【查看全文】进入授权页面。\r\n注意：此页面仅供测试（是专门的一个临时测试账号的授权，并非Senparc.Weixin.MP SDK官方账号，所以如果授权后出现错误页面数正常情况），测试号随时可能过期。请将此DEMO部署到您自己的服务器上，并使用自己的appid和secret。",
-        //                    Url = "http://weixin.senparc.com/oauth2",
-        //                    PicUrl = "http://weixin.senparc.com/Images/qrcode.jpg"
-        //                });
-        //                reponseMessage = strongResponseMessage;
-        //            }
-        //            break;
-        //        case "sdk":
-        //            {
-        //                var strongResponseMessage = CreateResponseMessage<ResponseMessageText>();
-        //                strongResponseMessage.Content = GetSDKInfo();
-        //                reponseMessage = strongResponseMessage;
-        //            }
-        //            break;
-        //        default:
-        //            {
-        //                var strongResponseMessage = CreateResponseMessage<ResponseMessageText>();
-        //                strongResponseMessage.Content = "您点击了按钮，EventKey：" + requestMessage.EventKey;
-        //                reponseMessage = strongResponseMessage;
-        //            }
-        //            break;
-        //    }
-
-        //    return reponseMessage;
-        //}
-
 
         #region 无效（已注释掉的）事件
 
