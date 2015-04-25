@@ -87,10 +87,18 @@
     });
     $(document).ready(function () {
         $("form").validate({
+            rules: {
+                email: {
+                    remote: "/Weixin/Init/AnyEmail",
+                    required: true,
+                    email:true
+                }
+            },
             messages: {
                 email: {
                     email: '请输入正确的女神邮箱!',
-                    required: '女神邮箱不能为空!'
+                    required: '女神邮箱不能为空!',
+                    remote: '女神邮箱不存在!'
                 }
             }
         });

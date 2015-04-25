@@ -9,7 +9,7 @@ namespace QinJilu.Web.Areas.Weixin.Controllers
     public class InitController : Models.WeixinController
     {
         //  除邀请码外的初始化设置，完整性检查，都在这个控制器中。
-        // GET: /Init/Home/
+        // GET: /Weixin/Init/Guide/
 
         public ActionResult Guide()
         {
@@ -52,6 +52,15 @@ namespace QinJilu.Web.Areas.Weixin.Controllers
            }
         }
 
+        public ActionResult AnyEmail(string email)
+        {
+            bool res = new Core.Services().AnyEmail(email);
+            if (res)
+            {
+                return Content("true");
+            }
+            return Content("false");
+        }
 
 
 
