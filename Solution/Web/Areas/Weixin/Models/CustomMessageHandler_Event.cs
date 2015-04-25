@@ -30,7 +30,7 @@ namespace QinJilu.Web.Areas.Weixin.Models
             {
                 var ds = (DateTime.Now - u.UnsubscribeOn).TotalDays;
                 ds = ds > 1 ? ds : 1;
-                responseMessage.Content = "<a href='" + url + "'>欢迎回来，在您离开的 " + ds.ToString("F0") + " 天里，我们做了很多的升级，更多的精彩，邀您探索！点我开始吧！</a>";
+                responseMessage.Content = "欢迎回来，在您离开的 " + ds.ToString("F0") + " 天里，我们做了很多的升级，更多的精彩，邀您探索！<a href='" + url + "'>点我开始吧！</a>";
             }
             else
             {

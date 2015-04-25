@@ -652,7 +652,28 @@ namespace QinJilu.Core.Repository
         }
 
 
-
+        /// <summary>
+        /// 添加动态
+        /// </summary>
+        /// <param name="editorId"></param>
+        /// <param name="sheId"></param>
+        /// <param name="note"></param>
+        /// <param name="dateticks"></param>
+        internal static void AddNote(MongoDB.Bson.ObjectId editorId, MongoDB.Bson.ObjectId sheId, string note, ushort dateticks)
+        {
+            var collection = Repository.DbSet.GetCollection<RecordNote>();
+            var info = new RecordNote()
+            {
+                CreateOn = DateTime.Now,
+                CreaterId = editorId,
+                DateTicks = dateticks,
+                Deleted = false,
+                Id = MongoDB.Bson.ObjectId.GenerateNewId(),
+                Notes = note,
+                SheId = sheId
+            };
+            collection.Insert(info);
+        }
 
 
 
@@ -660,6 +681,7 @@ namespace QinJilu.Core.Repository
 
 
         //-----------------------------------   end ----------------------------------------
+
 
 
 

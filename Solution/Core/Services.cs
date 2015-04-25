@@ -719,5 +719,25 @@ namespace QinJilu.Core
         #endregion
 
 
+
+        public void AddNote(string openId, string sheId, string note, ushort dateticks=0)
+        {
+            if (dateticks == 0)
+            {
+                dateticks = ParseDate(DateTime.Now);
+            }
+            MongoDB.Bson.ObjectId editorId = GetUserId(openId);
+            var she_id = MongoDB.Bson.ObjectId.Empty;
+            if (string.IsNullOrEmpty(sheId))
+            {
+                she_id = GetSheId(openId);// 若当前登录是男的？则要取女神的Id
+            }
+            else
+            {
+                she_id = MongoDB.Bson.ObjectId.Parse(sheId);
+            }
+
+            Repository.DbSet.AddNote(editorId, she_id, note, dateticks);
+        }
     }
 }

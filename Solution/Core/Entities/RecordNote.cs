@@ -7,17 +7,17 @@ namespace QinJilu.Core
 {
     public class RecordNote
     {
-        public int Id { get; set; }
+        public MongoDB.Bson.ObjectId Id { get; set; }
         /// <summary>
         /// 记录所属的她Id
         /// </summary>
-        public int SheId { get; set; }
+        public MongoDB.Bson.ObjectId SheId { get; set; }
 
         public DateTime CreateOn { get; set; }
         /// <summary>
         /// 写备注的人
         /// </summary>
-        public int CreaterId { get; set; }
+        public MongoDB.Bson.ObjectId CreaterId { get; set; }
 
         /// <summary>
         /// 记录所属的天 从2010-1-1后面加上该天数

@@ -51,35 +51,17 @@ namespace QinJilu.Web.Areas.Weixin.Models
         {
             var responseMessage = base.CreateResponseMessage<ResponseMessageText>();
 
-            if (requestMessage.Content == "baidu")
+            var u = new Core.Services().Subscribe(requestMessage.FromUserName);
+            string url = string.Format("http://qinjilu.com/weixin/Passport/Transit?openId={0}&state={1}", requestMessage.FromUserName, "/weixin/more/index");
+
+            if (requestMessage.Content == "debug")
             {
-                responseMessage.Content = "<a href=\"http://www.baidu.com/\">点击这里</a>进入baidu ";
+                responseMessage.Content = "<a href=\"" + url + "\">点击这里</a>进入记录页面 ";
             }
             else
             {
-                var result = new StringBuilder();
-                result.AppendFormat("您刚才发送了文字信息：{0}\r\n\r\n", requestMessage.Content);
-
-                if (CurrentMessageContext.RequestMessages.Count > 1)
-                {
-                    result.AppendFormat("您之前还发送了如下消息（{0}/{1}）：\r\n", CurrentMessageContext.RequestMessages.Count, CurrentMessageContext.StorageData);
-                    for (int i = CurrentMessageContext.RequestMessages.Count - 2; i >= 0; i--)
-                    {
-                        var historyMessage = CurrentMessageContext.RequestMessages[i];
-                        result.AppendFormat("{0} 【{1}】{2}\r\n",
-                                            historyMessage.CreateTime.ToShortTimeString(),
-                                            historyMessage.MsgType.ToString(),
-                                            (historyMessage is RequestMessageText)
-                                                ? (historyMessage as RequestMessageText).Content
-                                                : "[非文字类型]"
-                            );
-                    }
-                    result.AppendLine("\r\n");
-                }
-
-                result.AppendFormat("如果您在{0}分钟内连续发送消息，记录将被自动保留（当前设置：最多记录{1}条）。过期后记录将会自动清除。\r\n", WeixinContext.ExpireMinutes, WeixinContext.MaxRecordCount);
-          
-                responseMessage.Content = result.ToString();
+                new Core.Services().AddNote(requestMessage.FromUserName,null, requestMessage.Content);
+                responseMessage.Content = "已将您刚刚发送的消息记录到今日笔记中，<a href=\"" + url + "\">点击这里</a>进入详细页面查看 ";
             }
             return responseMessage;
         }
@@ -140,7 +122,7 @@ namespace QinJilu.Web.Areas.Weixin.Models
         public override IResponseMessageBase DefaultResponseMessage(IRequestMessageBase requestMessage)
         {
             var responseMessage = this.CreateResponseMessage<ResponseMessageText>();
-            responseMessage.Content = "刚刚发来的消息为："+requestMessage.Encrypt+" ,  from DefaultResponseMessage。";
+            responseMessage.Content = "刚刚发来的消息为：" + requestMessage.Encrypt + " ,  from DefaultResponseMessage。";
             return responseMessage;
         }
 
