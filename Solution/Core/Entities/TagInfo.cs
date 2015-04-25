@@ -7,7 +7,7 @@ namespace QinJilu.Core
 {
     public class TagInfo
     {
-        public int Id { get; set; }
+        public MongoDB.Bson.ObjectId Id { get; set; }
 
         /// <summary>
         /// 标签文本内容
@@ -22,7 +22,12 @@ namespace QinJilu.Core
         /// <summary>
         /// 被合并以后 到的 新的标签Id
         /// </summary>
-        public int NewTagId { get; set; }
+        public MongoDB.Bson.ObjectId NewTagId { get; set; }
+
+        /// <summary>
+        /// 创建时间
+        /// </summary>
+        public DateTime CreateOn { get; set; }
 
     }
 }

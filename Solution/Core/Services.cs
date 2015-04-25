@@ -587,39 +587,51 @@ namespace QinJilu.Core
         public void Temperature(string openId, MongoDB.Bson.ObjectId recordId, Int16 temperature, bool reliable)
         {
             MongoDB.Bson.ObjectId editorId = GetUserId(openId);
-            var she_Id = editorId;
             Repository.DbSet.Set(editorId, recordId, temperature, reliable);
         }
 
         #region tag
 
         /// <summary>
-        /// 输入一个标签
+        /// 给 sheId 添加 一个用户标签
         /// </summary>
         /// <param name="openId"></param>
+        /// <param name="sheId"></param>
         /// <param name="tag"></param>
-        public void Add(string openId, string tag, int dateticks)
+        public void AddTag(string openId, string sheId, string tag)
         {
-
+            MongoDB.Bson.ObjectId editorId = GetUserId(openId);
+            var she_id = MongoDB.Bson.ObjectId.Empty;
+            if (string.IsNullOrEmpty(sheId))
+            {
+                she_id = GetSheId(openId);// 若当前登录是男的？则要取女神的Id
+            }
+            else
+            {
+                she_id = MongoDB.Bson.ObjectId.Parse(sheId);
+            }
+            Repository.DbSet.AddTag(editorId, she_id, tag);
         }
         /// <summary>
-        /// 选择一个标签
+        /// 删除一个用户标签
         /// </summary>
         /// <param name="openId"></param>
         /// <param name="tagId"></param>
-        public void Add(string openId, int tagId, int dateticks)
+        public void DelTag(string openId, MongoDB.Bson.ObjectId sheId, MongoDB.Bson.ObjectId tagId)
         {
-
+            Repository.DbSet.DelTag(sheId, tagId);
         }
+
+
         /// <summary>
-        /// 删除一个标签
+        /// 选择 标签
         /// </summary>
-        /// <param name="openId"></param>
-        /// <param name="tagId"></param>
-        public void Del(string openId, int tagId, int dateticks)
+        public void Select(string openId, MongoDB.Bson.ObjectId recordId, MongoDB.Bson.ObjectId tagId, bool selected)
         {
-
+            MongoDB.Bson.ObjectId editorId = GetUserId(openId);
+            Repository.DbSet.SelectTag(editorId, recordId, tagId, selected);
         }
+
 
         #endregion
 

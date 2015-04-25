@@ -357,7 +357,7 @@ namespace QinJilu.Core.Repository
         {
             var collection = GetCollection<RecordInfo>();
             var info = collection.AsQueryable().Where(x => x.SheId == sheId && x.DateTicks == dateticks).SingleOrDefault();
-            if (info==null)
+            if (info == null)
             {
                 info = new RecordInfo()
                 {
@@ -385,7 +385,7 @@ namespace QinJilu.Core.Repository
             return info;
         }
 
-        internal static void Set(MongoDB.Bson.ObjectId editorId, MongoDB.Bson.ObjectId recordId,FieldName fName, Options opt)
+        internal static void Set(MongoDB.Bson.ObjectId editorId, MongoDB.Bson.ObjectId recordId, FieldName fName, Options opt)
         {
             var collection = Repository.DbSet.GetCollection<RecordInfo>();
 
@@ -395,7 +395,8 @@ namespace QinJilu.Core.Repository
 
             var u = MongoDB.Driver.Builders.Update<RecordInfo>
                 .Set<DateTime>(t => t.EditedOn, DateTime.Now)
-                .Set<MongoDB.Bson.ObjectId>(t => t.EditorId, editorId);
+                .Set<MongoDB.Bson.ObjectId>(t => t.EditorId, editorId)
+                .Inc(x => x.Version, 1);
 
             switch (fName)
             {
@@ -429,7 +430,7 @@ namespace QinJilu.Core.Repository
 
 
 
-        internal static void Set(MongoDB.Bson.ObjectId editorId, MongoDB.Bson.ObjectId recordId,short temperature, bool reliable)
+        internal static void Set(MongoDB.Bson.ObjectId editorId, MongoDB.Bson.ObjectId recordId, short temperature, bool reliable)
         {
             var collection = Repository.DbSet.GetCollection<RecordInfo>();
 
@@ -441,13 +442,165 @@ namespace QinJilu.Core.Repository
                 .Set<DateTime>(t => t.EditedOn, DateTime.Now)
                 .Set<MongoDB.Bson.ObjectId>(t => t.EditorId, editorId)
                 .Set<short>(t => t.Temperature, temperature)
-                .Set<bool>(t => t.Reliable, reliable);
+                .Set<bool>(t => t.Reliable, reliable)
+                .Inc(x => x.Version, 1);
 
             collection.Update(q, u);
 
         }
 
         #endregion
+
+        /// <summary>
+        /// 给指定的用户添加 标签
+        /// </summary>
+        /// <param name="editorId"></param>
+        /// <param name="sheId"></param>
+        /// <param name="tag"></param>
+        internal static void AddTag(MongoDB.Bson.ObjectId editorId, MongoDB.Bson.ObjectId sheId, string tag)
+        {
+            var collection_tag = Repository.DbSet.GetCollection<TagInfo>();
+            var hastag = collection_tag.AsQueryable().Any(x => x.Tag == tag);
+
+            TagInfo taginfo = null;
+
+            if (hastag)
+            {
+                taginfo = collection_tag.AsQueryable().Where(x => x.Tag == tag).Single();
+            }
+            else
+            {
+                taginfo = new TagInfo()
+                {
+                    Tag = tag,
+                    Id = MongoDB.Bson.ObjectId.GenerateNewId(),
+                    NewTagId = MongoDB.Bson.ObjectId.Empty,
+                    RefTotal = 0,
+                    CreateOn = DateTime.Now
+                };
+                collection_tag.Insert(taginfo);
+            }
+
+
+            var collection_usertag = Repository.DbSet.GetCollection<UserTags>();
+            var hasusertag = collection_usertag.AsQueryable().Any(x => x.TagId == taginfo.Id && x.SheId == sheId);
+
+            if (hasusertag)
+            {
+                var tmp = collection_usertag.AsQueryable().Where(x => x.TagId == taginfo.Id && x.SheId == sheId).Single();
+                if (tmp.Hidden)
+                {
+                    //若原来隐藏了，则恢复
+                    var q = MongoDB.Driver.Builders.Query<UserTags>
+                        .EQ<MongoDB.Bson.ObjectId>(x => x.Id, tmp.Id);
+
+                    var u = MongoDB.Driver.Builders.Update<UserTags>
+                        .Set<bool>(t => t.Hidden, false);
+                    collection_usertag.Update(q, u);
+                }
+            }
+            else
+            {
+                // 添加新的。
+                var usertag = new UserTags()
+                {
+                    Hidden = false,
+                    Id = MongoDB.Bson.ObjectId.GenerateNewId(),
+                    Tag = taginfo.Tag,
+                    SheId = sheId,
+                    TagId = taginfo.Id,
+                    RefTotal = 0,
+                    SortNo = 0
+                };
+                collection_usertag.Insert(usertag);
+            }
+        }
+
+
+        /// <summary>
+        /// 删除一个用户标签
+        /// </summary>
+        /// <param name="sheId"></param>
+        /// <param name="tagId"></param>
+        internal static void DelTag(MongoDB.Bson.ObjectId sheId, MongoDB.Bson.ObjectId tagId)
+        {
+            var collection_usertag = Repository.DbSet.GetCollection<UserTags>();
+
+            var q1 = MongoDB.Driver.Builders.Query<UserTags>
+                .EQ<MongoDB.Bson.ObjectId>(x => x.SheId, sheId);
+            var q2 = MongoDB.Driver.Builders.Query<UserTags>
+                .EQ<MongoDB.Bson.ObjectId>(x => x.TagId, tagId);
+
+            var q = Query.And(q1, q2);
+
+            var u = MongoDB.Driver.Builders.Update<UserTags>
+                .Set<bool>(t => t.Hidden, true);
+            collection_usertag.Update(q, u);
+        }
+
+        internal static void SelectTag(MongoDB.Bson.ObjectId editorId, MongoDB.Bson.ObjectId recordId, MongoDB.Bson.ObjectId tagId, bool selected)
+        {
+            var collection = Repository.DbSet.GetCollection<RecordTags>();
+            if (selected)
+            {
+                // 选中 添加
+                var hasrecordtag = collection.AsQueryable().Any(x => x.TagId == tagId && x.RecordId == recordId);
+                if (hasrecordtag)
+                {
+                    return;
+                }
+                collection.Insert(new RecordTags()
+                {
+                    RecordId = recordId,
+                    CreateOn = DateTime.Now,
+                    Id = MongoDB.Bson.ObjectId.GenerateNewId(),
+                    TagId = tagId
+                });
+
+
+                var sheId =  Repository.DbSet.GetCollection<RecordInfo>().AsQueryable().Where(x => x.Id == recordId).Select(x=>x.SheId).Single();
+
+                // 用户标签 计数器 +1 
+                var q1 = MongoDB.Driver.Builders.Query<UserTags>
+                    .EQ<MongoDB.Bson.ObjectId>(x => x.SheId, sheId);
+                var q2 = MongoDB.Driver.Builders.Query<UserTags>
+                    .EQ<MongoDB.Bson.ObjectId>(x => x.TagId, tagId);
+
+                var q = Query.And(q1, q2);
+
+                var u = MongoDB.Driver.Builders.Update<UserTags>
+                    .Inc(x => x.RefTotal, 1);
+                Repository.DbSet.GetCollection<UserTags>().Update(q, u);
+
+                // 全局标签 记数器 +1
+                Repository.DbSet.GetCollection<TagInfo>().Update(
+                    Query<TagInfo>.EQ<MongoDB.Bson.ObjectId>(t=>t.Id,tagId),
+                    Update<TagInfo>.Inc(x => x.RefTotal, 1));
+            }
+            else
+            {
+                // 取消选中
+                var q = MongoDB.Driver.Builders.Query.And(
+                    Query<RecordTags>.EQ<MongoDB.Bson.ObjectId>(t => t.TagId, tagId),
+                    Query<RecordTags>.EQ<MongoDB.Bson.ObjectId>(t => t.RecordId, recordId)
+                    );
+                collection.Remove(q);
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+
+        //-----------------------------------   end ----------------------------------------
+
+
 
     }
 }
