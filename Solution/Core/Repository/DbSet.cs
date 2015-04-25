@@ -397,7 +397,7 @@ namespace QinJilu.Core.Repository
             var u = MongoDB.Driver.Builders.Update<RecordInfo>
                 .Set<DateTime>(t => t.EditedOn, DateTime.Now)
                 .Set<MongoDB.Bson.ObjectId>(t => t.EditorId, editorId)
-                .Set<bool>(t => t.BeginMark,true)
+                .Set<bool>(t => t.BeginMark, true)
                 .Inc(x => x.Version, 1);
 
             collection.Update(q, u);
@@ -492,7 +492,7 @@ namespace QinJilu.Core.Repository
             var collection_tag = Repository.DbSet.GetCollection<UserTags>();
             var res = collection_tag.AsQueryable()
                 .Where(x => x.Hidden == false && x.SheId == sheId)
-                .OrderBy(x=>x.SortNo).ThenByDescending(x=>x.RefTotal).ThenByDescending(x=>x.CreateOn)
+                .OrderBy(x => x.SortNo).ThenByDescending(x => x.RefTotal).ThenByDescending(x => x.CreateOn)
                 .ToList();
             return res;
         }
@@ -546,6 +546,9 @@ namespace QinJilu.Core.Repository
             }
             else
             {
+
+                ;
+
                 // 添加新的。
                 var usertag = new UserTags()
                 {
@@ -555,7 +558,7 @@ namespace QinJilu.Core.Repository
                     SheId = sheId,
                     TagId = taginfo.Id,
                     RefTotal = 0,
-                    SortNo = 0
+                    SortNo = Convert.ToInt32(collection_usertag.Count())
                 };
                 collection_usertag.Insert(usertag);
             }
@@ -605,7 +608,7 @@ namespace QinJilu.Core.Repository
                 });
 
 
-                var sheId =  Repository.DbSet.GetCollection<RecordInfo>().AsQueryable().Where(x => x.Id == recordId).Select(x=>x.SheId).Single();
+                var sheId = Repository.DbSet.GetCollection<RecordInfo>().AsQueryable().Where(x => x.Id == recordId).Select(x => x.SheId).Single();
 
                 // 用户标签 计数器 +1 
                 var q1 = MongoDB.Driver.Builders.Query<UserTags>
@@ -621,7 +624,7 @@ namespace QinJilu.Core.Repository
 
                 // 全局标签 记数器 +1
                 Repository.DbSet.GetCollection<TagInfo>().Update(
-                    Query<TagInfo>.EQ<MongoDB.Bson.ObjectId>(t=>t.Id,tagId),
+                    Query<TagInfo>.EQ<MongoDB.Bson.ObjectId>(t => t.Id, tagId),
                     Update<TagInfo>.Inc(x => x.RefTotal, 1));
             }
             else
@@ -645,7 +648,7 @@ namespace QinJilu.Core.Repository
         {
             var collection = Repository.DbSet.GetCollection<RecordTags>();
 
-             return collection.AsQueryable().Where(x => x.RecordId == recordId).Select(x=>x.TagId).ToList();
+            return collection.AsQueryable().Where(x => x.RecordId == recordId).Select(x => x.TagId).ToList();
         }
 
 

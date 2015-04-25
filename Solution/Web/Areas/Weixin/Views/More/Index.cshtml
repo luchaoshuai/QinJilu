@@ -29,6 +29,7 @@
 
     <script src="~/Scripts/jquery.validate.min.js"></script>
     <script src="~/Scripts/jquery.form.min.js"></script>
+    <script src="~/Scripts/jquery.dragsort-0.5.2.min.js"></script>
 
     <title>@ViewBag.Title</title>
     <style type="text/css">
@@ -100,6 +101,7 @@
             </div>
         </div>
 
+        <hr />
         @*  标签  *@
         <div id="d_tags" class="tab-control" data-role="tab-control">
             <ul class="tabs">
@@ -111,7 +113,15 @@
                 <div class="frame" id="_page_1">
                     <div class="listview">
 
-                        @foreach (var item in all_tags)
+                        @foreach (var item in all_tags.Where(x => sel_tagIds.Contains(x.TagId)))
+                        {
+                            <a href="#" class="list" data-tagid="@item.TagId" data-selected="@sel_tagIds.Any(x=>x==item.TagId)">
+                                <div class="list-content">
+                                    <i class="icon-tag on-left"></i>@item.Tag
+                                </div>
+                            </a>
+                        }
+                        @foreach (var item in all_tags.Where(x => !sel_tagIds.Contains(x.TagId)))
                         {
                             <a href="#" class="list" data-tagid="@item.TagId" data-selected="@sel_tagIds.Any(x=>x==item.TagId)">
                                 <div class="list-content">
@@ -137,11 +147,11 @@
 
                     <div class="panel">
                         <div class="listview">
-                            @foreach (var item in all_tags.OrderBy(x=>x.SortNo).ThenBy(x=>x.CreateOn))
+                            @foreach (var item in all_tags.OrderBy(x => x.SortNo).ThenBy(x => x.CreateOn))
                             {
-                                <a href="#" class="list shadow" data-tagid="@item.TagId">
+                                <a href="#" class="list shadow" data-tagid="@item.TagId" data-sortno="@item.SortNo">
                                     <div class="list-content">
-                                        <i class="icon-menu on-left"></i>@item.Tag
+                                        <i class="icon-menu on-left" title="@item.SortNo"></i>@item.Tag
                                         <i class="icon-cancel on-right  fg-red"></i>
                                     </div>
                                 </a>
@@ -178,54 +188,6 @@
         </div>
 
         <div id="d_details">
-
-            @*  心情    bg-teal  *@
-            <div id="d_mood" class="grid fluid text-center" data-val="@QinJilu.Core.FieldName.Mood">
-                <div class="row">
-                    <div class=" span6">
-                        <div class="tile bg-teal" data-val="@QinJilu.Core.Options.a" data-selected="@Model.Mood.HasFlag(QinJilu.Core.Options.a)">
-                            <div class="tile-content icon">
-                                <i class="icon-reddit"></i>
-                            </div>
-                            <div class="brand">
-                                <div class="label">开心</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="span6">
-                        <div class="tile bg-teal" data-val="@QinJilu.Core.Options.b" data-selected="@Model.Mood.HasFlag(QinJilu.Core.Options.b)">
-                            <div class="tile-content icon">
-                                <i class="icon-xing"></i>
-                            </div>
-                            <div class="brand">
-                                <div class="label">敏感</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="span6">
-                        <div class="tile bg-teal" data-val="@QinJilu.Core.Options.c" data-selected="@Model.Mood.HasFlag(QinJilu.Core.Options.c)">
-                            <div class="tile-content icon">
-                                <i class="icon-pinterest"></i>
-                            </div>
-                            <div class="brand">
-                                <div class="label">伤心</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="span6">
-                        <div class="tile bg-teal" data-val="@QinJilu.Core.Options.d" data-selected="@Model.Mood.HasFlag(QinJilu.Core.Options.d)">
-                            <div class="tile-content icon">
-                                <i class="icon-yelp"></i>
-                            </div>
-                            <div class="brand">
-                                <div class="label">烦躁</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
             @*  经血    bg-darkRed  *@
             <div id="d_period" class="grid fluid text-center" data-single="single" data-val="@QinJilu.Core.FieldName.Period">
                 <div class="row">
@@ -367,6 +329,53 @@
                     </div>
                 </div>
             </div>
+            @*  心情    bg-teal  *@
+            <div id="d_mood" class="grid fluid text-center" data-val="@QinJilu.Core.FieldName.Mood">
+                <div class="row">
+                    <div class=" span6">
+                        <div class="tile bg-teal" data-val="@QinJilu.Core.Options.a" data-selected="@Model.Mood.HasFlag(QinJilu.Core.Options.a)">
+                            <div class="tile-content icon">
+                                <i class="icon-reddit"></i>
+                            </div>
+                            <div class="brand">
+                                <div class="label">开心</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="span6">
+                        <div class="tile bg-teal" data-val="@QinJilu.Core.Options.b" data-selected="@Model.Mood.HasFlag(QinJilu.Core.Options.b)">
+                            <div class="tile-content icon">
+                                <i class="icon-xing"></i>
+                            </div>
+                            <div class="brand">
+                                <div class="label">敏感</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="span6">
+                        <div class="tile bg-teal" data-val="@QinJilu.Core.Options.c" data-selected="@Model.Mood.HasFlag(QinJilu.Core.Options.c)">
+                            <div class="tile-content icon">
+                                <i class="icon-pinterest"></i>
+                            </div>
+                            <div class="brand">
+                                <div class="label">伤心</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="span6">
+                        <div class="tile bg-teal" data-val="@QinJilu.Core.Options.d" data-selected="@Model.Mood.HasFlag(QinJilu.Core.Options.d)">
+                            <div class="tile-content icon">
+                                <i class="icon-yelp"></i>
+                            </div>
+                            <div class="brand">
+                                <div class="label">烦躁</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             @*  白带    bg-lightOlive  *@
             <div id="d_fluid" class="grid fluid text-center" data-single="single" data-val="@QinJilu.Core.FieldName.Fluid">
                 <div class="row">
@@ -417,7 +426,17 @@
 
         </div>
 
-        <hr />
+
+        <div class="panel  no-border">
+            <div class="panel-header bg-pink  fg-white">
+                <i class="icon-clock on-left"></i>@dt.ToString("yyyy-MM-dd")
+            </div>
+            <div class="panel-content" id="d_abs">
+            </div>
+        </div>
+        
+        
+        @*<hr />
 
         <div class="panel  no-border">
             <div class="panel-header bg-pink  fg-white">
@@ -434,7 +453,8 @@
             <div class="panel-content">
                 Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
             </div>
-        </div>
+        </div>*@
+
     </div>
     <div class="padding20"></div>
 </body>
@@ -450,8 +470,23 @@
         $("#d_fluid").hide();
     }
 
+
+
     $(document).ready(function () {
         hide_all();
+
+
+
+        $("#_page_3 div.listview").dragsort({
+            //itemSelector:'a.list', // 默认就是为‘listview’下面的一级子元素.
+            dragSelector: "i.icon-menu",//可以拖动的元素,在这个元素上面才会显示拖动的手形
+            dragEnd: function () {
+                var o = $(this);
+
+            },
+            dragBetween: true,//是否允許在多個可拖移的元素中互相移動插入
+            placeHolderTemplate: "<div class='list'></div>"// 拖走以后，原来的元素显示的占位附
+        });
 
 
         //  http://www.cnblogs.com/hejunrex/archive/2011/11/17/2252193.html
@@ -465,22 +500,23 @@
                             var tagId = responseJson.tagId;
                             var tag = responseJson.tag;
                             //alert(tagId + ' : ' + tag);
-                            $.Notify({ content: tag + " 添加成功" });
+                            $.Notify({ content: "添加成功 " + tag });
 
                             // 刷新现有标签列表
-                            var tmp = ''
+                            var tmp1 = ''
                             + '<a href="#" class="list " data-tagId="' + tagId + '">'
                             + '    <div class="list-content">'
                             + '        <i class="icon-tag on-left"></i>' + tag
                             + '    </div>'
                             + '</a>';
-                            $('#_page_1 div.listview').prepend(tmp);
+                            $('#_page_1 div.listview').prepend(tmp1);
 
 
+                            var sortno = $('#_page_3 div.listview a.list').length + 10000;
                             var tmp2 = ''
-                            + '<a href="#" class="list shadow" data-tagId="' + tagId + '">'
+                            + '<a href="#" class="list shadow" data-tagId="' + tagId + '" data-sortno="' + sortno + '">'
                             + '    <div class="list-content">'
-                            + '        <i class="icon-menu on-left"></i>' + tag
+                            + '        <i class="icon-menu on-left" title="' + sortno + '"></i>' + tag
                             + '        <i class="icon-cancel on-right fg-red"></i>'
                             + '    </div>'
                             + '</a>';
@@ -521,6 +557,7 @@
                 dataType: 'html'
             }).done(function (msg) {
                 $.Notify({ content: "操作成功" });
+                get_abs();
             }).fail(function (jqXHR, textStatus) {
                 alert('failed: ' + textStatus);
             });
@@ -531,7 +568,7 @@
         //$("#_page_1 a.list:even").addClass("selected");
 
         $('#_page_3').delegate('i.icon-cancel', 'click', function () {
-           
+
             var _tag = $(this).parent().parent();
             var tagId = _tag.attr("data-tagId");
 
@@ -549,6 +586,7 @@
                 // 我的标签那边也要删除掉
                 $('#_page_1 a.list[data-tagId="' + tagId + '"]').remove();
 
+                get_abs();
             }).fail(function (jqXHR, textStatus) {
                 alert('failed: ' + textStatus);
             });
@@ -599,6 +637,7 @@
                 dataType: 'html'
             }).done(function (msg) {
                 $.Notify({ content: "操作成功" });
+                get_abs();
             }).fail(function (jqXHR, textStatus) {
                 alert('failed: ' + textStatus);
             });
@@ -610,9 +649,23 @@
         });
 
 
-
+        get_abs();
     });
 
+    // 取得摘要数据
+    function get_abs() {
+        var tile_abs = new Array();
+        $('#d_details div.grid div.row div.selected').each(function () {
+            tile_abs.push($(this).text().trim());
+        });
+
+        var abs_tags = new Array();
+        $('#_page_1 div.listview a.selected').each(function () {
+            abs_tags.push($(this).text().trim());
+        });
+
+        $('#d_abs').html(tile_abs.join(" , ") + '<br/>' + abs_tags.join(" , "));
+    }
 
 
 
