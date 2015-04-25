@@ -9,7 +9,7 @@ namespace QinJilu.Web.Areas.Weixin.Controllers
     public class MoreController : Models.QinjiluController
     {
         //
-        // GET: /Weixin/More/
+        // GET: /Weixin/More/Index
 
         /// <summary>
         /// 
@@ -18,14 +18,39 @@ namespace QinJilu.Web.Areas.Weixin.Controllers
         /// <returns></returns>
         public ActionResult Index(UInt16 dateticks = 0)
         {
-           var res =  new Core.Services().Get(OpenId,null, dateticks);
-           return View(res);
+            var res = new Core.Services().Get(OpenId, null, dateticks);
+
+            var all_tags = new QinJilu.Core.Services().GetTags(OpenId);
+            var sel_tagIds = new QinJilu.Core.Services().GetRecordTags(res.Id);
+
+            ViewBag.all_tags = all_tags;
+            ViewBag.sel_tagIds = sel_tagIds;
+
+            return View(res);
         }
 
 
-        public ActionResult Post(string recordId, Core.FieldName fieldName, Core.Options opt= Core.Options.nul)
+        public ActionResult Post(string recordId, Core.FieldName fieldName, Core.Options opt = Core.Options.nul)
         {
             new Core.Services().Set(OpenId, recordId, fieldName, opt);
+            return Content("ok");
+        }
+
+        public ActionResult NewTag(string tag)
+        {
+            var tagId = new Core.Services().AddTag(OpenId, null, tag);
+            return Json(new { res = tagId != MongoDB.Bson.ObjectId.Empty, tagId = tagId.ToString(), tag = tag });
+        }
+        public ActionResult DelTag(string tagId)
+        {
+            new Core.Services().DelTag(OpenId, null, tagId);
+            return Content("ok");
+        }
+
+
+        public ActionResult SelectedTag(string recordId, string tagId, bool selected)
+        {
+            new Core.Services().Select(OpenId,recordId,tagId,selected);
             return Content("ok");
         }
 

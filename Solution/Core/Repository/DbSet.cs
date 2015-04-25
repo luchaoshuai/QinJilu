@@ -487,13 +487,22 @@ namespace QinJilu.Core.Repository
 
         #endregion
 
+        internal static List<UserTags> GetTags(MongoDB.Bson.ObjectId sheId)
+        {
+            var collection_tag = Repository.DbSet.GetCollection<UserTags>();
+            var res = collection_tag.AsQueryable()
+                .Where(x => x.Hidden == false && x.SheId == sheId)
+                .OrderBy(x=>x.SortNo).ThenByDescending(x=>x.RefTotal).ThenByDescending(x=>x.CreateOn)
+                .ToList();
+            return res;
+        }
         /// <summary>
         /// 给指定的用户添加 标签
         /// </summary>
         /// <param name="editorId"></param>
         /// <param name="sheId"></param>
         /// <param name="tag"></param>
-        internal static void AddTag(MongoDB.Bson.ObjectId editorId, MongoDB.Bson.ObjectId sheId, string tag)
+        internal static MongoDB.Bson.ObjectId AddTag(MongoDB.Bson.ObjectId editorId, MongoDB.Bson.ObjectId sheId, string tag)
         {
             var collection_tag = Repository.DbSet.GetCollection<TagInfo>();
             var hastag = collection_tag.AsQueryable().Any(x => x.Tag == tag);
@@ -550,6 +559,8 @@ namespace QinJilu.Core.Repository
                 };
                 collection_usertag.Insert(usertag);
             }
+
+            return taginfo.Id;
         }
 
 
@@ -625,6 +636,17 @@ namespace QinJilu.Core.Repository
         }
 
 
+        /// <summary>
+        /// 取得 记录 里面 选择 的 标签Ids
+        /// </summary>
+        /// <param name="recordId"></param>
+        /// <returns></returns>
+        internal static List<MongoDB.Bson.ObjectId> GetRecordTags(MongoDB.Bson.ObjectId recordId)
+        {
+            var collection = Repository.DbSet.GetCollection<RecordTags>();
+
+             return collection.AsQueryable().Where(x => x.RecordId == recordId).Select(x=>x.TagId).ToList();
+        }
 
 
 
@@ -635,6 +657,7 @@ namespace QinJilu.Core.Repository
 
 
         //-----------------------------------   end ----------------------------------------
+
 
 
 

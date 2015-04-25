@@ -15,7 +15,7 @@ namespace QinJilu.Core
         /// </summary>
         public MongoDB.Bson.ObjectId SheId { get; set; }
         /// <summary>
-        /// 引用标签
+        /// 引用标签Id
         /// </summary>
         public MongoDB.Bson.ObjectId TagId { get; set; }
         /// <summary>

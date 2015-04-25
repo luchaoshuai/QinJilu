@@ -1,6 +1,13 @@
 ﻿@model QinJilu.Core.RecordInfo
 @{
     ViewBag.Title = "Qinjilu_com";
+    int prev = Model.DateTicks - 1;
+    int next = Model.DateTicks + 1;
+
+    DateTime dt = QinJilu.Core.DateTimeEx.BeginDate.AddDays(Model.DateTicks);
+
+    List<QinJilu.Core.UserTags> all_tags = ViewBag.all_tags;
+    List<MongoDB.Bson.ObjectId> sel_tagIds = ViewBag.sel_tagIds;
 
 }
 <!DOCTYPE html>
@@ -20,6 +27,9 @@
     <script src="~/Scripts/metro-ui/jquery.ui.widget.js"></script>
     <script src="~/Scripts/metro-ui/metro.min.js"></script>
 
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.form.min.js"></script>
+
     <title>@ViewBag.Title</title>
     <style type="text/css">
         .metro .example:before {
@@ -33,15 +43,19 @@
         .tab-control {
             min-width: 280px;
         }
+
+        .error {
+            padding-left: 20px;
+            color: red;
+        }
     </style>
 </head>
 <body class="metro">
     <div class="container">
         <h1 class="text-center">
-            @Model.Id
-            <a href="#"><i class="icon-arrow-left-3 fg-darker on-left-more"></i></a>
-            @DateTime.Now.ToString("yyyy-MM-dd")
-            <a href="#"><i class="icon-arrow-right-3 fg-darker on-right-more"></i></a>@Model.DateTicks
+            <a href="/Weixin/More/Index?dateticks=@prev"><i class="icon-arrow-left-3 fg-darker on-left-more"></i></a>
+            <b title="@Model.DateTicks">@dt.ToString("yyyy-MM-dd")</b>
+            <a href="/Weixin/More/Index?dateticks=@next"><i class="icon-arrow-right-3 fg-darker on-right-more"></i></a>
         </h1>
         <div id="d_btns" class="grid fluid">
             <div class=" row">
@@ -96,67 +110,67 @@
             <div class="frames">
                 <div class="frame" id="_page_1">
                     <div class="listview">
-                        <a href="#" class="list selected">
-                            <div class="list-content">
-                                <i class="icon-tag on-left"></i>新标签1
-                            </div>
-                        </a>
-                        <a href="#" class="list shadow">
-                            <div class="list-content">
-                                <i class="icon-tag on-left"></i>新标签1
-                            </div>
-                        </a>
-                        <a href="#" class="list">
-                            <div class="list-content">
-                                <i class="icon-tag on-left"></i>新标签1
-                            </div>
-                        </a>
-                        <a href="#" class="list selected">
-                            <div class="list-content">
-                                <i class="icon-tag on-left"></i>新标签1输入新标签或选，择下面的标签输入新标签或选择下面的标签，输入新标签或选择下面的标签
-                            </div>
-                        </a>
+
+                        @foreach (var item in all_tags)
+                        {
+                            <a href="#" class="list" data-tagid="@item.TagId" data-selected="@sel_tagIds.Any(x=>x==item.TagId)">
+                                <div class="list-content">
+                                    <i class="icon-tag on-left"></i>@item.Tag
+                                </div>
+                            </a>
+                        }
                     </div>
                 </div>
                 <div class="frame text-center" id="_page_2">
-                    <div class="input-control text" data-role="input-control">
-                        <input type="text" value="" placeholder="输入新标签的名称" />
-                    </div>
-                    <button class="command-button">
-                        <i class="icon-floppy on-right"></i>
-                        保存为新标签
-                        <small>以后可直接选择使用</small>
-                    </button>
+                    <form id="f_newtag" action="/Weixin/More/NewTag" method="post">
+                        <div class="input-control text" data-role="input-control">
+                            <input name="tag" type="text" value="" placeholder="输入新标签的名称" data-rule-required="true" />
+                        </div>
+                        <button type="submit" class="command-button">
+                            <i class="icon-floppy on-right"></i>
+                            保存为新标签
+                            <small>以后可直接选择使用</small>
+                        </button>
+                    </form>
                 </div>
                 <div class="frame" id="_page_3">
 
                     <div class="panel">
                         <div class="listview">
-                            <a href="#" class="list shadow">
-                                <div class="list-content">
-                                    <i class="icon-menu on-left"></i>新标签1新标签1新标签1
-                                    <i class="icon-cancel on-right-more fg-red"></i>
-                                </div>
-                            </a>
-                            <a href="#" class="list shadow">
-                                <div class="list-content">
-                                    <i class="icon-menu on-left"></i>新标签1
-                                    <i class="icon-cancel on-right  fg-red"></i>
-                                </div>
-                            </a>
-                            <a href="#" class="list shadow">
-                                <div class="list-content">
-                                    <i class="icon-menu on-left"></i>新标签1新标签1新标签1新标签1新标签1新标签1新标签1新标签1新标签1
-                                    <i class="icon-cancel on-right-more fg-red"></i>
-                                </div>
-                            </a>
-                            <div class="list shadow">
-                                <div class="list-content">
-                                    <i class="icon-menu on-left"></i>
-                                    新标签1
-                                    <i class="icon-cancel on-right-more fg-red"></i>
-                                </div>
-                            </div>
+                            @foreach (var item in all_tags.OrderBy(x=>x.SortNo).ThenBy(x=>x.CreateOn))
+                            {
+                                <a href="#" class="list shadow" data-tagid="@item.TagId">
+                                    <div class="list-content">
+                                        <i class="icon-menu on-left"></i>@item.Tag
+                                        <i class="icon-cancel on-right  fg-red"></i>
+                                    </div>
+                                </a>
+                            }
+                            @*<a href="#" class="list shadow">
+                                    <div class="list-content">
+                                        <i class="icon-menu on-left"></i>新标签1新标签1新标签1
+                                        <i class="icon-cancel on-right-more fg-red"></i>
+                                    </div>
+                                </a>
+                                <a href="#" class="list shadow">
+                                    <div class="list-content">
+                                        <i class="icon-menu on-left"></i>新标签1
+                                        <i class="icon-cancel on-right  fg-red"></i>
+                                    </div>
+                                </a>
+                                <a href="#" class="list shadow">
+                                    <div class="list-content">
+                                        <i class="icon-menu on-left"></i>新标签1新标签1新标签1新标签1新标签1新标签1新标签1新标签1新标签1
+                                        <i class="icon-cancel on-right-more fg-red"></i>
+                                    </div>
+                                </a>
+                                <div class="list shadow">
+                                    <div class="list-content">
+                                        <i class="icon-menu on-left"></i>
+                                        新标签1
+                                        <i class="icon-cancel on-right-more fg-red"></i>
+                                    </div>
+                                </div>*@
                         </div>
                     </div>
                 </div>
@@ -440,6 +454,107 @@
         hide_all();
 
 
+        //  http://www.cnblogs.com/hejunrex/archive/2011/11/17/2252193.html
+        $("#f_newtag").validate({
+            //debug:true,
+            submitHandler: function (_form) {
+                $(_form).ajaxSubmit({
+                    success: function (responseJson, statusText) {
+                        if (responseJson.res) {
+
+                            var tagId = responseJson.tagId;
+                            var tag = responseJson.tag;
+                            //alert(tagId + ' : ' + tag);
+                            $.Notify({ content: tag + " 添加成功" });
+
+                            // 刷新现有标签列表
+                            var tmp = ''
+                            + '<a href="#" class="list " data-tagId="' + tagId + '">'
+                            + '    <div class="list-content">'
+                            + '        <i class="icon-tag on-left"></i>' + tag
+                            + '    </div>'
+                            + '</a>';
+                            $('#_page_1 div.listview').prepend(tmp);
+
+
+                            var tmp2 = ''
+                            + '<a href="#" class="list shadow" data-tagId="' + tagId + '">'
+                            + '    <div class="list-content">'
+                            + '        <i class="icon-menu on-left"></i>' + tag
+                            + '        <i class="icon-cancel on-right fg-red"></i>'
+                            + '    </div>'
+                            + '</a>';
+                            $('#_page_3 div.listview').append(tmp2);
+                        }
+                    }
+                });
+            },
+            rules: {
+                tag: {
+                    required: true,
+                    minlength: 2
+                }
+            },
+            messages: {
+                tag: {
+                    required: '标签名不能为空!',
+                    minlength: '标签名不能少于2位!'
+                }
+            }
+        });
+
+        //  http://kb.cnblogs.com/page/94469/
+        $('#_page_1').delegate('a.list', 'click', function () {
+            $(this).toggleClass("selected");
+
+            var sed = $(this).hasClass("selected");
+            var tagId = $(this).attr("data-tagId");
+
+            $.ajax({
+                url: ' /Weixin/More/SelectedTag',
+                type: 'POST',
+                data: {
+                    recordId: '@Model.Id',
+                    tagId: tagId,
+                    selected: sed
+                },
+                dataType: 'html'
+            }).done(function (msg) {
+                $.Notify({ content: "操作成功" });
+            }).fail(function (jqXHR, textStatus) {
+                alert('failed: ' + textStatus);
+            });
+        });
+
+        $('#_page_1 a.list[data-selected="True"]').addClass('selected');
+        //$("#_page_1 a.list:odd").addClass("shadow");
+        //$("#_page_1 a.list:even").addClass("selected");
+
+        $('#_page_3').delegate('i.icon-cancel', 'click', function () {
+           
+            var _tag = $(this).parent().parent();
+            var tagId = _tag.attr("data-tagId");
+
+            $.ajax({
+                url: ' /Weixin/More/DelTag',
+                type: 'POST',
+                data: {
+                    tagId: tagId
+                },
+                dataType: 'html'
+            }).done(function (msg) {
+                $.Notify({ content: "删除成功" });
+                _tag.remove();
+
+                // 我的标签那边也要删除掉
+                $('#_page_1 a.list[data-tagId="' + tagId + '"]').remove();
+
+            }).fail(function (jqXHR, textStatus) {
+                alert('failed: ' + textStatus);
+            });
+        });
+
+
         $("#d_btns button.shortcut").click(function () {
             hide_all();
             $("#d_" + $(this).attr("title")).show();
@@ -483,7 +598,7 @@
                 },
                 dataType: 'html'
             }).done(function (msg) {
-
+                $.Notify({ content: "操作成功" });
             }).fail(function (jqXHR, textStatus) {
                 alert('failed: ' + textStatus);
             });
@@ -497,6 +612,19 @@
 
 
     });
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 </script>

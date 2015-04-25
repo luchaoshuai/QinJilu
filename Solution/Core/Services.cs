@@ -607,7 +607,7 @@ namespace QinJilu.Core
         /// <param name="openId"></param>
         /// <param name="sheId"></param>
         /// <param name="tag"></param>
-        public void AddTag(string openId, string sheId, string tag)
+        public MongoDB.Bson.ObjectId AddTag(string openId, string sheId, string tag)
         {
             MongoDB.Bson.ObjectId editorId = GetUserId(openId);
             var she_id = MongoDB.Bson.ObjectId.Empty;
@@ -619,26 +619,58 @@ namespace QinJilu.Core
             {
                 she_id = MongoDB.Bson.ObjectId.Parse(sheId);
             }
-            Repository.DbSet.AddTag(editorId, she_id, tag);
+            var tagId = Repository.DbSet.AddTag(editorId, she_id, tag);
+            return tagId;// 全局的tagId。与用户无关
         }
         /// <summary>
         /// 删除一个用户标签
         /// </summary>
-        /// <param name="openId"></param>
-        /// <param name="tagId"></param>
-        public void DelTag(string openId, MongoDB.Bson.ObjectId sheId, MongoDB.Bson.ObjectId tagId)
+        public void DelTag(string openId, string sheId, string tagId)
         {
-            Repository.DbSet.DelTag(sheId, tagId);
+            var she_id = MongoDB.Bson.ObjectId.Empty;
+            if (string.IsNullOrEmpty(sheId))
+            {
+                she_id = GetSheId(openId);// 若当前登录是男的？则要取女神的Id
+            }
+            else
+            {
+                she_id = MongoDB.Bson.ObjectId.Parse(sheId);
+            }
+            Repository.DbSet.DelTag(she_id, MongoDB.Bson.ObjectId.Parse(tagId));
         }
+        /// <summary>
+        /// 取得用户的自定义标签
+        /// </summary>
+        /// <param name="openId"></param>
+        /// <returns></returns>
+        public List<UserTags> GetTags(string openId)
+        {
+            var sheId =GetSheId(openId);
+            return Repository.DbSet.GetTags(sheId);
+        }
+
 
 
         /// <summary>
         /// 选择 标签
         /// </summary>
+        public void Select(string openId, string recordId,string tagId, bool selected)
+        {
+            Select(openId, MongoDB.Bson.ObjectId.Parse(recordId), MongoDB.Bson.ObjectId.Parse(tagId), selected);
+        }
         public void Select(string openId, MongoDB.Bson.ObjectId recordId, MongoDB.Bson.ObjectId tagId, bool selected)
         {
             MongoDB.Bson.ObjectId editorId = GetUserId(openId);
             Repository.DbSet.SelectTag(editorId, recordId, tagId, selected);
+        }
+        /// <summary>
+        /// 取得 记录 里面 选择 的 标签Ids
+        /// </summary>
+        /// <param name="recordId"></param>
+        /// <returns></returns>
+        public List<MongoDB.Bson.ObjectId> GetRecordTags(MongoDB.Bson.ObjectId recordId)
+        {
+            return Repository.DbSet.GetRecordTags(recordId);
         }
 
 
@@ -685,6 +717,7 @@ namespace QinJilu.Core
 
 
         #endregion
+
 
     }
 }
