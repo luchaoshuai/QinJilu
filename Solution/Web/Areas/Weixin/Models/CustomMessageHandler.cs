@@ -122,7 +122,8 @@ namespace QinJilu.Web.Areas.Weixin.Models
         public override IResponseMessageBase DefaultResponseMessage(IRequestMessageBase requestMessage)
         {
             var responseMessage = this.CreateResponseMessage<ResponseMessageText>();
-            responseMessage.Content = "刚刚发来的消息为：" + requestMessage.Encrypt + " ,  from DefaultResponseMessage。";
+            //responseMessage.Content = "刚刚发来的消息为：" + requestMessage.Encrypt + " ,  from DefaultResponseMessage。";
+            responseMessage.Content = "暂时仅接收文本类型的消息，其它消息将被忽略！";
             return responseMessage;
         }
 
