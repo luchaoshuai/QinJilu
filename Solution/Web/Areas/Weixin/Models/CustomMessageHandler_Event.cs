@@ -34,7 +34,7 @@ namespace QinJilu.Web.Areas.Weixin.Models
             }
             else
             {
-                responseMessage.Content = "<a href='" + url + "'>欢迎关注，更多精彩，邀您探索！点我开始吧！</a>";
+                responseMessage.Content = "欢迎关注，更多精彩，邀您探索！<a href='" + url + "'>点我开始吧！</a>";
             }
 
             return responseMessage;

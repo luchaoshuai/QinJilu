@@ -72,7 +72,7 @@ namespace QinJilu.Web.Areas.Weixin.Controllers
             try
             {
                 //测试时可开启此记录，帮助跟踪数据，使用前请确保App_Data文件夹存在，且有读写权限。
-                messageHandler.RequestDocument.Save(Server.MapPath("~/App_Data/" + DateTime.Now.Ticks + "_Request_" + messageHandler.RequestMessage.FromUserName + ".txt"));
+                //messageHandler.RequestDocument.Save(Server.MapPath("~/App_Data/" + DateTime.Now.Ticks + "_Request_" + messageHandler.RequestMessage.FromUserName + ".txt"));
                 //if (messageHandler.UsingEcryptMessage)
                 //{
                 //    //未解密前的原始响应信息
@@ -87,7 +87,7 @@ namespace QinJilu.Web.Areas.Weixin.Controllers
                 messageHandler.Execute();
 
                 //测试时可开启，帮助跟踪数据
-                messageHandler.ResponseDocument.Save(Server.MapPath("~/App_Data/" + DateTime.Now.Ticks + "_Response_" + messageHandler.ResponseMessage.ToUserName + ".txt"));
+                //messageHandler.ResponseDocument.Save(Server.MapPath("~/App_Data/" + DateTime.Now.Ticks + "_Response_" + messageHandler.ResponseMessage.ToUserName + ".txt"));
                 //if (messageHandler.UsingEcryptMessage)
                 //{
                 //    //记录加密后的响应信息

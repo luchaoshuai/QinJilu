@@ -1,5 +1,5 @@
 ﻿@{
-    
+
     ViewBag.Title = "Entrance";
 
     var openId = Request.QueryString["openId"];
@@ -9,12 +9,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta http-equiv="refresh" content="3; url=@state" />
-    <title>@openId</title>
+    <meta http-equiv="refresh" content="0; url=@state" />
+    <title>努力加载中...</title>
 </head>
 <body>
     GO : <a href="@state">@state</a>
-    <br/>3秒后自动跳转。。。
+    <br />3秒后自动跳转。。。
 
     @if (User.Identity.IsAuthenticated)
     {
@@ -24,6 +24,6 @@
     {
         <b>!!!Authenticated</b>
     }
-
+    @openId
 </body>
 </html>

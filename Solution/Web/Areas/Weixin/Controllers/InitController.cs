@@ -76,7 +76,7 @@ namespace QinJilu.Web.Areas.Weixin.Controllers
         public ActionResult WomanInit(int age, DateTime lasterCycleStart, int cycleTypically, int periodTypically)
         {
             new Core.Services().WomanInit(OpenId, age, lasterCycleStart, cycleTypically, periodTypically);
-            return Redirect("/Weixin/Today/Index");
+            return Redirect("/Weixin/More/Index");
         }
 
     }
