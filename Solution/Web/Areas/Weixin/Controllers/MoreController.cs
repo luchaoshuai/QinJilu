@@ -22,9 +22,11 @@ namespace QinJilu.Web.Areas.Weixin.Controllers
 
             var all_tags = new QinJilu.Core.Services().GetTags(OpenId);
             var sel_tagIds = new QinJilu.Core.Services().GetRecordTags(res.Id);
+            var cur_notes = new QinJilu.Core.Services().GetNotes(OpenId,null, dateticks);
 
             ViewBag.all_tags = all_tags;
             ViewBag.sel_tagIds = sel_tagIds;
+            ViewBag.cur_notes = cur_notes;
 
             return View(res);
         }

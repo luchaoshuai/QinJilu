@@ -676,6 +676,12 @@ namespace QinJilu.Core.Repository
         }
 
 
+        internal static List<RecordNote> GetNotes(MongoDB.Bson.ObjectId sheId, ushort dateticks)
+        {
+            var collection = Repository.DbSet.GetCollection<RecordNote>();
+            return collection.AsQueryable().Where(x => x.SheId == sheId && x.Deleted == false && x.DateTicks == dateticks).ToList();
+        }
+
 
 
 

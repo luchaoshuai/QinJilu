@@ -1,6 +1,6 @@
 ﻿@model QinJilu.Core.RecordInfo
 @{
-    ViewBag.Title = "Qinjilu_com";
+    ViewBag.Title = "亲记录 - Qinjilu_com";
     int prev = Model.DateTicks - 1;
     int next = Model.DateTicks + 1;
 
@@ -8,6 +8,7 @@
 
     List<QinJilu.Core.UserTags> all_tags = ViewBag.all_tags;
     List<MongoDB.Bson.ObjectId> sel_tagIds = ViewBag.sel_tagIds;
+    List<QinJilu.Core.RecordNote> cur_notes = ViewBag.cur_notes;
 
 }
 <!DOCTYPE html>
@@ -19,18 +20,15 @@
     <meta name="description" content="qinjilu">
     <meta name="author" content="lcskey@qq.com">
     <meta name="keywords" content="qinjilu">
-
     <link href="~/Content/metro-ui/css/metro-bootstrap.min.css" rel="stylesheet" />
     <link href="~/Content/metro-ui/css/metro-bootstrap-responsive.min.css" rel="stylesheet" />
     <link href="~/Content/metro-ui/css/iconFont.min.css" rel="stylesheet" />
     <script src="~/Scripts/jquery-2.1.3.min.js"></script>
     <script src="~/Scripts/metro-ui/jquery.ui.widget.js"></script>
     <script src="~/Scripts/metro-ui/metro.min.js"></script>
-
     <script src="~/Scripts/jquery.validate.min.js"></script>
     <script src="~/Scripts/jquery.form.min.js"></script>
     <script src="~/Scripts/jquery.dragsort-0.5.2.min.js"></script>
-
     <title>@ViewBag.Title</title>
     <style type="text/css">
         .metro .example:before {
@@ -100,7 +98,6 @@
                 </div>
             </div>
         </div>
-
         <hr />
         @*  标签  *@
         <div id="d_tags" class="tab-control" data-role="tab-control">
@@ -112,7 +109,6 @@
             <div class="frames">
                 <div class="frame" id="_page_1">
                     <div class="listview">
-
                         @foreach (var item in all_tags.Where(x => sel_tagIds.Contains(x.TagId)))
                         {
                             <a href="#" class="list" data-tagid="@item.TagId" data-selected="@sel_tagIds.Any(x=>x==item.TagId)">
@@ -144,7 +140,6 @@
                     </form>
                 </div>
                 <div class="frame" id="_page_3">
-
                     <div class="panel">
                         <div class="listview">
                             @foreach (var item in all_tags.OrderBy(x => x.SortNo).ThenBy(x => x.CreateOn))
@@ -186,7 +181,6 @@
                 </div>
             </div>
         </div>
-
         <div id="d_details">
             @*  经血    bg-darkRed  *@
             <div id="d_period" class="grid fluid text-center" data-single="single" data-val="@QinJilu.Core.FieldName.Period">
@@ -423,9 +417,7 @@
                     </div>
                 </div>
             </div>
-
         </div>
-
 
         <div class="panel  no-border">
             <div class="panel-header bg-pink  fg-white">
@@ -434,27 +426,37 @@
             <div class="panel-content" id="d_abs">
             </div>
         </div>
-        
-        
-        @*<hr />
 
-        <div class="panel  no-border">
-            <div class="panel-header bg-pink  fg-white">
-                <i class="icon-clock on-left"></i>2015-05-12
-            </div>
-            <div class="panel-content">
-                @Newtonsoft.Json.JsonConvert.SerializeObject(Model)
-            </div>
+        <div class="listview">
+            @foreach (var item in cur_notes)
+            {
+                <a href="#" class="list">
+                    <div class="list-content">
+                        <i class="icon-clock on-left"></i>@item.CreateOn.ToString("yyyy-MM-dd HH:mm:ss")
+                        <br />
+                        @item.Notes
+                    </div>
+                </a>
+            }
         </div>
-        <div class="panel  no-border">
-            <div class="panel-header bg-pink  fg-white">
-                <i class="icon-clock on-left"></i>2015-05-12
-            </div>
-            <div class="panel-content">
-                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
-            </div>
-        </div>*@
 
+        @*<hr />
+            <div class="panel  no-border">
+                <div class="panel-header bg-pink  fg-white">
+                    <i class="icon-clock on-left"></i>2015-05-12
+                </div>
+                <div class="panel-content">
+                    @Newtonsoft.Json.JsonConvert.SerializeObject(Model)
+                </div>
+            </div>
+            <div class="panel  no-border">
+                <div class="panel-header bg-pink  fg-white">
+                    <i class="icon-clock on-left"></i>2015-05-12
+                </div>
+                <div class="panel-content">
+                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+                </div>
+            </div>*@
     </div>
     <div class="padding20"></div>
 </body>
