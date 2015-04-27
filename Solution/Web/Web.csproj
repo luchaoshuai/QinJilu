@@ -146,6 +146,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\MetroUICSSBundleConfig.cs" />
+    <Compile Include="Areas\Main\Controllers\ArticleController.cs" />
     <Compile Include="Areas\Main\Controllers\HomeController.cs" />
     <Compile Include="Areas\Main\MainAreaRegistration.cs" />
     <Compile Include="Areas\Weixin\Controllers\BookController.cs" />
@@ -210,6 +211,7 @@
     <Content Include="Areas\Weixin\Views\More\Index.cshtml" />
     <Content Include="Areas\Weixin\Views\Passport\Transit.cshtml" />
     <Content Include="Areas\Weixin\Views\Passport\Error.cshtml" />
+    <Content Include="Areas\Main\Views\Article\Index.cshtml" />
     <None Include="Properties\PublishProfiles\89.localhost.pubxml" />
     <None Include="Scripts\jquery-2.1.3.intellisense.js" />
     <Content Include="Scripts\jquery-2.1.3.js" />

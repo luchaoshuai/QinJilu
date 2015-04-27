@@ -11,9 +11,26 @@ namespace QinJilu.Web.Areas.Weixin.Controllers
         //
         // GET: /Weixin/Today/
 
-        public ActionResult Index()
+        public ActionResult Index(string date="")
         {
-            return View();
+            if (string.IsNullOrEmpty(date))
+            {
+                date = DateTime.Now.ToShortDateString();
+            }
+
+
+            DateTime dt = DateTime.Parse(date);
+            QinJilu.Core.RecordInfo info = new Core.Services().Get(OpenId, null, dt);
+
+
+
+            var sel_tags = new QinJilu.Core.Services().GetRecordTags(info.Id);
+            var cur_notes = new QinJilu.Core.Services().GetNotes(OpenId, null, info.DateTicks);
+
+            ViewBag.sel_tags = sel_tags;
+            ViewBag.cur_notes = cur_notes;
+
+            return View(info);
         }
 
     }

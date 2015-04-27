@@ -1,5 +1,258 @@
-﻿@{
-    ViewBag.Title = "Index";
-}
+﻿@model QinJilu.Core.RecordInfo
+@{
+    ViewBag.Title = "今日 - 日历" + Model.DateTicks;
 
-<h2>today</h2>
+    DateTime dt = QinJilu.Core.DateTimeEx.BeginDate.AddDays(Model.DateTicks);
+
+    List<string> sel_tags = ViewBag.sel_tags;
+    List<QinJilu.Core.RecordNote> cur_notes = ViewBag.cur_notes;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="product" content="qinjilu">
+    <meta name="description" content="qinjilu">
+    <meta name="author" content="lcskey@qq.com">
+    <meta name="keywords" content="qinjilu">
+
+
+    <link href="~/Content/metro-ui/css/metro-bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/metro-ui/css/metro-bootstrap-responsive.min.css" rel="stylesheet" />
+    <link href="~/Content/metro-ui/css/iconFont.min.css" rel="stylesheet" />
+
+    <script src="~/Scripts/jquery-2.1.3.min.js"></script>
+    <script src="~/Scripts/metro-ui/jquery.ui.widget.js"></script>
+    <script src="~/Scripts/metro-ui/metro.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+
+    <title>@ViewBag.Title</title>
+
+    <style type="text/css">
+        .error {
+            padding-left: 20px;
+            color: red;
+        }
+
+        #day_view span{
+            padding-right:5px;
+        }
+    </style>
+</head>
+<body class="metro">
+
+    <div class="container">
+
+        @*<h1><a href="index"><i class="icon-arrow-left-3 fg-darker on-left-more"></i></a>lcs</h1>*@
+
+        <div style="margin: 5px">
+            <div class="calendar" data-role="calendar" data-locale="zhCN" data-date="@dt.ToString("yyyy-MM-dd")"></div>
+        </div>
+
+
+
+        <div class="tab-control padding20" data-role="tab-control">
+            <p class="place-right tertiary-text"><a href="/Weixin/More/Index?dateticks=@Model.DateTicks"><i class="icon-cog"></i>编辑</a></p>
+            <ul class="tabs">
+                <li class="active"><a href="#day_view" id="sel_day">@dt.ToString("yyyy-MM-dd")</a></li>
+                <li><a href="#add_note">发表新动态</a></li>
+            </ul>
+
+            <div class="frames">
+                <div id="day_view" class="frame">
+                    @if (Model.Period != QinJilu.Core.Options.nul)
+                    {
+                        <b>经血:</b>
+                        if (Model.Sex.HasFlag(QinJilu.Core.Options.a))
+                        {
+                            <span>轻微</span>
+                        }
+                        if (Model.Sex.HasFlag(QinJilu.Core.Options.b))
+                        {
+                            <span>适量</span>
+                        }
+                        if (Model.Sex.HasFlag(QinJilu.Core.Options.c))
+                        {
+                            <span>大量</span>
+                        }
+                        if (Model.Sex.HasFlag(QinJilu.Core.Options.d))
+                        {
+                            <span>意外流血</span>
+                        }
+
+                    }
+                    @if (Model.Fluid != QinJilu.Core.Options.nul)
+                    {
+                        <br /><b>白带:</b>
+                        if (Model.Sex.HasFlag(QinJilu.Core.Options.a))
+                        {
+                            <span>蛋白</span>
+                        }
+                        if (Model.Sex.HasFlag(QinJilu.Core.Options.b))
+                        {
+                            <span>粘稠</span>
+                        }
+                        if (Model.Sex.HasFlag(QinJilu.Core.Options.c))
+                        {
+                            <span>稀薄</span>
+                        }
+                        if (Model.Sex.HasFlag(QinJilu.Core.Options.d))
+                        {
+                            <span>异常</span>
+                        }
+                    }
+                    @if (Model.Mood != QinJilu.Core.Options.nul)
+                    {
+                        <br /><b>心情:</b>
+                        if (Model.Sex.HasFlag(QinJilu.Core.Options.a))
+                        {
+                            <span>开心</span>
+                        }
+                        if (Model.Sex.HasFlag(QinJilu.Core.Options.b))
+                        {
+                            <span>敏感</span>
+                        }
+                        if (Model.Sex.HasFlag(QinJilu.Core.Options.c))
+                        {
+                            <span>伤心</span>
+                        }
+                        if (Model.Sex.HasFlag(QinJilu.Core.Options.d))
+                        {
+                            <span>烦躁</span>
+                        }
+
+                    }
+                    @if (Model.Pain != QinJilu.Core.Options.nul)
+                    {
+                        <br /><b>疼痛:</b>
+                        if (Model.Sex.HasFlag(QinJilu.Core.Options.a))
+                        {
+                            <span>抽筋</span>
+                        }
+                        if (Model.Sex.HasFlag(QinJilu.Core.Options.b))
+                        {
+                            <span>头痛</span>
+                        }
+                        if (Model.Sex.HasFlag(QinJilu.Core.Options.c))
+                        {
+                            <span>腹痛</span>
+                        }
+                        if (Model.Sex.HasFlag(QinJilu.Core.Options.d))
+                        {
+                            <span>乳房痛</span>
+                        }
+
+                    }
+                    @if (Model.Pill != QinJilu.Core.Options.nul)
+                    {
+                        <br /><b>药丸:</b>
+                        if (Model.Sex.HasFlag(QinJilu.Core.Options.a))
+                        {
+                            <span>xx</span>
+                        }
+                        if (Model.Sex.HasFlag(QinJilu.Core.Options.b))
+                        {
+                            <span>xx</span>
+                        }
+                        if (Model.Sex.HasFlag(QinJilu.Core.Options.c))
+                        {
+                            <span>xx</span>
+                        }
+                        if (Model.Sex.HasFlag(QinJilu.Core.Options.d))
+                        {
+                            <span>xx</span>
+                        }
+
+                    }
+                    @if (Model.Sex != QinJilu.Core.Options.nul)
+                    {
+                        <br /><b>爱爱:</b>
+                        if (Model.Sex.HasFlag(QinJilu.Core.Options.a))
+                        {
+                            <span>无保护</span>
+                        }
+                        if (Model.Sex.HasFlag(QinJilu.Core.Options.b))
+                        {
+                            <span>有保护</span>
+                        }
+                        if (Model.Sex.HasFlag(QinJilu.Core.Options.c))
+                        {
+                            <span>未插入</span>
+                        }
+                        if (Model.Sex.HasFlag(QinJilu.Core.Options.d))
+                        {
+                            <span>体外</span>
+                        }
+
+                    }
+                    @if (Model.Temperature > 0)
+                    {
+                        <br /><b>体温:</b>
+                        if (Model.Reliable)
+                        {
+                            <span>可靠的</span> <span>@Model.Temperature</span>
+                        }
+                        else
+                        {
+                            <span>@Model.Temperature</span>
+                        }
+                    }
+
+                    @if (sel_tags.Count > 0)
+                    {
+                        <br /><b>体温:</b>
+                        foreach (var item in sel_tags)
+                        {
+                            <span>@item</span>
+                        }
+                    }
+
+
+                    @if (cur_notes.Count > 0)
+                    {
+                        <div class="padding15"></div>
+                        <b>动态：</b>
+                        <div class="listview">
+                            @foreach (var item in cur_notes)
+                            {
+                                <a href="#" class="list">
+                                    <div class="list-content">
+                                        <i class="icon-clock on-left"></i>@item.CreateOn.ToString("yyyy-MM-dd HH:mm:ss")
+                                        <br />
+                                        @item.Notes
+                                    </div>
+                                </a>
+                            }
+                        </div>
+                    }
+
+                </div>
+                <div id="add_note" class=" frame">
+                    <textarea data-transform="input-control" placeholder="添加新动态"></textarea>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
+        <div class="padding20"></div>
+    </div>
+</body>
+</html>
+<script type="text/javascript">
+
+
+
+    var cal = $(".calendar").calendar({
+        buttons: false,
+        date: '@dt.ToString("yyyy-MM-dd")',
+        click: function (d) {
+            location.href = '/Weixin/Today/Index?date=' + d;
+        }
+    });
+    cal.calendar('setDate', '@dt.ToString("yyyy-MM-dd")');
+</script>

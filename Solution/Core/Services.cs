@@ -485,6 +485,11 @@ namespace QinJilu.Core
             Repository.DbSet.EndMark(editorId, info.Id);
         }
 
+        public RecordInfo Get(string openId, string sheId, DateTime dt)
+        {
+            var dateticks = ParseDate(dt);
+            return Get(openId, sheId, dateticks);
+        }
         /// <summary>
         /// 取得指定sheId 某天的所有记录
         /// </summary>
@@ -508,15 +513,15 @@ namespace QinJilu.Core
             {
                 she_id = MongoDB.Bson.ObjectId.Parse(sheId);
             }
-            var info = Repository.DbSet.Get(editorId,she_id, dateticks);
+            var info = Repository.DbSet.Get(editorId, she_id, dateticks);
             return info;
         }
-        
+
         public void Set(string openId, string recordId, FieldName fName, Core.Options opts)
         {
-            Set(openId, MongoDB.Bson.ObjectId.Parse(recordId),fName,opts);
+            Set(openId, MongoDB.Bson.ObjectId.Parse(recordId), fName, opts);
         }
-        public void Set(string openId, MongoDB.Bson.ObjectId recordId, FieldName fName,Core.Options opt)
+        public void Set(string openId, MongoDB.Bson.ObjectId recordId, FieldName fName, Core.Options opt)
         {
             MongoDB.Bson.ObjectId editorId = GetUserId(openId);
             Repository.DbSet.Set(editorId, recordId, fName, opt);
@@ -589,9 +594,9 @@ namespace QinJilu.Core
         /// </summary>
         /// <param name="openId"></param>
         /// <param name="tagId"></param>
-        public void Temperature(string openId,string recordId, Int16 temperature, bool reliable)
+        public void Temperature(string openId, string recordId, Int16 temperature, bool reliable)
         {
-            Temperature(openId, MongoDB.Bson.ObjectId.Parse(recordId),temperature,reliable);
+            Temperature(openId, MongoDB.Bson.ObjectId.Parse(recordId), temperature, reliable);
         }
         public void Temperature(string openId, MongoDB.Bson.ObjectId recordId, Int16 temperature, bool reliable)
         {
@@ -645,7 +650,7 @@ namespace QinJilu.Core
         /// <returns></returns>
         public List<UserTags> GetTags(string openId)
         {
-            var sheId =GetSheId(openId);
+            var sheId = GetSheId(openId);
             return Repository.DbSet.GetTags(sheId);
         }
 
@@ -654,7 +659,7 @@ namespace QinJilu.Core
         /// <summary>
         /// 选择 标签
         /// </summary>
-        public void Select(string openId, string recordId,string tagId, bool selected)
+        public void Select(string openId, string recordId, string tagId, bool selected)
         {
             Select(openId, MongoDB.Bson.ObjectId.Parse(recordId), MongoDB.Bson.ObjectId.Parse(tagId), selected);
         }
@@ -668,11 +673,20 @@ namespace QinJilu.Core
         /// </summary>
         /// <param name="recordId"></param>
         /// <returns></returns>
-        public List<MongoDB.Bson.ObjectId> GetRecordTags(MongoDB.Bson.ObjectId recordId)
+        public List<MongoDB.Bson.ObjectId> GetRecordTagIds(MongoDB.Bson.ObjectId recordId)
+        {
+            return Repository.DbSet.GetRecordTagIds(recordId);
+        }
+        
+        /// <summary>
+        /// 取得 记录 里面 选择 的 标签
+        /// </summary>
+        /// <param name="recordId"></param>
+        /// <returns></returns>
+        public List<string> GetRecordTags(MongoDB.Bson.ObjectId recordId)
         {
             return Repository.DbSet.GetRecordTags(recordId);
         }
-
 
         #endregion
 
@@ -720,7 +734,7 @@ namespace QinJilu.Core
 
 
 
-        public void AddNote(string openId, string sheId, string note, ushort dateticks=0)
+        public void AddNote(string openId, string sheId, string note, ushort dateticks = 0)
         {
             if (dateticks == 0)
             {

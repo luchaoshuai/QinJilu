@@ -644,13 +644,27 @@ namespace QinJilu.Core.Repository
         /// </summary>
         /// <param name="recordId"></param>
         /// <returns></returns>
-        internal static List<MongoDB.Bson.ObjectId> GetRecordTags(MongoDB.Bson.ObjectId recordId)
+        internal static List<MongoDB.Bson.ObjectId> GetRecordTagIds(MongoDB.Bson.ObjectId recordId)
         {
             var collection = Repository.DbSet.GetCollection<RecordTags>();
 
             return collection.AsQueryable().Where(x => x.RecordId == recordId).Select(x => x.TagId).ToList();
         }
 
+        /// <summary>
+        /// 取得 记录 里面 选择 的 标签
+        /// </summary>
+        /// <param name="recordId"></param>
+        /// <returns></returns>
+        internal static List<string> GetRecordTags(MongoDB.Bson.ObjectId recordId)
+        {
+            var collection = Repository.DbSet.GetCollection<RecordTags>();
+
+            var ids = collection.AsQueryable().Where(x => x.RecordId == recordId).Select(x => x.TagId).ToList();
+
+            return Repository.DbSet.GetCollection<TagInfo>().AsQueryable().Where(x => ids.Contains(x.Id)).Select(x=>x.Tag).ToList();
+
+        }
 
         /// <summary>
         /// 添加动态

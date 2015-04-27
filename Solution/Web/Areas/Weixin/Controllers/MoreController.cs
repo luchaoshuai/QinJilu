@@ -21,7 +21,7 @@ namespace QinJilu.Web.Areas.Weixin.Controllers
             var res = new Core.Services().Get(OpenId, null, dateticks);
 
             var all_tags = new QinJilu.Core.Services().GetTags(OpenId);
-            var sel_tagIds = new QinJilu.Core.Services().GetRecordTags(res.Id);
+            var sel_tagIds = new QinJilu.Core.Services().GetRecordTagIds(res.Id);
             var cur_notes = new QinJilu.Core.Services().GetNotes(OpenId,null, dateticks);
 
             ViewBag.all_tags = all_tags;
