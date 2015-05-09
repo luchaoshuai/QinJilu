@@ -460,6 +460,9 @@ namespace QinJilu.Core
             var info = Repository.DbSet.Get(editorId, sheId, dateticks);
 
             Repository.DbSet.BeginMark(editorId, info.Id);
+
+            // 修改 最后一次月经来的时间
+            Repository.DbSet.SetLaster(sheId,dt);
         }
 
         // befor
@@ -775,5 +778,14 @@ namespace QinJilu.Core
             return Repository.DbSet.GetNotes(she_id, dateticks);
         }
 
+
+        /// <summary>
+        /// 设置用户的微信基本资料
+        /// </summary>
+        /// <param name="info"></param>
+        public UserWeixin SetWeixinInfo(UserWeixin info)
+        {
+            return Repository.DbSet.SetWeixinInfo(info);
+        }
     }
 }

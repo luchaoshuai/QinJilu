@@ -145,5 +145,64 @@ namespace QinJilu.Web.Areas.Weixin.Controllers
          * 因此如果需要深入了解Senparc.Weixin.MP内部处理消息的机制，可以查看WeixinController_OldPost.cs中的OldPost方法。
          * 目前为止OldPost依然有效，依然可用于生产。
          */
+
+        /// <summary>
+        /// 取得用户的微信资料
+        /// </summary>
+        /// <param name="openId"></param>
+        /// <returns></returns>
+        public static Core.UserWeixin GetUserInfo(string openId)
+        {
+            var token = Senparc.Weixin.MP.CommonAPIs.CommonApi.GetToken(
+                QinJilu.Web.Areas.Weixin.Controllers.MpController.AppId,
+                QinJilu.Web.Areas.Weixin.Controllers.MpController.AppSecret);
+
+            var m = Senparc.Weixin.MP.AdvancedAPIs.User.UserApi.Info(token.access_token, openId);
+
+
+            byte[] bs = null;
+            if (!string.IsNullOrEmpty(m.headimgurl))
+            {
+                for (int i = 0; i < 3; i++)
+                {
+                    System.Net.WebClient wc = new System.Net.WebClient();
+                    try
+                    {
+                        bs = wc.DownloadData(m.headimgurl);
+                        break;
+                    }
+                    catch 
+                    {
+                    }                    
+                }
+            };
+
+            var newuser = new Core.UserWeixin()
+            {
+                city = m.city,
+                country = m.country,
+                headimgurl = m.headimgurl,
+                language = m.language,
+                nickname = m.nickname,
+                province = m.province,
+                sex = m.sex,
+                subscribe = m.subscribe,
+                subscribe_time = m.subscribe_time,
+                unionid = m.unionid,
+
+                headimg = bs,
+
+                //CreateOn = DateTime.Now,
+                //Id = MongoDB.Bson.ObjectId.GenerateNewId(),
+                //UserId = new Core.Services().GetUserId(openId),
+                //Version = 0,
+                WeixinOpenID = openId
+            };
+
+            return newuser;
+        }
+
+
+
     }
 }

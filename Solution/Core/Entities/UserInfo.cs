@@ -38,6 +38,10 @@ namespace QinJilu.Core
         /// 初潮来的年份，可以算出当时年龄
         /// </summary>
         public int FirstYaer { get; set; }
+        /// <summary>
+        /// 初潮来时的年龄
+        /// </summary>
+        public int StartAge { get; set; }
 
         /// <summary>
         /// 关注公号后微信给的OpenID

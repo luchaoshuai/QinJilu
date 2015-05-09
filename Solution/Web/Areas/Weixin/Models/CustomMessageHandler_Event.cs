@@ -24,6 +24,9 @@ namespace QinJilu.Web.Areas.Weixin.Models
 
             var u = new Core.Services().Subscribe(requestMessage.FromUserName);
 
+            var info = Web.Areas.Weixin.Controllers.MpController.GetUserInfo(u.WeixinOpenID);
+            new Core.Services().SetWeixinInfo(info);
+
             string url = string.Format("http://qinjilu.com/weixin/Passport/Transit?openId={0}&state={1}", requestMessage.FromUserName, "/weixin/more/index");
 
             if (u.SubscribeCount > 1)

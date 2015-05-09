@@ -109,7 +109,7 @@ namespace QinJilu.Core.Repository
                 var u = new UserInfo
                 {
                     // 女的才有
-                    FirstYaer = 0,
+                    StartAge = 0,
 
                     CurrentContext = CurrentScope.NULL,
                     LastActivitytime = DateTime.Now,
@@ -181,6 +181,23 @@ namespace QinJilu.Core.Repository
             collection.Update(q, u);
         }
 
+        /// <summary>
+        /// 更新 最后一次月经来临时间
+        /// </summary>
+        /// <param name="sheId"></param>
+        /// <param name="dt"></param>
+        internal static void SetLaster(MongoDB.Bson.ObjectId sheId, DateTime dt)
+        {
+            var collection = GetCollection<UserInfo>();
+
+            var q = Query<UserInfo>
+                .EQ<MongoDB.Bson.ObjectId>(x => x.Id, sheId);
+
+            var u = Update<UserInfo>
+                .Set<DateTime>(t => t.LasterCycleStart, dt);
+
+            collection.Update(q, u);
+        }
         // 更新 各周期时间
         internal static void WomanInit(string openId,
             DateTime birthDay,
@@ -662,7 +679,7 @@ namespace QinJilu.Core.Repository
 
             var ids = collection.AsQueryable().Where(x => x.RecordId == recordId).Select(x => x.TagId).ToList();
 
-            return Repository.DbSet.GetCollection<TagInfo>().AsQueryable().Where(x => ids.Contains(x.Id)).Select(x=>x.Tag).ToList();
+            return Repository.DbSet.GetCollection<TagInfo>().AsQueryable().Where(x => ids.Contains(x.Id)).Select(x => x.Tag).ToList();
 
         }
 
@@ -707,5 +724,40 @@ namespace QinJilu.Core.Repository
 
 
 
+
+        internal static UserWeixin SetWeixinInfo(UserWeixin info)
+        {
+            var collection = Repository.DbSet.GetCollection<UserWeixin>();
+            var old = collection.AsQueryable().Where(x => x.WeixinOpenID == info.WeixinOpenID).OrderByDescending(x => x.Version).FirstOrDefault();
+
+            if (old != null
+                && info.city == old.city
+                && info.country == old.country
+                && info.headimgurl == old.headimgurl
+                && info.language == old.language
+                && info.nickname == old.nickname
+                && info.province == old.province
+                && info.sex == old.sex
+                && info.subscribe == old.subscribe
+                && info.subscribe_time == old.subscribe_time
+                && info.unionid == old.unionid
+                )
+            {
+                // 没有更改
+                return old;
+            }
+            
+            //info.headimg
+
+            info.CreateOn = DateTime.Now;
+            info.Id = MongoDB.Bson.ObjectId.GenerateNewId();
+            info.UserId = GetUserId(info.WeixinOpenID);
+            info.Version = old != null ? old.Version + 1 : 1;
+            //info.WeixinOpenID = info.WeixinOpenID;
+            
+            collection.Insert(info);
+
+            return info;
+        }
     }
 }

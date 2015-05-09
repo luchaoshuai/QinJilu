@@ -13,6 +13,11 @@ namespace QinJilu.Web.Areas.Weixin.Controllers
 
         public ActionResult Index()
         {
+            var ser = new Core.Services();
+
+            var uinfo = Web.Areas.Weixin.Controllers.MpController.GetUserInfo(OpenId);
+            ViewBag.UserWeixin = ser.SetWeixinInfo(uinfo);
+
             return View();
         }
 
