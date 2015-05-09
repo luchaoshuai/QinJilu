@@ -34,10 +34,10 @@ namespace QinJilu.Core
         /// 生日-算年龄用
         /// </summary>
         public DateTime BirthDay { get; set; }
-        /// <summary>
-        /// 初潮来的年份，可以算出当时年龄
-        /// </summary>
-        public int FirstYaer { get; set; }
+        ///// <summary>
+        ///// 初潮来的年份，可以算出当时年龄
+        ///// </summary>
+        //public int FirstYaer { get; set; }
         /// <summary>
         /// 初潮来时的年龄
         /// </summary>

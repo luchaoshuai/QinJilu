@@ -1,11 +1,5 @@
 ﻿@model QinJilu.Core.UserInfo
 @{
-
-    int startAge = Model.StartAge;
-    if (startAge == 0)
-    {
-        startAge = 15;
-    }
     QinJilu.Core.UserWeixin wUser = ViewBag.UserWeixin;
 
     ViewBag.Title = "我";
@@ -69,8 +63,8 @@
 
 
 
-                    <div class="padding10"></div>
-                    <button type="submit" class="large">保存，提交</button>
+                    @*<div class="padding10"></div>
+                    <button type="submit" class="large">保存，提交</button>*@
 
                 </fieldset>
             </form>
