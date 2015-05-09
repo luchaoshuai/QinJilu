@@ -72,6 +72,7 @@
     <Compile Include="Entities\RecordReply.cs" />
     <Compile Include="Entities\RecordTags.cs" />
     <Compile Include="Entities\TagInfo.cs" />
+    <Compile Include="Entities\UserRemind.cs" />
     <Compile Include="Entities\UserWeixin.cs" />
     <Compile Include="Entities\UserInfo.cs" />
     <Compile Include="Entities\UserTags.cs" />
