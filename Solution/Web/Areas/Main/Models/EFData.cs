@@ -19,19 +19,19 @@ namespace QinJilu.Web.Areas.Main.Models
                         .Where(x => nids.Contains(x.nid))
                         .OrderByDescending(x => x.sourcetime)
                         .Take(take).Skip(skip)
-                    .Select(x => new NewsInfo
-                    {
-                        abs = x.abs,
-                        //url = x.url,
-                        title = x.title,
-                        img = x.img,
-                        //tag = x.tag,
-                        sourcetime = x.sourcetime,
-                        Id = x.Id,
-                        //content = string.Empty,
-                        //nid = x.nid,
-                        //site = x.site
-                    })
+                        //.Select(x => new NewsInfo()
+                        //{
+                        //    abs = x.abs,
+                        //    //url = x.url,
+                        //    title = x.title,
+                        //    img = x.img,
+                        //    //tag = x.tag,
+                        //    sourcetime = x.sourcetime,
+                        //    Id = x.Id,
+                        //    //content = string.Empty,
+                        //    //nid = x.nid,
+                        //    //site = x.site
+                        //})
                         .ToList();
                     return lst;
                 }
@@ -42,19 +42,19 @@ namespace QinJilu.Web.Areas.Main.Models
                 var lst = db.NewsInfo
                     .OrderByDescending(x => x.sourcetime)
                     .Take(take).Skip(skip)
-                    .Select(x => new NewsInfo
-                    {
-                        abs = x.abs,
-                        //url = x.url,
-                        title = x.title,
-                        img = x.img,
-                        //tag = x.tag,
-                        sourcetime = x.sourcetime,
-                        Id = x.Id,
-                        //content = string.Empty,
-                        //nid = x.nid,
-                        //site = x.site
-                    })
+                    //.Select(x => new NewsInfo
+                    //{
+                    //    abs = x.abs,
+                    //    //url = x.url,
+                    //    title = x.title,
+                    //    img = x.img,
+                    //    //tag = x.tag,
+                    //    sourcetime = x.sourcetime,
+                    //    Id = x.Id,
+                    //    //content = string.Empty,
+                    //    //nid = x.nid,
+                    //    //site = x.site
+                    //})
                     .ToList();
                 return lst;
             }
@@ -168,6 +168,7 @@ namespace QinJilu.Web.Areas.Main.Models
     }
     public class NewsInfo
     {
+
         public int Id { get; set; }
 
         public DateTime sourcetime { get; set; }

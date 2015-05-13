@@ -11,7 +11,7 @@ namespace QinJilu.Web.Areas.Main.Controllers
         //
         // GET: /Main/Article/Index
 
-        public ActionResult Index(string id = "period", int start = 0, int topN = 50)
+        public ActionResult Index(string id = "", int start = 0, int topN = 50)
         {
             //大姨妈 例假 月经   育儿 产后  怀孕    美肤  美体  美妆  
             string[] colNames = null;// new string[] { "大姨妈", "例假", "月经",       "育儿", "产后", "怀孕",       "美肤", "美体", "美妆" };
