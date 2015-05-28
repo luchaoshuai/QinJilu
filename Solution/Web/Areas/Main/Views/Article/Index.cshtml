@@ -64,11 +64,7 @@
     </style>
 </head>
 <body class="metro">
-
-    <div class="container">
-
-
-
+    <div class="navbar fixed-top">
         <nav class="horizontal-menu">
             <ul>
                 <li>
@@ -83,9 +79,13 @@
                 <li><a href="/Weixin/Friend/Index">去闺蜜圈</a></li>
             </ul>
         </nav>
+    </div>
+    <hr /><br /><br /><br />
 
-        <hr />
+    <div class="container">
 
+
+        
         @foreach (var item in Model)
         {
             var ticks = (DateTime.Now - item.sourcetime);
