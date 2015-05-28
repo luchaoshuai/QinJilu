@@ -382,7 +382,7 @@ namespace QinJilu.Core
                 return (MongoDB.Bson.ObjectId)o;
             }
 
-            var t = Repository.DbSet.GetUserId(openId);
+            var t = Repository.DbSet.GetUser(openId).Id;
             RedisHelper.AddObject("GetUserId" + openId, t);
             return t;
         }

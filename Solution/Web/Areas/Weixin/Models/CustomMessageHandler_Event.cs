@@ -63,7 +63,7 @@ namespace QinJilu.Web.Areas.Weixin.Models
             //这里是微信客户端（通过微信服务器）自动发送过来的位置信息
             var responseMessage = CreateResponseMessage<ResponseMessageText>();
             responseMessage.Content = "OnEvent_LocationRequest";
-            return responseMessage;//这里也可以返回null（需要注意写日志时候null的问题）
+            return null;//这里也可以返回null（需要注意写日志时候null的问题）
         }
 
 
@@ -128,7 +128,7 @@ namespace QinJilu.Web.Areas.Weixin.Models
         //    // 1、如果返回null，则继续执行OnTextRequest或OnEventRequest
         //    // 2、如果返回不为null，则终止执行OnTextRequest或OnEventRequest，返回最终ResponseMessage
         //    // 3、如果是事件，则会将RequestMessageEvent自动转为RequestMessageText类型，其中RequestMessageText.Content就是RequestMessageEvent.EventKey
-
+            
         //    return null;//返回null，则继续执行OnTextRequest或OnEventRequest
         //}
 

@@ -51,7 +51,6 @@ namespace QinJilu.Web.Areas.Weixin.Models
         {
             var responseMessage = base.CreateResponseMessage<ResponseMessageText>();
 
-            var u = new Core.Services().Subscribe(requestMessage.FromUserName);
             string url = string.Format("http://qinjilu.com/weixin/Passport/Transit?openId={0}&state={1}", requestMessage.FromUserName, "/weixin/more/index");
 
             if (requestMessage.Content == "debug")

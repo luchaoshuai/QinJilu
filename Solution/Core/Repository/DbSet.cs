@@ -66,28 +66,39 @@ namespace QinJilu.Core.Repository
         {
             var collection = GetCollection<UserInfo>();
             var u = collection.AsQueryable().Where(x => x.WeixinOpenID == openId).FirstOrDefault();
+            if (u==null)
+            {
+                // 重建 被删除 的用户表数据
+                UserRegister(openId, true);
+                return GetUser(openId);
+            }
             return u;
         }
 
-        internal static MongoDB.Bson.ObjectId GetUserId(string openId)
-        {
-            var uId = GetCollection<UserInfo>().AsQueryable()
-                .Where(x => x.WeixinOpenID == openId)
-                .Select(x => x.Id)
-                .FirstOrDefault();
-            return uId;
-        }
+        //internal static MongoDB.Bson.ObjectId GetUserId(string openId)
+        //{
+        //    var uId = GetCollection<UserInfo>().AsQueryable()
+        //        .Where(x => x.WeixinOpenID == openId)
+        //        .Select(x => x.Id)
+        //        .FirstOrDefault();
+        //    return uId;
+        //}
+
 
         /// <summary>
         /// 用户注册，若存在，则更新。
         /// </summary>
         /// <param name="openId"></param>
-        internal static void UserRegister(string openId)
+        internal static void UserRegister(string openId,bool isFix=false)
         {
             var collection = GetCollection<UserInfo>();
             var e = collection.AsQueryable().Any(x => x.WeixinOpenID == openId);
             if (e)
             {
+                if (isFix)// 是修复模式，则不需要更新数据。只要重新增加数据即可。
+                {
+                    return;
+                }
                 //var query1 = Query<Student>.GTE<Int32>(t => t.Age, 10);
                 //var query2 = Query<Student>.LTE<Int32>(t => t.Age, 15);
                 ////var query = Query.And(Query.GTE("Age", 10), Query.LTE("Age", 15));
@@ -751,7 +762,7 @@ namespace QinJilu.Core.Repository
 
             info.CreateOn = DateTime.Now;
             info.Id = MongoDB.Bson.ObjectId.GenerateNewId();
-            info.UserId = GetUserId(info.WeixinOpenID);
+            info.UserId = GetUser(info.WeixinOpenID).Id;
             info.Version = old != null ? old.Version + 1 : 1;
             //info.WeixinOpenID = info.WeixinOpenID;
             

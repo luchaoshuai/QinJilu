@@ -56,6 +56,16 @@ namespace QinJilu.Web.Areas.Weixin.Controllers
             Core.Services.NeedInvitationCode(need);
             return Content(" set  to  " + need);
         }
+        /// <summary>
+        /// 设置 邀请码 机制 是否 启用
+        /// </summary>
+        /// <param name="need"></param>
+        /// <returns></returns>
+        public ActionResult InvitationCodeNeed()
+        {
+            var res = Core.Services.NeedInvitationCode();
+            return Content("this set " + res);
+        }
 
 
 
