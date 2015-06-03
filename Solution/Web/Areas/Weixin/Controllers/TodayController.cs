@@ -33,5 +33,15 @@ namespace QinJilu.Web.Areas.Weixin.Controllers
             return View(info);
         }
 
+        public ActionResult NewNote(string note, ushort dateticks)
+        {
+            if (string.IsNullOrEmpty(note))
+            {
+                return Content("nul");
+            }
+            new Core.Services().AddNote(OpenId, null, note, dateticks);
+            return Content("ok");
+        }
+
     }
 }

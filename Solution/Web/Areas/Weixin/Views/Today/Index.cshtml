@@ -26,6 +26,7 @@
     <script src="~/Scripts/metro-ui/jquery.ui.widget.js"></script>
     <script src="~/Scripts/metro-ui/metro.min.js"></script>
     <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.form.min.js"></script>
 
     <title>@ViewBag.Title</title>
 
@@ -37,6 +38,10 @@
 
         #day_view span{
             padding-right:5px;
+        }
+        .error {
+            padding-left: 20px;
+            color: red;
         }
     </style>
 </head>
@@ -201,7 +206,7 @@
 
                     @if (sel_tags.Count > 0)
                     {
-                        <br /><b>体温:</b>
+                        <br /><b>标签:</b>
                         foreach (var item in sel_tags)
                         {
                             <span>@item</span>
@@ -218,7 +223,7 @@
                             {
                                 <a href="#" class="list">
                                     <div class="list-content">
-                                        <i class="icon-clock on-left"></i>@item.CreateOn.ToString("yyyy-MM-dd HH:mm:ss")
+                                        <i class="icon-clock on-left"></i>@item.CreateOn.ToString("yyyy-MM-dd HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture)
                                         <br />
                                         @item.Notes
                                     </div>
@@ -229,7 +234,14 @@
 
                 </div>
                 <div id="add_note" class=" frame">
-                    <textarea data-transform="input-control" placeholder="添加新动态"></textarea>
+                    <form id="f_newnote" action="/Weixin/Today/NewNote?dateticks=@Model.DateTicks" method="post">
+                        <textarea name="note" data-transform="input-control" placeholder="添加新动态" data-rule-required="true"></textarea>
+                        <button type="submit" class="command-button">
+                            <i class="icon-floppy on-right"></i>
+                            保存到动态
+                            <small>@dt.ToString("yyyy-MM-dd")</small>
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>
@@ -255,4 +267,41 @@
         }
     });
     cal.calendar('setDate', '@dt.ToString("yyyy-MM-dd")');
+
+
+    $("#f_newnote").validate({
+        //debug:true,
+        submitHandler: function (_form) {
+            $(_form).ajaxSubmit({
+                success: function (responseJson, statusText) {
+                    if (responseJson=="ok") {
+                        $.Notify({ content: "添加成功" });
+
+                        var tmp1 = ''
+                        + '<a href="#" class="list">'
+                        + '    <div class="list-content">'
+                        + '        <i class="icon-clock on-left"></i> 今天 ' + new Date().getHours() + ':' + new Date().getMinutes()
+                        + '        <br />'
+                        +  _form.note.value
+                        + '    </div>'
+                        + '</a>';
+                        $('#day_view div.listview').append(tmp1);
+                    }
+                }
+            });
+        },
+        rules: {
+            note: {
+                required: true,
+                minlength: 2
+            }
+        },
+        messages: {
+            note: {
+                required: '动态不能为空!',
+                minlength: '动态不能少于2个字!'
+            }
+        }
+    });
+
 </script>

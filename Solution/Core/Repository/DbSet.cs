@@ -10,6 +10,14 @@ namespace QinJilu.Core.Repository
 {
     internal class DbSet
     {
+        static DbSet()
+        {
+            //  http://stackoverflow.com/questions/8063323/how-to-save-date-properly/8064980#8064980
+            MongoDB.Bson.Serialization.BsonSerializer.RegisterSerializer(typeof(DateTime),
+                new MongoDB.Bson.Serialization.Serializers.DateTimeSerializer(MongoDB.Bson.Serialization.Options.DateTimeSerializationOptions.LocalInstance));
+            //[BsonDateTimeOptions(Kind = DateTimeKind.Local)]
+            //public DateTime SomeDateProperty {get;set;}
+        }
 
         public static readonly string connectionString_Default = "mongodb://" + System.Configuration.ConfigurationManager.ConnectionStrings["qinMongoDb"].ConnectionString;
         public static readonly string database_Default = "QinJilu";
