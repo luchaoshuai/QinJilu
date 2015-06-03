@@ -55,12 +55,12 @@ namespace QinJilu.Web.Areas.Weixin.Models
 
             if (requestMessage.Content == "debug")
             {
-                responseMessage.Content = "<a href=\"" + url + "\">点击这里</a>进入记录页面 ";
+                responseMessage.Content = "<a href=\"" + url + "\">点击这里</a>进入记录页面。 "+ url;
             }
             else
             {
                 new Core.Services().AddNote(requestMessage.FromUserName,null, requestMessage.Content);
-                responseMessage.Content = "已将您刚刚发送的消息记录到今日笔记中，<a href=\"" + url + "\">点击这里</a>进入详细页面查看 ";
+                responseMessage.Content = "已将您刚刚发送的消息记录到今日动态中，<a href=\"" + url + "\">点击这里</a>进入详细页面查看 ";
             }
             return responseMessage;
         }
